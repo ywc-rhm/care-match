@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購物車 - 智慧照護Match</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32',
+            secondary: '#FF8F00',
+            accent: '#D81B60',
+            info: '#1976D2',
+            dark: '#212121',
+            bgLight: '#FAFAFA'
+          },
+          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-bgLight font-sans text-dark">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-primary">智慧照護Match</span>
+          </a>
+        </div>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
+          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
+          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
+          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="cart.html" class="relative p-2 text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </a>
+          <a href="login.html" class="btn-primary text-sm">登入 / 註冊</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-8">購物車</h1>
+    
+    <div id="cartContent">
+      <!-- 動態載入 -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
+      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function renderCart() {
+      const container = document.getElementById('cartContent');
+      const cartItems = orders.products;
+      
+      if (cartItems.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-xl p-12 text-center">
+            <svg class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <h2 class="text-xl font-bold mb-2">購物車是空的</h2>
+            <p class="text-gray-500 mb-6">快去逛逛輔具商城，添購需要的輔具吧！</p>
+            <a href="shop.html" class="btn-primary inline-block">前往輔具商城</a>
+          </div>
+        `;
+        return;
+      }
+
+      const total = getCartTotal();
+      const itemCount = getCartCount();
+
+      container.innerHTML = `
+        <div class="bg-white rounded-xl shadow-sm">
+          <div class="p-4 border-b">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">已選擇 ${itemCount} 件商品</span>
+              <button onclick="clearCart()" class="text-red-500 text-sm hover:underline">清空購物車</button>
+            </div>
+          </div>
+          <div class="divide-y" id="cartItems">
+            ${cartItems.map(item => `
+              <div class="p-4 flex gap-4">
+                <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded-lg">
+                <div class="flex-1">
+                  <div class="flex justify-between">
+                    <div>
+                      <h3 class="font-bold">${item.name}</h3>
+                      <p class="text-sm text-gray-500">${item.categoryName}</p>
+                    </div>
+                    <button onclick="removeFromCart(${item.id}); renderCart();" class="text-gray-400 hover:text-red-500">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="flex justify-between items-center mt-4">
+                    <div class="flex items-center gap-2">
+                      <button onclick="updateCartQuantity(${item.id}, -1); renderCart();" class="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100">-</button>
+                      <span class="w-8 text-center">${item.quantity}</span>
+                      <button onclick="updateCartQuantity(${item.id}, 1); renderCart();" class="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100">+</button>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-bold text-accent text-lg">$${(item.price * item.quantity).toLocaleString()}</p>
+                      ${item.quantity > 1 ? `<p class="text-xs text-gray-400">$${item.price.toLocaleString()} / 件</p>` : ''}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="p-4 bg-gray-50 rounded-b-xl">
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-lg">商品金額合計</span>
+              <span class="text-2xl font-bold text-accent">$${total.toLocaleString()}</span>
+            </div>
+            <button onclick="checkout()" class="w-full btn-secondary py-3 text-lg">前往結帳</button>
+            <p class="text-center text-sm text-gray-400 mt-3">* 本系統為展示用途，不進行實際金流交易</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function clearCart() {
+      if (confirm('確定要清空購物車嗎？')) {
+        orders.products = [];
+        saveToStorage();
+        updateCartCount();
+        renderCart();
+      }
+    }
+
+    function checkout() {
+      if (!checkLogin()) return;
+      
+      // 展示用途：顯示結帳成功
+      alert('感謝您的訂購！\n\n這是展示網站，不進行實際金流交易。\n訂單已記錄在會員專區。');
+      
+      // 清空購物車
+      orders.products = [];
+      saveToStorage();
+      updateCartCount();
+      
+      // 跳轉到儀表板
+      window.location.href = 'dashboard.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart();
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>預約照服員 - 智慧照護Match</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32',
+            secondary: '#FF8F00',
+            accent: '#D81B60',
+            info: '#1976D2',
+            dark: '#212121',
+            bgLight: '#FAFAFA'
+          },
+          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-bgLight font-sans text-dark">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-primary">智慧照護Match</span>
+          </a>
+        </div>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
+          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
+          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
+          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+          </a>
+          <a href="login.html" class="btn-primary text-sm">登入 / 註冊</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="max-w-3xl mx-auto px-4 py-8" id="bookingContent">
+    <!-- 動態載入 -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
+      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function renderBooking() {
+      const params = getUrlParams();
+      const caregiverId = parseInt(params.caregiverId);
+      const cg = caregivers.find(c => c.id === caregiverId);
+
+      if (!cg) {
+        document.getElementById('bookingContent').innerHTML = `
+          <div class="text-center py-16">
+            <h2 class="text-2xl font-bold mb-4">請選擇要預約的照服員</h2>
+            <a href="caregivers.html" class="btn-primary inline-block">前往找照服員</a>
+          </div>
+        `;
+        return;
+      }
+
+      // 取得明天起的日期選項
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const dateOptions = [];
+      for (let i = 0; i < 14; i++) {
+        const d = new Date(tomorrow);
+        d.setDate(d.getDate() + i);
+        dateOptions.push(d.toISOString().split('T')[0]);
+      }
+
+      document.getElementById('bookingContent').innerHTML = `
+        <a href="caregiver-profile.html?id=${cg.id}" class="inline-flex items-center gap-1 text-gray-600 hover:text-primary mb-6">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          返回照服員頁面
+        </a>
+
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          <!-- Caregiver Summary -->
+          <div class="p-6 border-b flex items-center gap-4 bg-gray-50">
+            <img src="${cg.avatar}" alt="${cg.name}" class="w-16 h-16 rounded-full object-cover">
+            <div>
+              <h2 class="font-bold text-lg">${cg.name}</h2>
+              <p class="text-gray-500 text-sm">${cg.location}｜${cg.serviceNames.join('、')}</p>
+              <p class="text-accent font-bold">$${cg.price}/小時</p>
+            </div>
+          </div>
+
+          <!-- Booking Form -->
+          <form onsubmit="submitBooking(event)" class="p-6">
+            <h3 class="font-bold text-lg mb-6">填寫預約資訊</h3>
+
+            <!-- Service Type -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">服務項目 *</label>
+              <select id="serviceType" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+                <option value="">請選擇服務項目</option>
+                ${cg.services.map((s, i) => `
+                  <option value="${s}">${cg.serviceNames[i]}</option>
+                `).join('')}
+              </select>
+            </div>
+
+            <!-- Date -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">服務日期 *</label>
+              <input type="date" id="serviceDate" required min="${dateOptions[0]}"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+
+            <!-- Time -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">服務時段 *</label>
+              <select id="serviceTime" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+                <option value="">請選擇時段</option>
+                <option value="08:00-10:00">08:00 - 10:00</option>
+                <option value="10:00-12:00">10:00 - 12:00</option>
+                <option value="14:00-16:00">14:00 - 16:00</option>
+                <option value="16:00-18:00">16:00 - 18:00</option>
+                <option value="19:00-21:00">19:00 - 21:00</option>
+              </select>
+            </div>
+
+            <!-- Hours -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">服務時數 *</label>
+              <select id="serviceHours" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary" onchange="updateTotal()">
+                <option value="1">1 小時</option>
+                <option value="2" selected>2 小時</option>
+                <option value="3">3 小時</option>
+                <option value="4">4 小時</option>
+                <option value="6">6 小時（半日）</option>
+                <option value="8">8 小時（全日）</option>
+              </select>
+            </div>
+
+            <!-- Case Info -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">個案狀況說明</label>
+              <textarea id="caseNotes" rows="3" placeholder="請描述需要照護的狀況、特殊需求或注意事項..."
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
+            </div>
+
+            <!-- Price Summary -->
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-gray-600">照服員</span>
+                <span>${cg.name}</span>
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-gray-600">單價</span>
+                <span>$${cg.price}/小時</span>
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-gray-600">時數</span>
+                <span id="hoursDisplay">2 小時</span>
+              </div>
+              <hr class="my-3">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-lg">預估費用</span>
+                <span id="totalPrice" class="font-bold text-2xl text-accent">$${cg.price * 2}</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-2">* 實際費用以當日服務確認</p>
+            </div>
+
+            <button type="submit" class="w-full btn-secondary py-3 text-lg">送出預約</button>
+          </form>
+        </div>
+      `;
+    }
+
+    function updateTotal() {
+      const params = getUrlParams();
+      const caregiverId = parseInt(params.caregiverId);
+      const cg = caregivers.find(c => c.id === caregiverId);
+      const hours = parseInt(document.getElementById('serviceHours').value);
+      
+      document.getElementById('hoursDisplay').textContent = hours + ' 小時';
+      document.getElementById('totalPrice').textContent = '$' + (cg.price * hours).toLocaleString();
+    }
+
+    function submitBooking(e) {
+      e.preventDefault();
+      
+      if (!checkLogin()) return;
+
+      const params = getUrlParams();
+      const caregiverId = parseInt(params.caregiverId);
+      const cg = caregivers.find(c => c.id === caregiverId);
+      const hours = parseInt(document.getElementById('serviceHours').value);
+
+      const booking = createBooking({
+        caregiverId: cg.id,
+        caregiverName: cg.name,
+        service: document.getElementById('serviceType').value,
+        date: document.getElementById('serviceDate').value,
+        time: document.getElementById('serviceTime').value,
+        hours: hours,
+        totalPrice: cg.price * hours,
+        notes: document.getElementById('caseNotes').value
+      });
+
+      alert('預約成功！\\n\\n照服員：' + cg.name + '\\n日期：' + booking.date + '\\n時段：' + booking.time + '\\n費用：$' + booking.totalPrice + '\\n\\n預約編號：' + booking.id + '\\n\\n請留意手機通知，照服員會儘快與您聯繫確認。');
+      window.location.href = 'dashboard.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderBooking();
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>

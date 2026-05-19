@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>會員專區 - 智慧照護Match</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32',
+            secondary: '#FF8F00',
+            accent: '#D81B60',
+            info: '#1976D2',
+            dark: '#212121',
+            bgLight: '#FAFAFA'
+          },
+          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-bgLight font-sans text-dark">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-primary">智慧照護Match</span>
+          </a>
+        </div>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
+          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
+          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
+          <a href="dashboard.html" class="text-primary font-medium border-b-2 border-primary pb-1">我的專區</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+          </a>
+          <div id="userNav"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <div id="dashboardContent">
+      <!-- 動態載入 -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
+      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function renderDashboard() {
+      // 檢查登入
+      if (!currentUser) {
+        if (confirm('請先登入會員，是否前往登入頁？')) {
+          window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+        }
+        return;
+      }
+
+      // 管理員特殊處理
+      if (currentUser.role === 'admin') {
+        window.location.href = 'admin.html';
+        return;
+      }
+
+      const userBookings = getUserBookings();
+      const userOrders = orders.products;
+
+      document.getElementById('userNav').innerHTML = `
+        <div class="flex items-center gap-2">
+          <img src="${currentUser.avatar || 'https://via.placeholder.com/32'}" class="w-8 h-8 rounded-full object-cover">
+          <span class="hidden md:inline text-sm font-medium">${currentUser.name}</span>
+          <button onclick="logout()" class="text-sm text-gray-500 hover:text-red-500">登出</button>
+        </div>
+      `;
+
+      document.getElementById('dashboardContent').innerHTML = `
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          <div>
+            <h1 class="text-2xl font-bold">會員專區</h1>
+            <p class="text-gray-500">歡迎回來，${currentUser.name}！</p>
+          </div>
+          <a href="profile.html" class="mt-4 md:mt-0 flex items-center gap-2 text-primary hover:underline">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            個人設定
+          </a>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid md:grid-cols-4 gap-4 mb-8">
+          <a href="caregivers.html" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-bold">找照服員</p>
+              <p class="text-sm text-gray-500">預約照護服務</p>
+            </div>
+          </a>
+          <a href="shop.html" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3">
+            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-bold">輔具商城</p>
+              <p class="text-sm text-gray-500">選購長照輔具</p>
+            </div>
+          </a>
+          <a href="cart.html" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3">
+            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-bold">購物車</p>
+              <p class="text-sm text-gray-500">
+                ${userOrders.length > 0 ? `<span class="text-accent font-bold">${userOrders.length}</span> 件商品` : '查看商品'}
+              </p>
+            </div>
+          </a>
+          <a href="profile.html" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-bold">個人資料</p>
+              <p class="text-sm text-gray-500">修改會員資訊</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-6 border-b">
+          <button onclick="showTab('bookings')" id="tabBookings" class="px-4 py-2 font-medium text-primary border-b-2 border-primary -mb-px">我的預約</button>
+          <button onclick="showTab('orders')" id="tabOrders" class="px-4 py-2 font-medium text-gray-500 hover:text-primary">我的訂單</button>
+          <button onclick="showTab('favorites')" id="tabFavorites" class="px-4 py-2 font-medium text-gray-500 hover:text-primary">收藏名單</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tabBookingsContent">
+          ${renderBookings(userBookings)}
+        </div>
+        <div id="tabOrdersContent" class="hidden">
+          ${renderOrders(userOrders)}
+        </div>
+        <div id="tabFavoritesContent" class="hidden">
+          ${renderFavorites()}
+        </div>
+      `;
+    }
+
+    function showTab(tab) {
+      ['bookings', 'orders', 'favorites'].forEach(t => {
+        document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).className = 
+          t === tab 
+            ? 'px-4 py-2 font-medium text-primary border-b-2 border-primary -mb-px'
+            : 'px-4 py-2 font-medium text-gray-500 hover:text-primary';
+        document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1) + 'Content').classList.add('hidden');
+      });
+      document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1) + 'Content').classList.remove('hidden');
+    }
+
+    function renderBookings(bookings) {
+      if (bookings.length === 0) {
+        return `
+          <div class="text-center py-12 bg-white rounded-xl">
+            <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <p class="text-gray-500 mb-4">尚無預約記錄</p>
+            <a href="caregivers.html" class="btn-primary inline-block">去找照服員</a>
+          </div>
+        `;
+      }
+
+      const statusColors = {
+        pending: 'bg-yellow-100 text-yellow-700',
+        confirmed: 'bg-green-100 text-green-700',
+        completed: 'bg-blue-100 text-blue-700',
+        cancelled: 'bg-gray-100 text-gray-500'
+      };
+      const statusNames = {
+        pending: '待確認',
+        confirmed: '已確認',
+        completed: '已完成',
+        cancelled: '已取消'
+      };
+
+      return `
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          ${bookings.map(b => `
+            <div class="p-4 border-b last:border-0">
+              <div class="flex justify-between items-start mb-2">
+                <div>
+                  <p class="font-bold">${b.caregiverName}</p>
+                  <p class="text-sm text-gray-500">${b.service}</p>
+                </div>
+                <span class="${statusColors[b.status] || 'bg-gray-100 text-gray-600'} text-xs px-2 py-1 rounded">
+                  ${statusNames[b.status] || b.status}
+                </span>
+              </div>
+              <div class="flex gap-4 text-sm text-gray-600 mb-3">
+                <span>📅 ${b.date}</span>
+                <span>🕐 ${b.time}</span>
+                <span>⏱ ${b.hours}小時</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-accent">$${b.totalPrice}</span>
+                ${b.status === 'pending' ? `
+                  <button onclick="cancelBooking(${b.id}); renderDashboard();" class="text-red-500 text-sm hover:underline">取消預約</button>
+                ` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderOrders(orders_list) {
+      if (orders_list.length === 0) {
+        return `
+          <div class="text-center py-12 bg-white rounded-xl">
+            <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <p class="text-gray-500 mb-4">尚無訂單記錄</p>
+            <a href="shop.html" class="btn-primary inline-block">前往輔具商城</a>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          ${orders_list.map(o => `
+            <div class="p-4 border-b last:border-0 flex gap-4">
+              <img src="${o.image}" alt="${o.name}" class="w-20 h-20 object-cover rounded-lg">
+              <div class="flex-1">
+                <p class="font-bold">${o.name}</p>
+                <p class="text-sm text-gray-500">${o.categoryName}</p>
+                <div class="flex justify-between items-center mt-2">
+                  <span class="text-sm">x${o.quantity}</span>
+                  <span class="font-bold text-accent">$${(o.price * o.quantity).toLocaleString()}</span>
+                </div>
+              </div>
+              <button onclick="removeFromCart(${o.id}); renderDashboard();" class="text-gray-400 hover:text-red-500 self-start">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+          `).join('')}
+          <div class="p-4 bg-gray-50">
+            <div class="flex justify-between items-center">
+              <span class="font-bold">商品合計</span>
+              <span class="text-xl font-bold text-accent">$${getCartTotal().toLocaleString()}</span>
+            </div>
+            ${orders_list.length > 0 ? `
+              <a href="cart.html" class="mt-3 block w-full btn-secondary text-center">前往結帳</a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFavorites() {
+      return `
+        <div class="text-center py-12 bg-white rounded-xl">
+          <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+          <p class="text-gray-500 mb-4">尚無收藏的照服員</p>
+          <a href="caregivers.html" class="btn-primary inline-block">探索照服員</a>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDashboard();
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>

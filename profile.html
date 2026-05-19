@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個人檔案 - 智慧照護Match</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32',
+            secondary: '#FF8F00',
+            accent: '#D81B60',
+            info: '#1976D2',
+            dark: '#212121',
+            bgLight: '#FAFAFA'
+          },
+          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-bgLight font-sans text-dark">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-primary">智慧照護Match</span>
+          </a>
+        </div>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
+          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
+          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
+          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+          </a>
+          <div id="userNav"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="max-w-2xl mx-auto px-4 py-8" id="profileContent">
+    <!-- 動態載入 -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
+      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function renderProfile() {
+      if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      document.getElementById('userNav').innerHTML = `
+        <div class="flex items-center gap-2">
+          <img src="${currentUser.avatar || 'https://via.placeholder.com/32'}" class="w-8 h-8 rounded-full object-cover">
+          <span class="hidden md:inline text-sm font-medium">${currentUser.name}</span>
+        </div>
+      `;
+
+      document.getElementById('profileContent').innerHTML = `
+        <div class="flex items-center gap-4 mb-8">
+          <a href="dashboard.html" class="text-gray-500 hover:text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </a>
+          <h1 class="text-2xl font-bold">個人檔案</h1>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          <!-- Avatar Section -->
+          <div class="p-6 bg-gray-50 border-b flex items-center gap-6">
+            <div class="relative">
+              <img id="avatarPreview" src="${currentUser.avatar || 'https://via.placeholder.com/100'}" 
+                class="w-24 h-24 rounded-full object-cover">
+              <button class="absolute bottom-0 right-0 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center hover:bg-green-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </button>
+            </div>
+            <div>
+              <h2 class="text-xl font-bold">${currentUser.name}</h2>
+              <p class="text-gray-500">${currentUser.email}</p>
+              <p class="text-sm text-green-600 mt-1">
+                ${currentUser.role === 'caregiver' ? '✓ 照服員會員' : currentUser.role === 'admin' ? '⚙ 管理員' : '✓ 一般會員'}
+              </p>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form onsubmit="saveProfile(event)" class="p-6">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+                <input type="text" id="profileName" value="${currentUser.name}" required
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="profileEmail" value="${currentUser.email}" required
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary" readonly>
+                <p class="text-xs text-gray-400 mt-1">Email 為帳號，不可修改</p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">手機</label>
+                <input type="tel" id="profilePhone" value="${currentUser.phone || ''}" placeholder="0912-XXX-XXX"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">地址</label>
+                <input type="text" id="profileAddress" value="${currentUser.address || ''}" placeholder="填寫地址"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">LINE ID</label>
+                <input type="text" id="profileLine" value="${currentUser.lineId || ''}" placeholder="填寫 LINE ID"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+              </div>
+            </div>
+
+            <button type="submit" class="w-full btn-primary py-3 mt-6">儲存變更</button>
+          </form>
+
+          <!-- Password Change -->
+          <div class="p-6 bg-gray-50 border-t">
+            <h3 class="font-bold mb-4">更改密碼</h3>
+            <form onsubmit="changePassword(event)">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">目前密碼</label>
+                  <input type="password" id="currentPwd" required minlength="6"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">新密碼</label>
+                  <input type="password" id="newPwd" required minlength="6"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">確認新密碼</label>
+                  <input type="password" id="confirmPwd" required minlength="6"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+              </div>
+              <button type="submit" class="w-full btn-secondary py-3 mt-4">更新密碼</button>
+            </form>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveProfile(e) {
+      e.preventDefault();
+      
+      currentUser.name = document.getElementById('profileName').value;
+      currentUser.phone = document.getElementById('profilePhone').value;
+      currentUser.address = document.getElementById('profileAddress').value;
+      currentUser.lineId = document.getElementById('profileLine').value;
+      
+      saveToStorage();
+      showNotification('個人檔案已儲存');
+      renderProfile();
+    }
+
+    function changePassword(e) {
+      e.preventDefault();
+      
+      const currentPwd = document.getElementById('currentPwd').value;
+      const newPwd = document.getElementById('newPwd').value;
+      const confirmPwd = document.getElementById('confirmPwd').value;
+
+      if (newPwd !== confirmPwd) {
+        alert('新密碼與確認密碼不一致');
+        return;
+      }
+
+      // 演示：直接成功
+      showNotification('密碼已更新（展示模式）');
+      document.getElementById('currentPwd').value = '';
+      document.getElementById('newPwd').value = '';
+      document.getElementById('confirmPwd').value = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProfile();
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>

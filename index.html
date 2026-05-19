@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智慧照護Match - 長照服務媒合平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32',
+            secondary: '#FF8F00',
+            accent: '#D81B60',
+            info: '#1976D2',
+            dark: '#212121',
+            bgLight: '#FAFAFA'
+          },
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            mono: ['Roboto Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .hero-gradient { background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 50%, #81C784 100%); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+    .badge { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium; }
+    .btn-primary { @apply bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors; }
+    .btn-secondary { @apply bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-700 transition-colors; }
+    .star-rating { color: #FFB300; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #2E7D32; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-bgLight font-sans text-dark">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-primary">智慧照護Match</span>
+        </div>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
+          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
+          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
+          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+          </a>
+          <a href="login.html" class="btn-primary text-sm">登入 / 註冊</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="md:hidden bg-white border-t px-4 py-3">
+    <div class="flex gap-4 overflow-x-auto">
+      <a href="index.html" class="text-primary font-medium whitespace-nowrap">首頁</a>
+      <a href="caregivers.html" class="text-dark hover:text-primary whitespace-nowrap">找照服員</a>
+      <a href="shop.html" class="text-dark hover:text-primary whitespace-nowrap">輔具商城</a>
+      <a href="dashboard.html" class="text-dark hover:text-primary whitespace-nowrap">我的專區</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient text-white py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+            專業照服員<br>就在你身邊
+          </h1>
+          <p class="text-lg md:text-xl opacity-90 mb-8">
+            快速媒合照護服務，輕鬆選購長照輔具<br>
+            讓關懷更及時，讓照顧更輕鬆
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="caregivers.html" class="bg-white text-primary px-8 py-3 rounded-lg font-bold text-center hover:bg-gray-100 transition-colors">
+              立即找照服員
+            </a>
+            <a href="shop.html" class="border-2 border-white text-white px-8 py-3 rounded-lg font-bold text-center hover:bg-white/10 transition-colors">
+              瀏覽輔具商城
+            </a>
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop" alt="照護服務" class="rounded-2xl shadow-2xl">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Section -->
+  <section class="py-8 -mt-8">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">服務類型</label>
+            <select id="serviceType" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">全部服務</option>
+              <option value="home">居家服務</option>
+              <option value="daycare">日間照顧</option>
+              <option value="respite">喘息服務</option>
+              <option value="medical">醫療陪同</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">地區</label>
+            <select id="region" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">全台灣</option>
+              <option value="taipei">台北市</option>
+              <option value="newtaipei">新北市</option>
+              <option value="taoyuan">桃園市</option>
+              <option value="taichung">台中市</option>
+              <option value="kaohsiung">高雄市</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">日期</label>
+            <input type="date" id="searchDate" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
+          </div>
+          <div class="flex items-end">
+            <button onclick="searchCaregivers()" class="w-full btn-primary flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              搜尋
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Categories -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl font-bold mb-8 text-center">服務項目</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <a href="caregivers.html?type=home" class="bg-white rounded-xl p-6 text-center card-hover shadow-sm">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-1">居家服務</h3>
+          <p class="text-sm text-gray-500">到府身體照顧、日常起居</p>
+        </a>
+        <a href="caregivers.html?type=daycare" class="bg-white rounded-xl p-6 text-center card-hover shadow-sm">
+          <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-1">日間照顧</h3>
+          <p class="text-sm text-gray-500">日照中心、時段照護</p>
+        </a>
+        <a href="caregivers.html?type=respite" class="bg-white rounded-xl p-6 text-center card-hover shadow-sm">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-1">喘息服務</h3>
+          <p class="text-sm text-gray-500">臨時托顧、分擔照護壓力</p>
+        </a>
+        <a href="caregivers.html?type=medical" class="bg-white rounded-xl p-6 text-center card-hover shadow-sm">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-1">醫療陪同</h3>
+          <p class="text-sm text-gray-500">就醫陪同、復健協助</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Caregivers -->
+  <section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold">精選照服員</h2>
+        <a href="caregivers.html" class="text-primary font-medium hover:underline">查看全部 →</a>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6" id="featuredCaregivers">
+        <!-- 動態載入 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold">熱門輔具推薦</h2>
+        <a href="shop.html" class="text-primary font-medium hover:underline">查看全部 →</a>
+      </div>
+      <div class="grid md:grid-cols-4 gap-6" id="featuredProducts">
+        <!-- 動態載入 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform Features -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl font-bold mb-12 text-center">為什麼選擇智慧照護Match</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">專業認證</h3>
+          <p class="text-gray-600">所有照服員均通過長照專業訓練與認證，提供安心可靠的服務</p>
+        </div>
+        <div class="text-center">
+          <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">即時媒合</h3>
+          <p class="text-gray-600">快速配對需求，時段一目了然，預約流程簡便順暢</p>
+        </div>
+        <div class="text-center">
+          <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-10 h-10 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">合理價格</h3>
+          <p class="text-gray-600">透明訂價無隱藏費用，輔具價格實惠，品質有保障</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </div>
+            <span class="text-lg font-bold">智慧照護Match</span>
+          </div>
+          <p class="text-gray-400 text-sm">專業長照服務媒合平台<br>讓愛與關懷更及時</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">服務項目</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><a href="caregivers.html?type=home" class="hover:text-white">居家服務</a></li>
+            <li><a href="caregivers.html?type=daycare" class="hover:text-white">日間照顧</a></li>
+            <li><a href="caregivers.html?type=respite" class="hover:text-white">喘息服務</a></li>
+            <li><a href="caregivers.html?type=medical" class="hover:text-white">醫療陪同</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">輔具商城</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><a href="shop.html?category=mobility" class="hover:text-white">行動輔具</a></li>
+            <li><a href="shop.html?category=bathroom" class="hover:text-white">衛浴輔具</a></li>
+            <li><a href="shop.html?category=safety" class="hover:text-white">居家安全</a></li>
+            <li><a href="shop.html?category=rehab" class="hover:text-white">康復器材</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">聯絡我們</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li>電話：02-XXXX-XXXX</li>
+            <li>Email：service@carematch.tw</li>
+            <li>服務時間：週一至週五 9:00-18:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+        <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // 載入精選照服員
+    function loadFeaturedCaregivers() {
+      const container = document.getElementById('featuredCaregivers');
+      const featured = caregivers.slice(0, 3);
+      container.innerHTML = featured.map(cg => createCaregiverCard(cg)).join('');
+    }
+
+    // 載入熱門輔具
+    function loadFeaturedProducts() {
+      const container = document.getElementById('featuredProducts');
+      const featured = products.slice(0, 4);
+      container.innerHTML = featured.map(prod => createProductCard(prod)).join('');
+    }
+
+    // 搜尋功能
+    function searchCaregivers() {
+      const type = document.getElementById('serviceType').value;
+      const region = document.getElementById('region').value;
+      const date = document.getElementById('searchDate').value;
+      
+      let url = 'caregivers.html?';
+      if (type) url += `type=${type}&`;
+      if (region) url += `region=${region}&`;
+      if (date) url += `date=${date}&`;
+      
+      window.location.href = url;
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFeaturedCaregivers();
+      loadFeaturedProducts();
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>

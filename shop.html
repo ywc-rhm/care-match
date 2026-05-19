@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>輔具商城 - 智慧照護Match</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32',
+            secondary: '#FF8F00',
+            accent: '#D81B60',
+            info: '#1976D2',
+            dark: '#212121',
+            bgLight: '#FAFAFA'
+          },
+          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+  </style>
+</head>
+<body class="bg-bgLight font-sans text-dark">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-primary">智慧照護Match</span>
+          </a>
+        </div>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
+          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
+          <a href="shop.html" class="text-primary font-medium border-b-2 border-primary pb-1">輔具商城</a>
+          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+          </a>
+          <a href="login.html" class="btn-primary text-sm">登入 / 註冊</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <h1 class="text-2xl md:text-3xl font-bold mb-2">長照輔具商城</h1>
+      <p class="text-gray-600">優質輔具送到府，守護您與家人的安全</p>
+    </div>
+  </div>
+
+  <!-- Category Tabs -->
+  <div class="bg-white border-b sticky top-16 z-40">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex gap-1 overflow-x-auto py-2" id="categoryTabs">
+        <button onclick="filterByCategory('all')" class="category-tab px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap bg-primary text-white" data-category="all">
+          全部商品
+        </button>
+        <button onclick="filterByCategory('mobility')" class="category-tab px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap text-gray-600 hover:bg-gray-100" data-category="mobility">
+          行動輔具
+        </button>
+        <button onclick="filterByCategory('bathroom')" class="category-tab px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap text-gray-600 hover:bg-gray-100" data-category="bathroom">
+          衛浴輔具
+        </button>
+        <button onclick="filterByCategory('safety')" class="category-tab px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap text-gray-600 hover:bg-gray-100" data-category="safety">
+          居家安全
+        </button>
+        <button onclick="filterByCategory('rehab')" class="category-tab px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap text-gray-600 hover:bg-gray-100" data-category="rehab">
+          康復器材
+        </button>
+        <button onclick="filterByCategory('comfort')" class="category-tab px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap text-gray-600 hover:bg-gray-100" data-category="comfort">
+          舒壓輔具
+        </button>
+        <button onclick="filterByCategory('medical')" class="category-tab px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap text-gray-600 hover:bg-gray-100" data-category="medical">
+          健康監測
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+      <p class="text-gray-600">共 <span id="productCount" class="font-bold text-primary">0</span> 項商品</p>
+      <select id="sortProducts" class="border border-gray-300 rounded-lg px-4 py-2">
+        <option value="default">預設排序</option>
+        <option value="price-low">價格低→高</option>
+        <option value="price-high">價格高→低</option>
+        <option value="sales">銷量最佳</option>
+        <option value="rating">評價最高</option>
+      </select>
+    </div>
+
+    <div id="productsGrid" class="grid md:grid-cols-4 gap-6">
+      <!-- 動態載入 -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
+      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let filteredProducts = [...products];
+
+    function filterByCategory(category) {
+      // 更新 tab 狀態
+      document.querySelectorAll('.category-tab').forEach(tab => {
+        if (tab.dataset.category === category) {
+          tab.classList.remove('text-gray-600', 'hover:bg-gray-100');
+          tab.classList.add('bg-primary', 'text-white');
+        } else {
+          tab.classList.remove('bg-primary', 'text-white');
+          tab.classList.add('text-gray-600', 'hover:bg-gray-100');
+        }
+      });
+
+      if (category === 'all') {
+        filteredProducts = [...products];
+      } else {
+        filteredProducts = products.filter(p => p.category === category);
+      }
+      sortProducts();
+      renderProducts();
+    }
+
+    function sortProducts() {
+      const sortBy = document.getElementById('sortProducts').value;
+      switch (sortBy) {
+        case 'price-low':
+          filteredProducts.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-high':
+          filteredProducts.sort((a, b) => b.price - a.price);
+          break;
+        case 'sales':
+          filteredProducts.sort((a, b) => b.sold - a.sold);
+          break;
+        case 'rating':
+          filteredProducts.sort((a, b) => b.rating - a.rating);
+          break;
+        default:
+          // 預設排序維持陣列順序
+          break;
+      }
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('productsGrid');
+      const count = document.getElementById('productCount');
+      
+      count.textContent = filteredProducts.length;
+      
+      if (filteredProducts.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-4 text-center py-16">
+            <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+            </svg>
+            <p class="text-gray-500">此分類暫無商品</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filteredProducts.map(p => createProductCard(p)).join('');
+    }
+
+    // 監聽排序變更
+    document.getElementById('sortProducts').addEventListener('change', () => {
+      sortProducts();
+      renderProducts();
+    });
+
+    // 從 URL 參數初始化
+    function initFromUrl() {
+      const params = getUrlParams();
+      if (params.category) {
+        filterByCategory(params.category);
+      } else {
+        renderProducts();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initFromUrl();
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>
