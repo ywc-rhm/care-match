@@ -426,8 +426,8 @@ function updateCartCount() {
 
 // 管理員帳號
 const adminAccount = {
-  email: '123@gmail.com',
-  password: '12345678',
+  email: 'yth_Kjfn1U@alkmail.com',
+  password: 'sejg(EG*3tn<ek',
   name: '系統管理員',
   role: 'admin',
   avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop'
