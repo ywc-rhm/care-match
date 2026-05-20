@@ -3,180 +3,321 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>購物車 - 智慧照護Match</title>
+  <title>購物船艙 - 群島生態系</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#2E7D32',
-            secondary: '#FF8F00',
-            accent: '#D81B60',
-            info: '#1976D2',
-            dark: '#212121',
-            bgLight: '#FAFAFA'
+            ocean: '#0891B2',
+            'ocean-light': '#22D3EE',
+            sand: '#F5F0E8',
+            coral: '#F97316',
+            island: '#059669',
+            'island-light': '#34D399',
+            night: '#0F172A'
           },
-          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            display: ['Nunito', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    .ocean-bg {
+      background: linear-gradient(180deg, #E0F2FE 0%, #F5F0E8 100%);
+    }
+    
+    .ship-bg {
+      background: linear-gradient(135deg, #0F766E 0%, #115E59 50%, #134E4A 100%);
+    }
+    
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-bold;
+      transition: all 0.2s ease;
+    }
+    .qty-btn:hover {
+      transform: scale(1.1);
+    }
+    .qty-btn.minus {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+    .qty-btn.plus {
+      background: #DCFCE7;
+      color: #16A34A;
+    }
+
+    .cart-item {
+      background: white;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    .cart-item:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .remove-btn {
+      transition: all 0.2s ease;
+    }
+    .remove-btn:hover {
+      color: #DC2626;
+      transform: scale(1.2);
+    }
+
+    .promo-input {
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .promo-input:focus {
+      border-color: #0891B2;
+      border-style: solid;
+    }
+
+    .checkout-btn {
+      background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+      transition: all 0.3s ease;
+    }
+    .checkout-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.5);
+    }
+  </style>
 </head>
-<body class="bg-bgLight font-sans text-dark">
-  <!-- Navigation -->
-  <nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center gap-2">
-          <a href="index.html" class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </div>
-            <span class="text-xl font-bold text-primary">智慧照護Match</span>
-          </a>
-        </div>
-        <div class="hidden md:flex items-center gap-6">
-          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
-          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
-          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
-          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
-        </div>
-        <div class="flex items-center gap-3">
-          <a href="cart.html" class="relative p-2 text-primary">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
-            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
-          </a>
-          <a href="login.html" class="btn-primary text-sm">登入 / 註冊</a>
-        </div>
+<body class="ocean-bg font-sans min-h-screen">
+  
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
+            <span class="text-2xl">🏝️</span>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xl text-night">群島生態系</span>
+          </div>
+        </a>
+        <a href="shop.html" class="flex items-center gap-2 text-ocean hover:underline">
+          ← 繼續購物
+        </a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Page Content -->
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-8">購物車</h1>
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
     
-    <div id="cartContent">
-      <!-- 動態載入 -->
+    <!-- Title -->
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-12 h-12 ship-bg rounded-full flex items-center justify-center">
+        <span class="text-2xl">🚢</span>
+      </div>
+      <div>
+        <h1 class="font-display font-bold text-2xl text-night">我的購物船艙</h1>
+        <p class="text-gray-500 text-sm">精選長照小輔具，即將啟航配送</p>
+      </div>
     </div>
-  </div>
+
+    <!-- Cart Container -->
+    <div id="cartContainer" class="space-y-4">
+      
+      <!-- Empty State -->
+      <div id="emptyCart" class="hidden bg-white rounded-3xl p-12 text-center">
+        <div class="text-8xl mb-4">🛒</div>
+        <h2 class="font-bold text-xl text-night mb-2">船艙空空如也</h2>
+        <p class="text-gray-500 mb-6">快去島嶼補給站挑選需要的輔具吧！</p>
+        <a href="shop.html" class="inline-flex items-center gap-2 bg-gradient-to-r from-ocean to-island text-white px-6 py-3 rounded-xl font-medium">
+          🛒 前往補給站
+        </a>
+      </div>
+
+      <!-- Cart Items -->
+      <div id="cartItems" class="space-y-4"></div>
+
+      <!-- Order Summary -->
+      <div id="orderSummary" class="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
+        <h3 class="font-bold text-lg text-night mb-4">📋 航程費用明細</h3>
+        
+        <div class="space-y-3 mb-4">
+          <div class="flex justify-between text-gray-600">
+            <span>商品小計</span>
+            <span id="subtotal">$0</span>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>運費</span>
+            <span id="shipping">$0</span>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>優惠折扣</span>
+            <span id="discount" class="text-green-600">-$0</span>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-100 pt-4 mb-6">
+          <div class="flex justify-between font-bold text-xl text-night">
+            <span>總計</span>
+            <span id="total" class="text-coral">$0</span>
+          </div>
+        </div>
+
+        <!-- Promo Code -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-600 mb-2">🎫 優惠序號</label>
+          <div class="flex gap-2">
+            <input type="text" id="promoCode" placeholder="輸入優惠碼" class="promo-input flex-1 px-4 py-3 focus:outline-none">
+            <button onclick="applyPromo()" class="px-5 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition">
+              套用
+            </button>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">展示用代碼：ISLAND10（可享10%折扣）</p>
+        </div>
+
+        <!-- Checkout Button -->
+        <button onclick="checkout()" class="w-full checkout-btn text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2">
+          🚢 啟航結帳
+        </button>
+
+        <p class="text-center text-xs text-gray-400 mt-4">點擊結帳即表示同意我們的服務條款與隱私權政策</p>
+      </div>
+
+      <!-- Shipping Info -->
+      <div class="bg-blue-50 rounded-2xl p-5 border border-blue-100">
+        <h4 class="font-bold text-blue-800 mb-3">🚚 配送資訊</h4>
+        <ul class="space-y-2 text-sm text-blue-700">
+          <li>• 滿 $1,000 免運費（限本島）</li>
+          <li>• 訂單確認後 2-3 個工作天出貨</li>
+          <li>• 外島地區運費另計</li>
+        </ul>
+      </div>
+    </div>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white py-8 mt-12">
-    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
-      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+  <footer class="bg-night text-white py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <span class="text-2xl">🏝️</span>
+        <span class="font-display font-bold">群島生態系</span>
+      </div>
+      <p class="text-gray-400 text-sm">© 2024 群島生態系長照服務平台 | 守護每座島嶼的幸福</p>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let appliedPromo = null;
+
     function renderCart() {
-      const container = document.getElementById('cartContent');
-      const cartItems = orders.products;
-      
-      if (cartItems.length === 0) {
-        container.innerHTML = `
-          <div class="bg-white rounded-xl p-12 text-center">
-            <svg class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
-            <h2 class="text-xl font-bold mb-2">購物車是空的</h2>
-            <p class="text-gray-500 mb-6">快去逛逛輔具商城，添購需要的輔具吧！</p>
-            <a href="shop.html" class="btn-primary inline-block">前往輔具商城</a>
-          </div>
-        `;
+      const itemsContainer = document.getElementById('cartItems');
+      const emptyCart = document.getElementById('emptyCart');
+      const orderSummary = document.getElementById('orderSummary');
+
+      if (cart.length === 0) {
+        emptyCart.classList.remove('hidden');
+        orderSummary.classList.add('hidden');
+        itemsContainer.innerHTML = '';
         return;
       }
 
-      const total = getCartTotal();
-      const itemCount = getCartCount();
+      emptyCart.classList.add('hidden');
+      orderSummary.classList.remove('hidden');
 
-      container.innerHTML = `
-        <div class="bg-white rounded-xl shadow-sm">
-          <div class="p-4 border-b">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">已選擇 ${itemCount} 件商品</span>
-              <button onclick="clearCart()" class="text-red-500 text-sm hover:underline">清空購物車</button>
-            </div>
+      const emojis = ['🦽', '🛏️', '⚠️', '💊', '🧘', '🦯', '🛁', '🚨'];
+      
+      itemsContainer.innerHTML = cart.map((item, idx) => `
+        <div class="cart-item p-5 flex items-center gap-4">
+          <div class="w-20 h-20 bg-gradient-to-br from-green-50 to-green-100 rounded-xl flex items-center justify-center text-4xl flex-shrink-0">
+            ${emojis[idx % emojis.length]}
           </div>
-          <div class="divide-y" id="cartItems">
-            ${cartItems.map(item => `
-              <div class="p-4 flex gap-4">
-                <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded-lg">
-                <div class="flex-1">
-                  <div class="flex justify-between">
-                    <div>
-                      <h3 class="font-bold">${item.name}</h3>
-                      <p class="text-sm text-gray-500">${item.categoryName}</p>
-                    </div>
-                    <button onclick="removeFromCart(${item.id}); renderCart();" class="text-gray-400 hover:text-red-500">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="flex justify-between items-center mt-4">
-                    <div class="flex items-center gap-2">
-                      <button onclick="updateCartQuantity(${item.id}, -1); renderCart();" class="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100">-</button>
-                      <span class="w-8 text-center">${item.quantity}</span>
-                      <button onclick="updateCartQuantity(${item.id}, 1); renderCart();" class="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100">+</button>
-                    </div>
-                    <div class="text-right">
-                      <p class="font-bold text-accent text-lg">$${(item.price * item.quantity).toLocaleString()}</p>
-                      ${item.quantity > 1 ? `<p class="text-xs text-gray-400">$${item.price.toLocaleString()} / 件</p>` : ''}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            `).join('')}
+          <div class="flex-1">
+            <h3 class="font-bold text-night">${item.name}</h3>
+            <p class="text-coral font-bold">$${item.price.toLocaleString()}</p>
           </div>
-          <div class="p-4 bg-gray-50 rounded-b-xl">
-            <div class="flex justify-between items-center mb-4">
-              <span class="text-lg">商品金額合計</span>
-              <span class="text-2xl font-bold text-accent">$${total.toLocaleString()}</span>
-            </div>
-            <button onclick="checkout()" class="w-full btn-secondary py-3 text-lg">前往結帳</button>
-            <p class="text-center text-sm text-gray-400 mt-3">* 本系統為展示用途，不進行實際金流交易</p>
+          <div class="flex items-center gap-2">
+            <button onclick="changeQty(${idx}, -1)" class="qty-btn minus">−</button>
+            <span class="w-8 text-center font-bold">${item.qty}</span>
+            <button onclick="changeQty(${idx}, 1)" class="qty-btn plus">+</button>
+          </div>
+          <div class="text-right">
+            <div class="font-bold text-night">$${(item.price * item.qty).toLocaleString()}</div>
+            <button onclick="removeItem(${idx})" class="remove-btn text-gray-400 text-sm mt-1">🗑️ 刪除</button>
           </div>
         </div>
-      `;
+      `).join('');
+
+      updateTotals();
     }
 
-    function clearCart() {
-      if (confirm('確定要清空購物車嗎？')) {
-        orders.products = [];
-        saveToStorage();
-        updateCartCount();
-        renderCart();
+    function changeQty(idx, delta) {
+      cart[idx].qty += delta;
+      if (cart[idx].qty <= 0) {
+        cart.splice(idx, 1);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function removeItem(idx) {
+      cart.splice(idx, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function updateTotals() {
+      const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const shipping = subtotal >= 1000 ? 0 : 100;
+      let discount = 0;
+      
+      if (appliedPromo === 'ISLAND10') {
+        discount = Math.floor(subtotal * 0.1);
+      }
+      
+      const total = subtotal + shipping - discount;
+
+      document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString()}`;
+      document.getElementById('shipping').textContent = shipping === 0 ? '免費' : `$${shipping}`;
+      document.getElementById('discount').textContent = `-$${discount.toLocaleString()}`;
+      document.getElementById('total').textContent = `$${total.toLocaleString()}`;
+    }
+
+    function applyPromo() {
+      const code = document.getElementById('promoCode').value.trim().toUpperCase();
+      if (code === 'ISLAND10') {
+        appliedPromo = code;
+        updateTotals();
+        alert('🎉 優惠碼已套用：10% 折扣！');
+      } else {
+        alert('❌ 無效的優惠碼');
       }
     }
 
     function checkout() {
-      if (!checkLogin()) return;
-      
-      // 展示用途：顯示結帳成功
-      alert('感謝您的訂購！\n\n這是展示網站，不進行實際金流交易。\n訂單已記錄在會員專區。');
-      
-      // 清空購物車
-      orders.products = [];
-      saveToStorage();
-      updateCartCount();
-      
-      // 跳轉到儀表板
-      window.location.href = 'dashboard.html';
+      if (cart.length === 0) {
+        alert('購物船艙是空的！');
+        return;
+      }
+      alert('🚢 訂單已提交！我們會盡快為您配送！');
+      cart = [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      window.location.href = 'shop.html';
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      renderCart();
-      updateCartCount();
-    });
+    // Init
+    renderCart();
   </script>
 </body>
 </html>
