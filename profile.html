@@ -3,222 +3,394 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>個人檔案 - 智慧照護Match</title>
+  <title>島嶼設定 - 群島生態系</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#2E7D32',
-            secondary: '#FF8F00',
-            accent: '#D81B60',
-            info: '#1976D2',
-            dark: '#212121',
-            bgLight: '#FAFAFA'
+            ocean: '#0891B2',
+            'ocean-light': '#22D3EE',
+            sand: '#F5F0E8',
+            coral: '#F97316',
+            island: '#059669',
+            'island-light': '#34D399',
+            night: '#0F172A'
           },
-          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            display: ['Nunito', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    .island-card {
+      background: linear-gradient(145deg, #86EFAC 0%, #22C55E 60%, #16A34A 100%);
+      border-radius: 24px 24px 8px 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .island-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 35%;
+      background: linear-gradient(to top, #FCD34D 0%, #F59E0B 100%);
+      border-radius: 0 0 8px 8px;
+    }
+    
+    .avatar-upload {
+      border: 4px dashed #CBD5E1;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    .avatar-upload:hover {
+      border-color: #0891B2;
+      transform: scale(1.05);
+    }
+
+    .form-input {
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      border-color: #0891B2;
+      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+      outline: none;
+    }
+
+    .save-btn {
+      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
+      transition: all 0.3s ease;
+    }
+    .save-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 30px -10px rgba(8, 145, 178, 0.5);
+    }
+
+    .tag-chip {
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tag-chip:hover, .tag-chip.selected {
+      background: #22C55E;
+      color: white;
+      border-color: #22C55E;
+    }
+  </style>
 </head>
-<body class="bg-bgLight font-sans text-dark">
-  <!-- Navigation -->
-  <nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center gap-2">
-          <a href="index.html" class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </div>
-            <span class="text-xl font-bold text-primary">智慧照護Match</span>
-          </a>
-        </div>
-        <div class="hidden md:flex items-center gap-6">
-          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
-          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
-          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
-          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
-        </div>
-        <div class="flex items-center gap-3">
-          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
-            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
-          </a>
-          <div id="userNav"></div>
+<body class="bg-sand font-sans">
+  
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
+            <span class="text-2xl">🏝️</span>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xl text-night">群島生態系</span>
+          </div>
+        </a>
+        <div class="flex items-center gap-4">
+          <a href="dashboard.html" class="text-gray-600 hover:text-ocean">← 返回島嶼</a>
         </div>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Content -->
-  <div class="max-w-2xl mx-auto px-4 py-8" id="profileContent">
-    <!-- 動態載入 -->
-  </div>
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    
+    <!-- Profile Header -->
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-6">
+      <!-- Island Banner -->
+      <div class="h-32 bg-gradient-to-r from-ocean via-ocean-light to-island relative">
+        <div class="absolute inset-0 opacity-20">
+          <svg class="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid slice">
+            <ellipse cx="50" cy="80" rx="30" ry="20" fill="#166534"/>
+            <ellipse cx="150" cy="70" rx="40" ry="28" fill="#15803D"/>
+            <ellipse cx="280" cy="75" rx="35" ry="24" fill="#166534"/>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Avatar & Name -->
+      <div class="px-8 pb-6">
+        <div class="flex items-end -mt-16 mb-4">
+          <div class="relative">
+            <div id="avatarPreview" class="w-32 h-32 rounded-full bg-gradient-to-br from-ocean to-island flex items-center justify-center text-white text-5xl font-bold border-4 border-white shadow-xl">
+              W
+            </div>
+            <button class="absolute bottom-0 right-0 w-10 h-10 bg-coral text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+              📷
+            </button>
+          </div>
+          <div class="ml-4 mb-2">
+            <h1 class="font-display font-bold text-2xl text-night">吳佩蓉</h1>
+            <p class="text-gray-500">專業長照照服員 · 新北市</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
+      <button onclick="showTab('basic')" class="tab-btn active px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap" data-tab="basic">
+        👤 基本資料
+      </button>
+      <button onclick="showTab('service')" class="tab-btn px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap bg-white" data-tab="service">
+        🛠️ 服務設定
+      </button>
+      <button onclick="showTab('schedule')" class="tab-btn px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap bg-white" data-tab="schedule">
+        📅 可預約時段
+      </button>
+      <button onclick="showTab('password')" class="tab-btn px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap bg-white" data-tab="password">
+        🔐 密碼設定
+      </button>
+    </div>
+
+    <!-- Tab Content: Basic Info -->
+    <div id="tab-basic" class="tab-content">
+      <div class="bg-white rounded-2xl p-6 shadow-lg">
+        <h2 class="font-bold text-lg text-night mb-6">👤 基本資料設定</h2>
+        <form onsubmit="saveProfile(event)">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">姓名</label>
+              <input type="text" value="吳佩蓉" class="form-input w-full px-4 py-3">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">暱稱</label>
+              <input type="text" value="佩蓉" class="form-input w-full px-4 py-3">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">📧 Email</label>
+              <input type="email" value="peirong@example.com" class="form-input w-full px-4 py-3">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">📱 手機</label>
+              <input type="tel" value="0912-345-678" class="form-input w-full px-4 py-3">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-600 mb-2">📍 服務區域</label>
+              <select class="form-input w-full px-4 py-3">
+                <option>新北市板橋區</option>
+                <option>新北市中和區</option>
+                <option selected>新北市永和區</option>
+                <option>新北市三重區</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-600 mb-2">🏷️ 自我介紹</label>
+              <textarea rows="4" class="form-input w-full px-4 py-3">您好，我是吳佩蓉，擁有3年以上的長照服務經驗。專長包括：身體照顧服務、日常生活照顧、陪同就醫等。我耐心、細心，期待能為您和您的家人提供優質的照護服務。</textarea>
+            </div>
+          </div>
+          <div class="mt-6 flex justify-end">
+            <button type="submit" class="save-btn text-white px-8 py-3 rounded-xl font-bold">
+              💾 儲存變更
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tab Content: Service -->
+    <div id="tab-service" class="tab-content hidden">
+      <div class="bg-white rounded-2xl p-6 shadow-lg">
+        <h2 class="font-bold text-lg text-night mb-6">🛠️ 服務項目設定</h2>
+        <p class="text-gray-500 mb-4">選擇您提供的服務項目（可複選）</p>
+        
+        <div class="flex flex-wrap gap-3 mb-6">
+          <span class="tag-chip selected">🛏️ 身體照顧服務</span>
+          <span class="tag-chip selected">🏠 日常生活照顧</span>
+          <span class="tag-chip">🍽️ 餐食照顧</span>
+          <span class="tag-chip selected">🚶 陪同就醫</span>
+          <span class="tag-chip">💊 藥物提醒</span>
+          <span class="tag-chip">🧘 復健運動</span>
+          <span class="tag-chip">🛁 沐浴照顧</span>
+          <span class="tag-chip">🚿 足部照顧</span>
+          <span class="tag-chip">🌙 喘息服務</span>
+          <span class="tag-chip">📋 個案評估</span>
+        </div>
+
+        <div class="border-t border-gray-100 pt-6">
+          <h3 class="font-bold text-night mb-4">💰 收費標準</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-sand rounded-xl">
+              <div class="text-sm text-gray-500">一般時段 (平日)</div>
+              <div class="text-2xl font-bold text-night">$350<span class="text-sm font-normal text-gray-500">/小時</span></div>
+            </div>
+            <div class="p-4 bg-sand rounded-xl">
+              <div class="text-sm text-gray-500">特殊時段 (假日/夜間)</div>
+              <div class="text-2xl font-bold text-coral">$450<span class="text-sm font-normal text-gray-500">/小時</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+          <button onclick="saveServices()" class="save-btn text-white px-8 py-3 rounded-xl font-bold">
+            💾 儲存服務設定
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Content: Schedule -->
+    <div id="tab-schedule" class="tab-content hidden">
+      <div class="bg-white rounded-2xl p-6 shadow-lg">
+        <h2 class="font-bold text-lg text-night mb-6">📅 可預約時段設定</h2>
+        <p class="text-gray-500 mb-6">勾選您可以提供服務的時段</p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="text-left text-sm text-gray-500">
+                <th class="pb-3 pr-4">時段</th>
+                <th class="pb-3 px-2 text-center">一</th>
+                <th class="pb-3 px-2 text-center">二</th>
+                <th class="pb-3 px-2 text-center">三</th>
+                <th class="pb-3 px-2 text-center">四</th>
+                <th class="pb-3 px-2 text-center">五</th>
+                <th class="pb-3 px-2 text-center text-coral">六</th>
+                <th class="pb-3 px-2 text-center text-coral">日</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm">
+              <tr class="border-t border-gray-100">
+                <td class="py-3 pr-4 font-medium">上午 08:00-12:00</td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" class="rounded text-coral"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" class="rounded text-coral"></td>
+              </tr>
+              <tr class="border-t border-gray-100">
+                <td class="py-3 pr-4 font-medium">下午 13:00-17:00</td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-coral"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-coral"></td>
+              </tr>
+              <tr class="border-t border-gray-100">
+                <td class="py-3 pr-4 font-medium">晚間 18:00-21:00</td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-coral"></td>
+                <td class="py-3 px-2 text-center"><input type="checkbox" class="rounded text-coral"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+          <button class="save-btn text-white px-8 py-3 rounded-xl font-bold">
+            💾 儲存時段設定
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Content: Password -->
+    <div id="tab-password" class="tab-content hidden">
+      <div class="bg-white rounded-2xl p-6 shadow-lg">
+        <h2 class="font-bold text-lg text-night mb-6">🔐 密碼設定</h2>
+        <form onsubmit="changePassword(event)">
+          <div class="max-w-md space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">目前密碼</label>
+              <input type="password" required class="form-input w-full px-4 py-3">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">新密碼</label>
+              <input type="password" required minlength="6" class="form-input w-full px-4 py-3">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">確認新密碼</label>
+              <input type="password" required minlength="6" class="form-input w-full px-4 py-3">
+            </div>
+          </div>
+          <div class="mt-6 flex justify-end">
+            <button type="submit" class="save-btn text-white px-8 py-3 rounded-xl font-bold">
+              🔐 更新密碼
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white py-8 mt-12">
-    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
-      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+  <footer class="bg-night text-white py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <span class="text-2xl">🏝️</span>
+        <span class="font-display font-bold">群島生態系</span>
+      </div>
+      <p class="text-gray-400 text-sm">© 2024 群島生態系長照服務平台</p>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
-    function renderProfile() {
-      if (!currentUser) {
-        window.location.href = 'login.html';
-        return;
-      }
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('active');
+          b.classList.add('bg-white');
+        });
+        btn.classList.add('active');
+        btn.classList.remove('bg-white');
+      });
+    });
 
-      document.getElementById('userNav').innerHTML = `
-        <div class="flex items-center gap-2">
-          <img src="${currentUser.avatar || 'https://via.placeholder.com/32'}" class="w-8 h-8 rounded-full object-cover">
-          <span class="hidden md:inline text-sm font-medium">${currentUser.name}</span>
-        </div>
-      `;
-
-      document.getElementById('profileContent').innerHTML = `
-        <div class="flex items-center gap-4 mb-8">
-          <a href="dashboard.html" class="text-gray-500 hover:text-primary">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-          </a>
-          <h1 class="text-2xl font-bold">個人檔案</h1>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <!-- Avatar Section -->
-          <div class="p-6 bg-gray-50 border-b flex items-center gap-6">
-            <div class="relative">
-              <img id="avatarPreview" src="${currentUser.avatar || 'https://via.placeholder.com/100'}" 
-                class="w-24 h-24 rounded-full object-cover">
-              <button class="absolute bottom-0 right-0 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center hover:bg-green-700">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-              </button>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold">${currentUser.name}</h2>
-              <p class="text-gray-500">${currentUser.email}</p>
-              <p class="text-sm text-green-600 mt-1">
-                ${currentUser.role === 'caregiver' ? '✓ 照服員會員' : currentUser.role === 'admin' ? '⚙ 管理員' : '✓ 一般會員'}
-              </p>
-            </div>
-          </div>
-
-          <!-- Form -->
-          <form onsubmit="saveProfile(event)" class="p-6">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
-                <input type="text" id="profileName" value="${currentUser.name}" required
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input type="email" id="profileEmail" value="${currentUser.email}" required
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary" readonly>
-                <p class="text-xs text-gray-400 mt-1">Email 為帳號，不可修改</p>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">手機</label>
-                <input type="tel" id="profilePhone" value="${currentUser.phone || ''}" placeholder="0912-XXX-XXX"
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">地址</label>
-                <input type="text" id="profileAddress" value="${currentUser.address || ''}" placeholder="填寫地址"
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">LINE ID</label>
-                <input type="text" id="profileLine" value="${currentUser.lineId || ''}" placeholder="填寫 LINE ID"
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-              </div>
-            </div>
-
-            <button type="submit" class="w-full btn-primary py-3 mt-6">儲存變更</button>
-          </form>
-
-          <!-- Password Change -->
-          <div class="p-6 bg-gray-50 border-t">
-            <h3 class="font-bold mb-4">更改密碼</h3>
-            <form onsubmit="changePassword(event)">
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">目前密碼</label>
-                  <input type="password" id="currentPwd" required minlength="6"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">新密碼</label>
-                  <input type="password" id="newPwd" required minlength="6"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">確認新密碼</label>
-                  <input type="password" id="confirmPwd" required minlength="6"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-                </div>
-              </div>
-              <button type="submit" class="w-full btn-secondary py-3 mt-4">更新密碼</button>
-            </form>
-          </div>
-        </div>
-      `;
+    function showTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
     }
 
     function saveProfile(e) {
       e.preventDefault();
-      
-      currentUser.name = document.getElementById('profileName').value;
-      currentUser.phone = document.getElementById('profilePhone').value;
-      currentUser.address = document.getElementById('profileAddress').value;
-      currentUser.lineId = document.getElementById('profileLine').value;
-      
-      saveToStorage();
-      showNotification('個人檔案已儲存');
-      renderProfile();
+      alert('✅ 基本資料已儲存！');
+    }
+
+    function saveServices() {
+      alert('✅ 服務設定已儲存！');
     }
 
     function changePassword(e) {
       e.preventDefault();
-      
-      const currentPwd = document.getElementById('currentPwd').value;
-      const newPwd = document.getElementById('newPwd').value;
-      const confirmPwd = document.getElementById('confirmPwd').value;
-
-      if (newPwd !== confirmPwd) {
-        alert('新密碼與確認密碼不一致');
-        return;
-      }
-
-      // 演示：直接成功
-      showNotification('密碼已更新（展示模式）');
-      document.getElementById('currentPwd').value = '';
-      document.getElementById('newPwd').value = '';
-      document.getElementById('confirmPwd').value = '';
+      alert('✅ 密碼已更新！');
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      renderProfile();
-      updateCartCount();
+    // Tag chip toggle
+    document.querySelectorAll('.tag-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('selected');
+      });
     });
   </script>
 </body>
