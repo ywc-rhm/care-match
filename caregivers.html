@@ -35,80 +35,103 @@
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(8, 145, 178, 0.1);
     }
-    
-    /* 島嶼卡片 */
+
+    /* 每張卡片都是一座島嶼 - 俯視圖 */
     .island-card {
+      position: relative;
       transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .island-card:hover {
       transform: translateY(-12px) scale(1.03);
     }
-    
-    /* 島嶼頂部草地 */
-    .island-grass {
-      background: linear-gradient(180deg, #10B981 0%, #059669 50%, #047857 100%);
-      border-radius: 60% 60% 0 0 / 40% 40% 0 0;
-      position: relative;
-    }
-    .island-grass::before {
-      content: '🌴';
-      position: absolute;
-      top: -28px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 36px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    
-    /* 島嶼沙灘 */
-    .island-beach {
-      background: linear-gradient(180deg, #FBBF24 0%, #F59E0B 100%);
-      border-radius: 0 0 16px 16px;
-    }
-    
-    /* 海洋波紋背景 */
-    .ocean-bg {
-      background: linear-gradient(180deg, #0891B2 0%, #22D3EE 50%, #67E8F9 100%);
+
+    /* 島嶼本體 - 不規則圓形 */
+    .island-body {
+      background: linear-gradient(145deg, #86EFAC 0%, #22C55E 40%, #16A34A 70%, #15803D 100%);
+      border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%;
       position: relative;
       overflow: hidden;
     }
-    .ocean-bg::before {
+
+    /* 沙灘邊緣 */
+    .island-body::before {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 120px;
-      background: linear-gradient(180deg, transparent, rgba(245, 240, 232, 0.3));
+      inset: -4px;
+      background: linear-gradient(145deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%);
+      border-radius: 48% 52% 55% 45% / 52% 48% 52% 48%;
+      z-index: -1;
     }
-    
-    /* 雲朵裝飾 */
+
+    /* 島嶼陰影 */
+    .island-body::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 60%);
+      border-radius: inherit;
+    }
+
+    /* 島上的設施/建築 */
+    .island-building {
+      position: absolute;
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    /* 島嶼裝飾植物 */
+    .island-tree {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #15803D 30%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    /* 島主頭像區 - 島上的主要建築 */
+    .island-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    /* 海水環繞效果 */
+    .island-wrapper {
+      position: relative;
+      padding: 16px;
+      background: linear-gradient(180deg, #0891B2 0%, #0E7490 100%);
+      border-radius: 24px;
+    }
+
+    /* 島嶼在海上的陰影 */
+    .island-shadow {
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+    }
+
+    /* 雲朵飄過 */
     .cloud {
       position: absolute;
-      background: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.4);
       border-radius: 50px;
-      animation: cloudFloat 20s linear infinite;
+      animation: cloudMove 25s linear infinite;
     }
-    @keyframes cloudFloat {
+    @keyframes cloudMove {
       0% { transform: translateX(-100px); }
       100% { transform: translateX(calc(100vw + 100px)); }
     }
-    
-    /* 服務類型標籤 */
-    .service-tag {
-      background: rgba(8, 145, 178, 0.1);
-      border: 1px solid rgba(8, 145, 178, 0.2);
-    }
-    
-    /* 篩選器玻璃效果 */
+
+    /* 篩選器玻璃 */
     .filter-glass {
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(12px);
       border-radius: 20px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     }
-    
-    /* 搜尋按鈕 */
+
+    /* 按鈕漸層 */
     .btn-search {
       background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
       transition: all 0.3s ease;
@@ -118,13 +141,14 @@
       box-shadow: 0 8px 24px rgba(8, 145, 178, 0.4);
     }
 
-    /* 島嶼陰影動畫 */
-    .island-card:hover .island-shadow {
-      animation: shadowPulse 1s ease-in-out infinite;
-    }
-    @keyframes shadowPulse {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 0.4; }
+    /* 島嶼評價星級 */
+    .star-coral { color: #F97316; }
+
+    /* 服務標籤 */
+    .service-badge {
+      background: rgba(8, 145, 178, 0.15);
+      border: 1px solid rgba(8, 145, 178, 0.3);
+      color: #0E7490;
     }
   </style>
 </head>
@@ -167,12 +191,22 @@
   </nav>
 
   <!-- Header -->
-  <div class="ocean-bg py-12 relative">
-    <!-- 雲朵裝飾 -->
-    <div class="cloud w-32 h-10 top-8 left-[10%]" style="animation-delay: 0s;"></div>
-    <div class="cloud w-48 h-12 top-16 left-[60%]" style="animation-delay: -7s;"></div>
-    <div class="cloud w-24 h-8 top-4 left-[80%]" style="animation-delay: -14s;"></div>
+  <div class="relative py-12 overflow-hidden">
+    <!-- 背景海水 -->
+    <div class="absolute inset-0 bg-gradient-to-b from-ocean-dark via-ocean to-ocean-light"></div>
     
+    <!-- 雲朵裝飾 -->
+    <div class="cloud w-32 h-8 top-8 left-[5%]" style="animation-delay: 0s;"></div>
+    <div class="cloud w-48 h-10 top-16 left-[50%]" style="animation-delay: -8s;"></div>
+    <div class="cloud w-24 h-6 top-4 left-[75%]" style="animation-delay: -16s;"></div>
+    
+    <!-- 海浪裝飾 -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 50L48 45C96 40 192 30 288 35C384 40 480 60 576 65C672 70 768 60 864 50C960 40 1056 30 1152 35C1248 40 1344 60 1392 70L1440 80V100H0V50Z" fill="#F5F0E8"/>
+      </svg>
+    </div>
+
     <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
       <div class="inline-block bg-white/20 backdrop-blur px-5 py-2 rounded-full mb-4">
         <span class="text-white font-medium">⛵ 探索這片群島</span>
@@ -183,13 +217,6 @@
       <p class="text-white/90 text-lg max-w-2xl mx-auto">
         每座島嶼都有獨特的故事與專長，找到那位與你頻率相合的島主
       </p>
-    </div>
-    
-    <!-- 波浪裝飾 -->
-    <div class="absolute bottom-0 left-0 right-0">
-      <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 40L60 35C120 30 240 20 360 25C480 30 600 50 720 55C840 60 960 50 1080 40C1200 30 1320 25 1380 22.5L1440 20V80H0V40Z" fill="#F5F0E8"/>
-      </svg>
     </div>
   </div>
 
@@ -235,9 +262,8 @@
     </div>
   </div>
 
-  <!-- Results -->
+  <!-- Islands Grid -->
   <div class="max-w-7xl mx-auto px-4 py-8">
-    <!-- 結果計數 -->
     <div class="flex justify-between items-center mb-6">
       <p class="text-gray-600">
         🌊 共找到 <span id="resultCount" class="font-bold text-ocean text-xl">0</span> 座島嶼
@@ -250,8 +276,7 @@
       </select>
     </div>
 
-    <!-- 島嶼網格 -->
-    <div id="caregiversList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div id="caregiversList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- 動態載入 -->
     </div>
   </div>
@@ -268,78 +293,100 @@
   <script>
     let filteredCaregivers = [...caregivers];
 
-    // 建立島嶼卡片
+    // 建立真實島嶼卡片
     function createIslandCard(cg) {
       const serviceIcons = { home: '🏠', daycare: '☀️', respite: '🤝', medical: '🏥' };
       const serviceLabels = { home: '居家', daycare: '日照', respite: '喘息', medical: '醫療' };
-      
+
+      // 隨機島嶼形狀參數
+      const shapes = [
+        'border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%;',
+        'border-radius: 55% 45% 45% 55% / 48% 52% 48% 52%;',
+        'border-radius: 50% 50% 55% 45% / 45% 55% 45% 55%;',
+        'border-radius: 48% 52% 40% 60% / 52% 48% 52% 48%;',
+        'border-radius: 52% 48% 50% 50% / 50% 50% 52% 48%;'
+      ];
+      const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+
+      // 隨機植物位置
+      const treePositions = [];
+      for (let i = 0; i < 5; i++) {
+        const x = 10 + Math.random() * 70;
+        const y = 10 + Math.random() * 70;
+        const size = 8 + Math.random() * 12;
+        treePositions.push({ x, y, size });
+      }
+
+      // 服務類型
       const servicesHtml = cg.services.map(s => 
-        `<span class="service-tag text-ocean text-xs px-2 py-1 rounded-full">${serviceIcons[s]} ${serviceLabels[s]}</span>`
+        `<span class="service-badge text-xs px-2 py-1 rounded-full">${serviceIcons[s]} ${serviceLabels[s]}</span>`
       ).join('');
 
-      // 隨機生成島嶼裝飾元素
-      const decorations = ['🌺', '🌻', '🦋', '🐚', '🌵', '🍃'];
-      const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
-
       return `
-        <div class="island-card island-shadow">
-          <!-- 島嶼頂部草地 -->
-          <div class="island-grass h-20 relative">
-            <span class="absolute top-2 right-3 text-xl opacity-60">${randomDeco}</span>
-            ${cg.certified ? `
-              <span class="absolute top-2 left-3 bg-white/90 text-island text-xs px-2 py-0.5 rounded-full font-bold">
-                ✓ 已認證
-              </span>
-            ` : ''}
-          </div>
-          
-          <!-- 島主頭像 -->
-          <div class="relative px-4">
-            <div class="absolute -top-10 left-1/2 transform -translate-x-1/2">
-              <div class="relative">
-                <img src="${cg.avatar}" alt="${cg.name}" 
-                     class="w-20 h-20 rounded-full border-4 border-white object-cover shadow-xl">
-                <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-island rounded-full flex items-center justify-center text-white text-xs border-2 border-white">
-                  ${cg.experience}年
+        <div class="island-wrapper island-shadow">
+          <!-- 海水背景 -->
+          <div class="bg-gradient-to-br from-ocean-dark to-ocean rounded-2xl p-4">
+            <!-- 島嶼本體 -->
+            <div class="island-body h-64 ${randomShape}" style="background: linear-gradient(145deg, #86EFAC 0%, #22C55E 40%, #16A34A 70%, #15803D 100%);">
+              
+              <!-- 沙灘邊緣 -->
+              <div style="position:absolute;inset:-4px;background:linear-gradient(145deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%);${randomShape}z-index:-1;"></div>
+              
+              <!-- 島上的樹叢裝飾 -->
+              ${treePositions.map(t => `
+                <div style="
+                  position:absolute;
+                  left:${t.x}%;
+                  top:${t.y}%;
+                  width:${t.size}px;
+                  height:${t.size}px;
+                  background:radial-gradient(circle, #166534 40%, transparent 70%);
+                  border-radius:50%;
+                  opacity:0.7;
+                "></div>
+              `).join('')}
+              
+              <!-- 島主頭像 - 島上的房子 -->
+              <div class="island-center">
+                <div class="relative inline-block">
+                  <img src="${cg.avatar}" alt="${cg.name}" 
+                       class="w-20 h-20 rounded-full border-4 border-amber-300 object-cover shadow-2xl">
+                  ${cg.certified ? `
+                    <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-island rounded-full flex items-center justify-center text-white text-xs border-2 border-white shadow-lg">
+                      ✓
+                    </div>
+                  ` : ''}
+                </div>
+                
+                <!-- 島主名字 -->
+                <h3 class="font-display font-bold text-lg text-white mt-3 drop-shadow-lg">${cg.name}</h3>
+                <p class="text-white/80 text-sm">📍 ${cg.location}</p>
+                
+                <!-- 評價 -->
+                <div class="flex items-center justify-center gap-1 mt-1">
+                  <span class="star-coral text-sm">★★★★★</span>
+                  <span class="font-bold text-white text-sm">${cg.rating}</span>
+                  <span class="text-white/60 text-xs">(${cg.reviews})</span>
+                </div>
+                
+                <!-- 年資 -->
+                <div class="inline-block bg-white/20 backdrop-blur px-3 py-1 rounded-full mt-2">
+                  <span class="text-white text-xs">🌴 ${cg.experience}年經驗</span>
                 </div>
               </div>
+              
+              <!-- 服務類型標籤 - 島上設施標示 -->
+              <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-1 flex-wrap px-2">
+                ${servicesHtml}
+              </div>
             </div>
           </div>
           
-          <!-- 島主資訊 -->
-          <div class="pt-12 pb-4 px-4 text-center bg-white">
-            <h3 class="font-display font-bold text-xl text-night mb-1">${cg.name}</h3>
-            <div class="flex items-center justify-center gap-2 mb-2">
-              <span class="text-gray-500 text-sm">📍 ${cg.location}</span>
-              <span class="text-gray-300">|</span>
-              <span class="text-gray-500 text-sm">${cg.age}歲 ${cg.gender}</span>
-            </div>
+          <!-- 島嶼資訊底板 -->
+          <div class="bg-white rounded-b-xl p-4 -mt-2 relative z-10">
+            <p class="text-gray-600 text-sm line-clamp-2 mb-3 text-center">${cg.intro}</p>
             
-            <!-- 評價 -->
-            <div class="flex items-center justify-center gap-1 mb-3">
-              <div class="flex">
-                ${Array(5).fill(0).map((_, i) => `<span class="${i < Math.floor(cg.rating) ? 'text-coral' : 'text-gray-300'}">★</span>`).join('')}
-              </div>
-              <span class="font-bold text-night">${cg.rating}</span>
-              <span class="text-gray-400 text-sm">(${cg.reviews})</span>
-            </div>
-            
-            <!-- 服務類型 -->
-            <div class="flex flex-wrap justify-center gap-1 mb-3">
-              ${servicesHtml}
-            </div>
-            
-            <!-- 簡介 -->
-            <p class="text-gray-600 text-sm line-clamp-2 mb-4 px-2">${cg.intro}</p>
-            
-            <!-- 可服務時段提示 -->
-            <div class="text-xs text-gray-400 mb-3">
-              ${cg.availability.weekdays.length > 0 ? `平日: ${cg.availability.weekdays[0]}` : ''}
-              ${cg.availability.weekends.length > 0 ? ` | 週末: ${cg.availability.weekends[0]}` : ''}
-            </div>
-            
-            <!-- 底部價格與預約 -->
-            <div class="flex items-center justify-between pt-3 border-t">
+            <div class="flex items-center justify-between">
               <div>
                 <span class="text-2xl font-bold text-coral">$${cg.price}</span>
                 <span class="text-gray-400 text-sm">/小時</span>
@@ -356,9 +403,6 @@
               </div>
             </div>
           </div>
-          
-          <!-- 島嶼沙灘底部 -->
-          <div class="island-beach h-3"></div>
         </div>
       `;
     }
@@ -367,7 +411,6 @@
       const search = document.getElementById('searchInput').value.trim();
       const type = document.getElementById('typeFilter').value;
       const region = document.getElementById('regionFilter').value;
-      const priceRange = document.getElementById('priceFilter')?.value;
 
       filteredCaregivers = caregivers.filter(cg => {
         if (search) {
@@ -433,13 +476,9 @@
       container.innerHTML = filteredCaregivers.map(cg => createIslandCard(cg)).join('');
     }
 
-    // 從 URL 參數初始化篩選
     function initFromUrl() {
       const params = getUrlParams();
-      
       if (params.type) {
-        const typeMap = { taipei: '台北', newtaipei: '新北', taoyuan: '桃園', taichung: '台中', kaohsiung: '高雄' };
-        // type params 可能是 service type
         const serviceMap = { home: 'home', daycare: 'daycare', respite: 'respite', medical: 'medical' };
         if (serviceMap[params.type]) {
           document.getElementById('typeFilter').value = serviceMap[params.type];
@@ -450,17 +489,14 @@
         const region = regionMap[params.region];
         if (region) document.getElementById('regionFilter').value = region;
       }
-      
       applyFilters();
     }
 
-    // 監聽排序變更
     document.getElementById('sortBy').addEventListener('change', () => {
       sortCaregivers();
       renderCaregivers();
     });
 
-    // 初始化
     document.addEventListener('DOMContentLoaded', () => {
       initFromUrl();
       updateCartCount();
