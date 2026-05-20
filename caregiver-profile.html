@@ -3,214 +3,255 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>照服員個人頁面 - 智慧照護Match</title>
+  <title>島主專頁 - 群島生態系</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#2E7D32',
-            secondary: '#FF8F00',
-            accent: '#D81B60',
-            info: '#1976D2',
-            dark: '#212121',
-            bgLight: '#FAFAFA'
+            ocean: '#0891B2',
+            'ocean-light': '#22D3EE',
+            sand: '#F5F0E8',
+            coral: '#F97316',
+            island: '#059669',
+            'island-light': '#34D399',
+            night: '#0F172A'
           },
-          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            display: ['Nunito', 'sans-serif']
+          }
         }
       }
     }
   </script>
   <style>
-    .star-rating { color: #FFB300; }
-    .card-hover { transition: all 0.3s ease; }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+    /* 島嶼背景 */
+    .island-hero {
+      background: linear-gradient(180deg, #22D3EE 0%, #0891B2 50%, #115E59 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .island-hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cellipse cx='720' cy='100' rx='500' ry='80' fill='%2316A34A'/%3E%3Cellipse cx='720' cy='90' rx='400' ry='60' fill='%2322C55E'/%3E%3Ccircle cx='600' cy='70' r='20' fill='%23166534'/%3E%3Ccircle cx='750' cy='50' r='25' fill='%23166534'/%3E%3Ccircle cx='850' cy='65' r='18' fill='%2315803D'/%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: cover;
+    }
+
+    .island-badge {
+      background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+      border-radius: 12px;
+      padding: 12px 20px;
+    }
+
+    .service-tag {
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    .service-tag:hover {
+      background: #DCFCE7;
+    }
+
+    .review-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .book-btn {
+      background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+      transition: all 0.3s ease;
+    }
+    .book-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.5);
+    }
   </style>
 </head>
-<body class="bg-bgLight font-sans text-dark">
-  <!-- Navigation -->
-  <nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center gap-2">
-          <a href="index.html" class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </div>
-            <span class="text-xl font-bold text-primary">智慧照護Match</span>
-          </a>
+<body class="bg-sand font-sans">
+  
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
+            <span class="text-2xl">🏝️</span>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xl text-night">群島生態系</span>
+          </div>
+        </a>
+        <a href="caregivers.html" class="flex items-center gap-2 text-ocean hover:underline">
+          ← 返回群島
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Island -->
+  <div class="island-hero pt-12 pb-32 px-4">
+    <div class="max-w-4xl mx-auto text-center text-white relative z-10">
+      <!-- Avatar -->
+      <div class="w-32 h-32 rounded-full bg-white/20 backdrop-blur border-4 border-white/50 mx-auto mb-4 flex items-center justify-center text-6xl shadow-2xl">
+        👩‍⚕️
+      </div>
+      <h1 class="font-display font-bold text-3xl mb-2">吳佩蓉 的島嶼</h1>
+      <div class="flex items-center justify-center gap-4 text-white/90 text-sm mb-4">
+        <span>📍 新北市永和區</span>
+        <span>⭐ 4.9 (47則評價)</span>
+        <span>🛡️ 認證照服員</span>
+      </div>
+      <div class="island-badge inline-flex items-center gap-2 text-night">
+        <span>🏆</span>
+        <span class="font-bold">服務達人</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 -mt-20 pb-12">
+    
+    <!-- Info Cards -->
+    <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+        <div class="text-3xl mb-1">📅</div>
+        <div class="text-2xl font-bold text-night">3年+</div>
+        <div class="text-sm text-gray-500">服務經驗</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+        <div class="text-3xl mb-1">👥</div>
+        <div class="text-2xl font-bold text-night">128</div>
+        <div class="text-sm text-gray-500">服務個案</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+        <div class="text-3xl mb-1">⭐</div>
+        <div class="text-2xl font-bold text-night">4.9</div>
+        <div class="text-sm text-gray-500">滿意度</div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+      <h2 class="font-bold text-lg text-night mb-4">🏝️ 關於這座島嶼</h2>
+      <p class="text-gray-600 leading-relaxed">
+        您好，我是吳佩蓉，擁有3年以上的長照服務經驗。專長包括：身體照顧服務、日常生活照顧、陪同就醫等。我耐心、細心，期待能為您和您的家人提供優質的照護服務。
+      </p>
+      <p class="text-gray-600 leading-relaxed mt-3">
+        持有<strong>照顧服務員丙級證照</strong>，已完成長照人員認證。希望用我的專業和愛心，守护每位需要照顧的長者。
+      </p>
+    </div>
+
+    <!-- Services -->
+    <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+      <h2 class="font-bold text-lg text-night mb-4">🛠️ 提供的服務</h2>
+      <div class="flex flex-wrap gap-3">
+        <span class="service-tag">🛏️ 身體照顧服務</span>
+        <span class="service-tag">🏠 日常生活照顧</span>
+        <span class="service-tag">🚶 陪同就醫</span>
+        <span class="service-tag">🛁 沐浴照顧</span>
+        <span class="service-tag">💊 藥物提醒</span>
+        <span class="service-tag">🧘 復健運動</span>
+        <span class="service-tag">🍽️ 餐食照顧</span>
+        <span class="service-tag">🌙 喘息服務</span>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+      <h2 class="font-bold text-lg text-night mb-4">💰 收費標準</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 bg-sand rounded-xl">
+          <div class="text-sm text-gray-500">一般時段</div>
+          <div class="text-2xl font-bold text-night">$350<span class="text-sm font-normal text-gray-500">/小時</span></div>
+          <div class="text-xs text-gray-400 mt-1">週一至週五 08:00-18:00</div>
         </div>
-        <div class="hidden md:flex items-center gap-6">
-          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
-          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
-          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
-          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
-        </div>
-        <div class="flex items-center gap-3">
-          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
-            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
-          </a>
-          <a href="login.html" class="btn-primary text-sm">登入 / 註冊</a>
+        <div class="p-4 bg-orange-50 rounded-xl">
+          <div class="text-sm text-gray-500">特殊時段</div>
+          <div class="text-2xl font-bold text-coral">$450<span class="text-sm font-normal text-gray-500">/小時</span></div>
+          <div class="text-xs text-gray-400 mt-1">夜間、週末、國定假日</div>
         </div>
       </div>
     </div>
-  </nav>
 
-  <!-- Content -->
-  <div class="max-w-5xl mx-auto px-4 py-8" id="profileContent">
-    <!-- 動態載入 -->
-  </div>
+    <!-- Reviews -->
+    <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-bold text-lg text-night">⭐ 評價 (47)</h2>
+        <div class="flex text-yellow-400">★★★★★</div>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="review-card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">👩</div>
+            <div>
+              <div class="font-bold text-night">林小姐</div>
+              <div class="text-xs text-gray-400">2024/05/10</div>
+            </div>
+            <div class="ml-auto flex text-yellow-400 text-sm">★★★★★</div>
+          </div>
+          <p class="text-gray-600 text-sm">佩蓉姐非常細心，媽媽很喜歡她。下次還會預約！</p>
+        </div>
+        
+        <div class="review-card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">👨</div>
+            <div>
+              <div class="font-bold text-night">陳先生</div>
+              <div class="text-xs text-gray-400">2024/05/08</div>
+            </div>
+            <div class="ml-auto flex text-yellow-400 text-sm">★★★★★</div>
+          </div>
+          <p class="text-gray-600 text-sm">很專業，動作輕柔，老人家感到很安心。</p>
+        </div>
+        
+        <div class="review-card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">👵</div>
+            <div>
+              <div class="font-bold text-night">王太太</div>
+              <div class="text-xs text-gray-400">2024/05/05</div>
+            </div>
+            <div class="ml-auto flex text-yellow-400 text-sm">★★★★☆</div>
+          </div>
+          <p class="text-gray-600 text-sm">按時到達，服務態度很好，推薦！</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book Button -->
+    <div class="sticky bottom-4">
+      <a href="booking.html?caregiver=吳佩蓉" class="block w-full book-btn text-white py-4 rounded-2xl font-bold text-lg text-center shadow-xl">
+        🚢 預約這座島嶼
+      </a>
+    </div>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white py-8 mt-12">
-    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
-      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+  <footer class="bg-night text-white py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <span class="text-2xl">🏝️</span>
+        <span class="font-display font-bold">群島生態系</span>
+      </div>
+      <p class="text-gray-400 text-sm">© 2024 群島生態系長照服務平台 | 守護每座島嶼的幸福</p>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
-  <script>
-    function renderProfile() {
-      const params = getUrlParams();
-      const caregiverId = parseInt(params.id);
-      const cg = caregivers.find(c => c.id === caregiverId);
-
-      if (!cg) {
-        document.getElementById('profileContent').innerHTML = `
-          <div class="text-center py-16">
-            <h2 class="text-2xl font-bold mb-4">找不到這位照服員</h2>
-            <a href="caregivers.html" class="btn-primary inline-block">返回列表</a>
-          </div>
-        `;
-        return;
-      }
-
-      const cgReviews = reviews.filter(r => r.caregiverId === cg.id);
-      
-      document.getElementById('profileContent').innerHTML = `
-        <!-- Back Button -->
-        <a href="caregivers.html" class="inline-flex items-center gap-1 text-gray-600 hover:text-primary mb-6">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          返回列表
-        </a>
-
-        <!-- Profile Card -->
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
-          <div class="p-6">
-            <div class="flex flex-col md:flex-row gap-6">
-              <img src="${cg.avatar}" alt="${cg.name}" class="w-32 h-32 rounded-full object-cover mx-auto md:mx-0">
-              <div class="flex-1 text-center md:text-left">
-                <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
-                  <h1 class="text-2xl font-bold">${cg.name}</h1>
-                  ${cg.certified ? '<span class="bg-green-500 text-white text-xs px-2 py-1 rounded">已認證</span>' : ''}
-                </div>
-                <p class="text-gray-500 mb-3">${cg.location}｜${cg.age}歲｜${cg.gender}</p>
-                <div class="flex items-center justify-center md:justify-start gap-2 mb-4">
-                  <span class="star-rating text-lg">${getStarRating(cg.rating)}</span>
-                  <span class="font-bold text-lg">${cg.rating}</span>
-                  <span class="text-gray-400">(${cg.reviews}則評價)</span>
-                </div>
-                <p class="text-gray-600">${cg.intro}</p>
-              </div>
-            </div>
-
-            <!-- Quick Info -->
-            <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t">
-              <div class="text-center">
-                <p class="text-2xl font-bold text-primary">${cg.experience}</p>
-                <p class="text-sm text-gray-500">年經驗</p>
-              </div>
-              <div class="text-center">
-                <p class="text-2xl font-bold text-accent">$${cg.price}</p>
-                <p class="text-sm text-gray-500">元/小時</p>
-              </div>
-              <div class="text-center">
-                <p class="text-2xl font-bold text-secondary">${cg.reviews}</p>
-                <p class="text-sm text-gray-500">服務次數</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Services & Availability -->
-        <div class="grid md:grid-cols-2 gap-6 mb-6">
-          <!-- Services -->
-          <div class="bg-white rounded-xl shadow-sm p-6">
-            <h2 class="text-lg font-bold mb-4">服務項目</h2>
-            <div class="flex flex-wrap gap-2">
-              ${cg.services.map((s, i) => `
-                <span class="bg-green-100 text-primary px-4 py-2 rounded-lg font-medium">${cg.serviceNames[i]}</span>
-              `).join('')}
-            </div>
-            <div class="mt-4">
-              <p class="text-sm text-gray-500">可服務時段</p>
-              <div class="mt-2 space-y-2">
-                ${cg.availability.weekdays.length > 0 ? `
-                  <div class="flex items-center gap-2">
-                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">平日</span>
-                    <span class="text-sm">${cg.availability.weekdays.join('、')}</span>
-                  </div>
-                ` : ''}
-                ${cg.availability.weekends.length > 0 ? `
-                  <div class="flex items-center gap-2">
-                    <span class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded">週末</span>
-                    <span class="text-sm">${cg.availability.weekends.join('、')}</span>
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-          </div>
-
-          <!-- Booking CTA -->
-          <div class="bg-gradient-to-br from-primary to-green-600 rounded-xl shadow-sm p-6 text-white">
-            <h2 class="text-lg font-bold mb-4">立即預約</h2>
-            <p class="text-green-100 mb-6">選擇適合的時段，讓 ${cg.name} 為您服務</p>
-            <a href="booking.html?caregiverId=${cg.id}" class="block w-full bg-white text-primary text-center py-3 rounded-lg font-bold hover:bg-green-50 transition-colors">
-              選擇時段預約
-            </a>
-            <p class="text-center text-green-200 text-sm mt-4">${cg.location}·${cg.serviceNames.join('、')}</p>
-          </div>
-        </div>
-
-        <!-- Reviews -->
-        <div class="bg-white rounded-xl shadow-sm p-6">
-          <h2 class="text-lg font-bold mb-4">服務評價</h2>
-          ${cgReviews.length > 0 ? `
-            <div class="space-y-4">
-              ${cgReviews.map(r => `
-                <div class="border-b pb-4 last:border-0">
-                  <div class="flex justify-between items-start mb-2">
-                    <div>
-                      <span class="font-medium">${r.userName}</span>
-                      <span class="star-rating text-sm ml-2">${getStarRating(r.rating)}</span>
-                    </div>
-                    <span class="text-sm text-gray-400">${r.date}</span>
-                  </div>
-                  <p class="text-gray-600">${r.content}</p>
-                </div>
-              `).join('')}
-            </div>
-          ` : `
-            <p class="text-gray-500 text-center py-8">尚無評價</p>
-          `}
-        </div>
-      `;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      renderProfile();
-      updateCartCount();
-    });
-  </script>
 </body>
 </html>

@@ -3,220 +3,402 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>管理後台 - 智慧照護Match</title>
+  <title>管理後台 - 群島生態系</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#2E7D32',
-            secondary: '#FF8F00',
-            accent: '#D81B60',
-            info: '#1976D2',
-            dark: '#212121',
-            bgLight: '#FAFAFA'
+            ocean: '#0891B2',
+            'ocean-light': '#22D3EE',
+            sand: '#F5F0E8',
+            coral: '#F97316',
+            island: '#059669',
+            'island-light': '#34D399',
+            night: '#0F172A'
           },
-          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            display: ['Nunito', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    .admin-sidebar {
+      background: linear-gradient(180deg, #115E59 0%, #134E4A 100%);
+      min-height: calc(100vh - 73px);
+    }
+    
+    .nav-item {
+      transition: all 0.2s ease;
+    }
+    .nav-item:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .nav-item.active {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid #E2E8F0;
+      font-weight: 600;
+      color: #64748B;
+      font-size: 14px;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #F1F5F9;
+      color: #334155;
+      font-size: 14px;
+    }
+    .data-table tr:hover td {
+      background: #F8FAFC;
+    }
+
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
 </head>
-<body class="bg-bgLight font-sans text-dark">
-  <!-- Navigation -->
-  <nav class="bg-dark text-white shadow-lg sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center gap-2">
-          <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
+<body class="bg-gray-100 font-sans">
+  
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center">
+            <span class="text-xl">🏝️</span>
           </div>
-          <span class="text-xl font-bold">智慧照護Match 管理後台</span>
+          <div>
+            <span class="font-display font-bold text-lg text-night">群島生態系</span>
+            <span class="ml-2 text-xs bg-coral text-white px-2 py-0.5 rounded">管理後台</span>
+          </div>
         </div>
         <div class="flex items-center gap-4">
-          <span class="text-sm text-gray-300">
-            <span id="adminName">管理員</span>
-          </span>
-          <a href="index.html" onclick="logout()" class="text-sm hover:text-red-400">登出</a>
+          <span class="text-sm text-gray-500">管理員帳號</span>
+          <a href="index.html" class="text-sm text-gray-400 hover:text-red-500">🚪 登出</a>
         </div>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Sidebar + Content -->
-  <div class="flex">
+  <div class="flex max-w-7xl mx-auto">
+    
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-sm min-h-screen">
-      <nav class="p-4 space-y-1">
-        <button onclick="showSection('dashboard')" id="nav-dashboard" class="nav-btn w-full text-left px-4 py-3 rounded-lg bg-primary text-white font-medium">
+    <aside class="admin-sidebar w-56 py-6 flex-shrink-0">
+      <nav class="px-4 space-y-1">
+        <a href="#" onclick="showSection('dashboard')" class="nav-item active flex items-center gap-3 px-4 py-3 rounded-xl text-white" data-section="dashboard">
           📊 儀表板
-        </button>
-        <button onclick="showSection('caregivers')" id="nav-caregivers" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
-          👤 照服員管理
-        </button>
-        <button onclick="showSection('users')" id="nav-users" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
+        </a>
+        <a href="#" onclick="showSection('users')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="users">
           👥 會員管理
-        </button>
-        <button onclick="showSection('bookings')" id="nav-bookings" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
+        </a>
+        <a href="#" onclick="showSection('bookings')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="bookings">
           📅 預約管理
-        </button>
-        <button onclick="showSection('products')" id="nav-products" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
-          📦 商品管理
-        </button>
-        <button onclick="showSection('orders')" id="nav-orders" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
-          🛒 訂單管理
-        </button>
+        </a>
+        <a href="#" onclick="showSection('products')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="products">
+          🛒 商品管理
+        </a>
+        <a href="#" onclick="showSection('caregivers')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="caregivers">
+          🏝️ 照服員管理
+        </a>
+        <a href="#" onclick="showSection('settings')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="settings">
+          ⚙️ 系統設定
+        </a>
       </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-8">
-      <div id="section-dashboard" class="section-content">
-        <!-- 儀表板內容 -->
-        <h1 class="text-2xl font-bold mb-6">系統概覽</h1>
-        <div class="grid md:grid-cols-4 gap-6 mb-8">
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <p class="text-gray-500 text-sm">照服員數</p>
-            <p class="text-3xl font-bold text-primary" id="stat-caregivers">0</p>
+    <main class="flex-1 p-6">
+      
+      <!-- Dashboard Section -->
+      <div id="section-dashboard" class="section">
+        <h1 class="font-display font-bold text-2xl text-night mb-6">📊 平台概覽</h1>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div class="stat-card">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm text-gray-500">照服員總數</div>
+                <div class="text-3xl font-bold text-night">48</div>
+              </div>
+              <div class="text-4xl">👩‍⚕️</div>
+            </div>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <p class="text-gray-500 text-sm">註冊會員</p>
-            <p class="text-3xl font-bold text-info" id="stat-users">0</p>
+          <div class="stat-card">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm text-gray-500">會員總數</div>
+                <div class="text-3xl font-bold text-night">326</div>
+              </div>
+              <div class="text-4xl">👥</div>
+            </div>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <p class="text-gray-500 text-sm">本月訂單</p>
-            <p class="text-3xl font-bold text-secondary" id="stat-bookings">0</p>
+          <div class="stat-card">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm text-gray-500">本月訂單</div>
+                <div class="text-3xl font-bold text-coral">$128,400</div>
+              </div>
+              <div class="text-4xl">💰</div>
+            </div>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <p class="text-gray-500 text-sm">商品總數</p>
-            <p class="text-3xl font-bold text-accent" id="stat-products">0</p>
+          <div class="stat-card">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm text-gray-500">待處理預約</div>
+                <div class="text-3xl font-bold text-ocean">12</div>
+              </div>
+              <div class="text-4xl">📅</div>
+            </div>
           </div>
         </div>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4">最近預約</h3>
-            <div id="recent-bookings" class="space-y-3"></div>
-          </div>
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4">熱門商品</h3>
-            <div id="popular-products" class="space-y-3"></div>
-          </div>
-        </div>
-      </div>
 
-      <div id="section-caregivers" class="section-content hidden">
-        <h1 class="text-2xl font-bold mb-6">照服員管理</h1>
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <table class="w-full">
-            <thead class="bg-gray-50">
+        <!-- Recent Bookings Table -->
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+          <h2 class="font-bold text-lg text-night mb-4">📋 最新預約</h2>
+          <table class="data-table">
+            <thead>
               <tr>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">姓名</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">地區</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">服務項目</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">評價</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">狀態</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">操作</th>
+                <th>個案</th>
+                <th>照服員</th>
+                <th>服務項目</th>
+                <th>日期/時段</th>
+                <th>狀態</th>
               </tr>
             </thead>
-            <tbody id="caregivers-table" class="divide-y"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div id="section-users" class="section-content hidden">
-        <h1 class="text-2xl font-bold mb-6">會員管理</h1>
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <table class="w-full">
-            <thead class="bg-gray-50">
+            <tbody>
               <tr>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">姓名</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Email</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">身份</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">註冊日期</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">操作</th>
-              </tr>
-            </thead>
-            <tbody id="users-table" class="divide-y">
-              <tr>
-                <td class="px-4 py-3">系統管理員</td>
-                <td class="px-4 py-3">123@gmail.com</td>
-                <td class="px-4 py-3"><span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-xs">管理員</span></td>
-                <td class="px-4 py-3">2026-01-01</td>
-                <td class="px-4 py-3">-</td>
+                <td class="font-medium">徐詠瀚</td>
+                <td>吳佩蓉</td>
+                <td>身體照顧服務</td>
+                <td>2024/05/20 09:00-12:00</td>
+                <td><span class="status-badge bg-yellow-100 text-yellow-700">待確認</span></td>
               </tr>
               <tr>
-                <td class="px-4 py-3">示範會員</td>
-                <td class="px-4 py-3">demo@example.com</td>
-                <td class="px-4 py-3"><span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-xs">一般會員</span></td>
-                <td class="px-4 py-3">2026-04-01</td>
-                <td class="px-4 py-3">
-                  <button class="text-red-500 text-sm hover:underline">停權</button>
-                </td>
+                <td class="font-medium">陳美玲</td>
+                <td>王小明</td>
+                <td>陪同就醫</td>
+                <td>2024/05/20 14:00-17:00</td>
+                <td><span class="status-badge bg-green-100 text-green-700">已確認</span></td>
+              </tr>
+              <tr>
+                <td class="font-medium">林先生</td>
+                <td>陳雅惠</td>
+                <td>復健運動</td>
+                <td>2024/05/21 09:00-11:00</td>
+                <td><span class="status-badge bg-green-100 text-green-700">已確認</span></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div id="section-bookings" class="section-content hidden">
-        <h1 class="text-2xl font-bold mb-6">預約管理</h1>
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <table class="w-full">
-            <thead class="bg-gray-50">
+      <!-- Users Section -->
+      <div id="section-users" class="section hidden">
+        <h1 class="font-display font-bold text-2xl text-night mb-6">👥 會員管理</h1>
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+          <table class="data-table">
+            <thead>
               <tr>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">預約編號</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">照服員</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">日期</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">時段</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">金額</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">狀態</th>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>Email</th>
+                <th>電話</th>
+                <th>身份</th>
+                <th>註冊日期</th>
+                <th>操作</th>
               </tr>
             </thead>
-            <tbody id="bookings-table" class="divide-y"></tbody>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td class="font-medium">吳佩蓉</td>
+                <td>peirong@example.com</td>
+                <td>0912-XXX-XXX</td>
+                <td><span class="status-badge bg-blue-100 text-blue-700">照服員</span></td>
+                <td>2024/01/15</td>
+                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
+              </tr>
+              <tr>
+                <td>002</td>
+                <td class="font-medium">徐詠瀚</td>
+                <td>xuyonghan@example.com</td>
+                <td>0918-XXX-XXX</td>
+                <td><span class="status-badge bg-gray-100 text-gray-700">一般會員</span></td>
+                <td>2024/03/20</td>
+                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
 
-      <div id="section-products" class="section-content hidden">
-        <h1 class="text-2xl font-bold mb-6">商品管理</h1>
-        <div class="flex justify-between items-center mb-4">
-          <p class="text-gray-500">共 <span id="product-count">0</span> 項商品</p>
-          <button class="btn-primary text-sm">+ 新增商品</button>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <table class="w-full">
-            <thead class="bg-gray-50">
+      <!-- Bookings Section -->
+      <div id="section-bookings" class="section hidden">
+        <h1 class="font-display font-bold text-2xl text-night mb-6">📅 預約管理</h1>
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+          <table class="data-table">
+            <thead>
               <tr>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">商品</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">分類</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">價格</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">庫存</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">操作</th>
+                <th>預約編號</th>
+                <th>個案姓名</th>
+                <th>照服員</th>
+                <th>服務項目</th>
+                <th>日期/時段</th>
+                <th>金額</th>
+                <th>狀態</th>
+                <th>操作</th>
               </tr>
             </thead>
-            <tbody id="products-table" class="divide-y"></tbody>
+            <tbody>
+              <tr>
+                <td>#B001</td>
+                <td class="font-medium">徐詠瀚</td>
+                <td>吳佩蓉</td>
+                <td>身體照顧服務</td>
+                <td>2024/05/20 09:00</td>
+                <td>$1,050</td>
+                <td><span class="status-badge bg-yellow-100 text-yellow-700">待確認</span></td>
+                <td><button class="text-ocean hover:underline text-sm">處理</button></td>
+              </tr>
+              <tr>
+                <td>#B002</td>
+                <td class="font-medium">陳美玲</td>
+                <td>王小明</td>
+                <td>陪同就醫</td>
+                <td>2024/05/20 14:00</td>
+                <td>$1,400</td>
+                <td><span class="status-badge bg-green-100 text-green-700">已完成</span></td>
+                <td><button class="text-gray-400 text-sm">檢視</button></td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
 
-      <div id="section-orders" class="section-content hidden">
-        <h1 class="text-2xl font-bold mb-6">訂單管理</h1>
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <table class="w-full">
-            <thead class="bg-gray-50">
+      <!-- Products Section -->
+      <div id="section-products" class="section hidden">
+        <h1 class="font-display font-bold text-2xl text-night mb-6">🛒 商品管理</h1>
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+          <table class="data-table">
+            <thead>
               <tr>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">訂單編號</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">商品名稱</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">數量</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">金額</th>
+                <th>圖片</th>
+                <th>商品名稱</th>
+                <th>分類</th>
+                <th>原價</th>
+                <th>優惠價</th>
+                <th>庫存</th>
+                <th>操作</th>
               </tr>
             </thead>
-            <tbody id="orders-table" class="divide-y"></tbody>
+            <tbody>
+              <tr>
+                <td><span class="text-2xl">🦽</span></td>
+                <td class="font-medium">輕量鋁合金輪椅</td>
+                <td>行動輔具</td>
+                <td>$3,580</td>
+                <td class="text-coral font-bold">$2,680</td>
+                <td>45</td>
+                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
+              </tr>
+              <tr>
+                <td><span class="text-2xl">🛏️</span></td>
+                <td class="font-medium">三折式病床床墊</td>
+                <td>日常照護</td>
+                <td>$5,120</td>
+                <td class="text-coral font-bold">$4,200</td>
+                <td>28</td>
+                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
+              </tr>
+            </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Caregivers Section -->
+      <div id="section-caregivers" class="section hidden">
+        <h1 class="font-display font-bold text-2xl text-night mb-6">🏝️ 照服員管理</h1>
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>服務區域</th>
+                <th>專長</th>
+                <th>評分</th>
+                <th>服務次數</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-medium">吳佩蓉</td>
+                <td>新北市永和區</td>
+                <td>身體照顧、日常生活</td>
+                <td>⭐ 4.9</td>
+                <td>128</td>
+                <td><span class="status-badge bg-green-100 text-green-700">正常</span></td>
+                <td><button class="text-ocean hover:underline text-sm">審核</button></td>
+              </tr>
+              <tr>
+                <td class="font-medium">王小明</td>
+                <td>新北市板橋區</td>
+                <td>陪同就醫、復健</td>
+                <td>⭐ 4.8</td>
+                <td>96</td>
+                <td><span class="status-badge bg-green-100 text-green-700">正常</span></td>
+                <td><button class="text-ocean hover:underline text-sm">審核</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Settings Section -->
+      <div id="section-settings" class="section hidden">
+        <h1 class="font-display font-bold text-2xl text-night mb-6">⚙️ 系統設定</h1>
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+          <h3 class="font-bold text-night mb-4">基本設定</h3>
+          <div class="space-y-4 max-w-lg">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">平台名稱</label>
+              <input type="text" value="群島生態系" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-ocean">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">聯絡Email</label>
+              <input type="email" value="admin@care-match.com" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-ocean">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">客服電話</label>
+              <input type="tel" value="02-XXXX-XXXX" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-ocean">
+            </div>
+            <button class="bg-gradient-to-r from-ocean to-island text-white px-6 py-2.5 rounded-xl font-bold">💾 儲存設定</button>
+          </div>
         </div>
       </div>
     </main>
@@ -225,165 +407,20 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
-    // 檢查是否為管理員
-    function checkAdmin() {
-      if (!currentUser || currentUser.role !== 'admin') {
-        alert('此頁面僅限管理員存取');
-        window.location.href = 'login.html';
-        return false;
-      }
-      return true;
-    }
-
-    function initAdmin() {
-      if (!checkAdmin()) return;
+    function showSection(name) {
+      // Hide all sections
+      document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+      // Show target section
+      document.getElementById(`section-${name}`).classList.remove('hidden');
       
-      document.getElementById('adminName').textContent = currentUser.name;
-      loadStats();
-      loadCaregiversTable();
-      loadProductsTable();
-      loadBookingsTable();
-    }
-
-    function showSection(section) {
-      // 隱藏所有區塊
-      document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('bg-primary', 'text-white');
-        btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+      // Update nav active state
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        item.classList.add('text-white/80');
       });
-
-      // 顯示選中區塊
-      document.getElementById('section-' + section).classList.remove('hidden');
-      const navBtn = document.getElementById('nav-' + section);
-      if (navBtn) {
-        navBtn.classList.add('bg-primary', 'text-white');
-        navBtn.classList.remove('text-gray-600', 'hover:bg-gray-100');
-      }
+      document.querySelector(`[data-section="${name}"]`).classList.add('active');
+      document.querySelector(`[data-section="${name}"]`).classList.remove('text-white/80');
     }
-
-    function loadStats() {
-      document.getElementById('stat-caregivers').textContent = caregivers.length;
-      document.getElementById('stat-users').textContent = '2';
-      document.getElementById('stat-bookings').textContent = orders.bookings.length;
-      document.getElementById('stat-products').textContent = products.length;
-
-      // 最近預約
-      const recentBookings = orders.bookings.slice(-5).reverse();
-      document.getElementById('recent-bookings').innerHTML = recentBookings.length > 0
-        ? recentBookings.map(b => `
-            <div class="flex justify-between items-center py-2 border-b last:border-0">
-              <div>
-                <p class="font-medium">${b.caregiverName}</p>
-                <p class="text-sm text-gray-500">${b.date} ${b.time}</p>
-              </div>
-              <span class="text-accent font-bold">$${b.totalPrice}</span>
-            </div>
-          `).join('')
-        : '<p class="text-gray-500">尚無預約記錄</p>';
-
-      // 熱門商品
-      const popular = [...products].sort((a, b) => b.sold - a.sold).slice(0, 3);
-      document.getElementById('popular-products').innerHTML = popular.map(p => `
-        <div class="flex justify-between items-center py-2 border-b last:border-0">
-          <div class="flex items-center gap-3">
-            <img src="${p.image}" class="w-10 h-10 rounded object-cover">
-            <div>
-              <p class="font-medium text-sm">${p.name}</p>
-              <p class="text-xs text-gray-500">已售 ${p.sold}</p>
-            </div>
-          </div>
-          <span class="font-bold text-accent">$${p.price}</span>
-        </div>
-      `).join('');
-    }
-
-    function loadCaregiversTable() {
-      document.getElementById('caregivers-table').innerHTML = caregivers.map(cg => `
-        <tr>
-          <td class="px-4 py-3">
-            <div class="flex items-center gap-3">
-              <img src="${cg.avatar}" class="w-10 h-10 rounded-full object-cover">
-              <span class="font-medium">${cg.name}</span>
-            </div>
-          </td>
-          <td class="px-4 py-3">${cg.location}</td>
-          <td class="px-4 py-3">${cg.serviceNames.join('、')}</td>
-          <td class="px-4 py-3">
-            <span class="star-rating">★</span> ${cg.rating}
-          </td>
-          <td class="px-4 py-3">
-            <span class="${cg.certified ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600'} px-2 py-0.5 rounded text-xs">
-              ${cg.certified ? '已認證' : '未認證'}
-            </span>
-          </td>
-          <td class="px-4 py-3">
-            <button class="text-primary text-sm hover:underline mr-2">編輯</button>
-            <button class="text-red-500 text-sm hover:underline">停權</button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function loadProductsTable() {
-      document.getElementById('product-count').textContent = products.length;
-      document.getElementById('products-table').innerHTML = products.map(p => `
-        <tr>
-          <td class="px-4 py-3">
-            <div class="flex items-center gap-3">
-              <img src="${p.image}" class="w-12 h-12 rounded object-cover">
-              <span class="font-medium">${p.name}</span>
-            </div>
-          </td>
-          <td class="px-4 py-3">${p.categoryName}</td>
-          <td class="px-4 py-3 font-bold text-accent">$${p.price}</td>
-          <td class="px-4 py-3">
-            <span class="${p.stock > 10 ? 'text-green-600' : p.stock > 0 ? 'text-orange-600' : 'text-red-600'}">
-              ${p.stock > 10 ? '充足' : p.stock > 0 ? '僅剩 ' + p.stock : '補貨中'}
-            </span>
-          </td>
-          <td class="px-4 py-3">
-            <button class="text-primary text-sm hover:underline mr-2">編輯</button>
-            <button class="text-red-500 text-sm hover:underline">下架</button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function loadBookingsTable() {
-      if (orders.bookings.length === 0) {
-        document.getElementById('bookings-table').innerHTML = `
-          <tr>
-            <td colspan="6" class="px-4 py-8 text-center text-gray-500">尚無預約記錄</td>
-          </tr>
-        `;
-        return;
-      }
-      const statusColors = { pending: 'bg-yellow-100 text-yellow-700', confirmed: 'bg-green-100 text-green-700', completed: 'bg-blue-100 text-blue-700', cancelled: 'bg-gray-100 text-gray-500' };
-      const statusNames = { pending: '待確認', confirmed: '已確認', completed: '已完成', cancelled: '已取消' };
-      document.getElementById('bookings-table').innerHTML = orders.bookings.map(b => `
-        <tr>
-          <td class="px-4 py-3">#${b.id}</td>
-          <td class="px-4 py-3">${b.caregiverName}</td>
-          <td class="px-4 py-3">${b.date}</td>
-          <td class="px-4 py-3">${b.time}</td>
-          <td class="px-4 py-3 font-bold text-accent">$${b.totalPrice}</td>
-          <td class="px-4 py-3">
-            <span class="${statusColors[b.status] || 'bg-gray-100 text-gray-600'} px-2 py-0.5 rounded text-xs">
-              ${statusNames[b.status] || b.status}
-            </span>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function logout() {
-      currentUser = null;
-      saveToStorage();
-      window.location.href = 'index.html';
-    }
-
-    document.addEventListener('DOMContentLoaded', initAdmin);
   </script>
 </body>
 </html>

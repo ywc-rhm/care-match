@@ -3,242 +3,439 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>預約照服員 - 智慧照護Match</title>
+  <title>預約服務 - 群島生態系</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#2E7D32',
-            secondary: '#FF8F00',
-            accent: '#D81B60',
-            info: '#1976D2',
-            dark: '#212121',
-            bgLight: '#FAFAFA'
+            ocean: '#0891B2',
+            'ocean-light': '#22D3EE',
+            sand: '#F5F0E8',
+            coral: '#F97316',
+            island: '#059669',
+            'island-light': '#34D399',
+            night: '#0F172A'
           },
-          fontFamily: { sans: ['Noto Sans TC', 'sans-serif'] }
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            display: ['Nunito', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    .ocean-bg {
+      background: linear-gradient(180deg, #E0F2FE 0%, #F5F0E8 100%);
+    }
+    
+    .form-input {
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      border-color: #0891B2;
+      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+      outline: none;
+    }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 20px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .calendar-day:hover:not(.disabled) {
+      background: #F0FDF4;
+    }
+    .calendar-day.selected {
+      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
+      color: white;
+      font-weight: bold;
+    }
+    .calendar-day.disabled {
+      color: #CBD5E1;
+      cursor: not-allowed;
+    }
+    .calendar-day.today {
+      border: 2px solid #22C55E;
+    }
+
+    .time-slot {
+      padding: 10px 16px;
+      border: 2px solid #E2E8F0;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .time-slot:hover {
+      border-color: #0891B2;
+    }
+    .time-slot.selected {
+      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
+      color: white;
+      border-color: transparent;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+      transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.5);
+    }
+
+    .booking-step {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .step-indicator {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .step-indicator.active {
+      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
+      color: white;
+    }
+    .step-indicator.done {
+      background: #22C55E;
+      color: white;
+    }
+    .step-indicator.inactive {
+      background: #E2E8F0;
+      color: #9CA3AF;
+    }
+  </style>
 </head>
-<body class="bg-bgLight font-sans text-dark">
-  <!-- Navigation -->
-  <nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center gap-2">
-          <a href="index.html" class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </div>
-            <span class="text-xl font-bold text-primary">智慧照護Match</span>
-          </a>
-        </div>
-        <div class="hidden md:flex items-center gap-6">
-          <a href="index.html" class="text-dark hover:text-primary font-medium">首頁</a>
-          <a href="caregivers.html" class="text-dark hover:text-primary font-medium">找照服員</a>
-          <a href="shop.html" class="text-dark hover:text-primary font-medium">輔具商城</a>
-          <a href="dashboard.html" class="text-dark hover:text-primary font-medium">我的專區</a>
-        </div>
-        <div class="flex items-center gap-3">
-          <a href="cart.html" class="relative p-2 text-dark hover:text-primary">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
-            <span id="cartCount" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
-          </a>
-          <a href="login.html" class="btn-primary text-sm">登入 / 註冊</a>
-        </div>
+<body class="ocean-bg font-sans min-h-screen">
+  
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
+            <span class="text-2xl">🏝️</span>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xl text-night">群島生態系</span>
+          </div>
+        </a>
+        <a href="caregivers.html" class="flex items-center gap-2 text-ocean hover:underline">
+          ← 返回群島
+        </a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Content -->
-  <div class="max-w-3xl mx-auto px-4 py-8" id="bookingContent">
-    <!-- 動態載入 -->
-  </div>
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    
+    <!-- Title -->
+    <div class="text-center mb-8">
+      <h1 class="font-display font-bold text-2xl text-night mb-2">🚢 預約服務</h1>
+      <p class="text-gray-500">填寫以下資訊，島主將盡快與您聯繫確認</p>
+    </div>
+
+    <!-- Steps -->
+    <div class="flex items-center justify-center gap-4 mb-8">
+      <div class="flex items-center gap-2">
+        <div class="step-indicator active">1</div>
+        <span class="text-sm font-medium text-night">選擇時間</span>
+      </div>
+      <div class="w-12 h-0.5 bg-gray-200"></div>
+      <div class="flex items-center gap-2">
+        <div class="step-indicator inactive">2</div>
+        <span class="text-sm text-gray-400">填寫資料</span>
+      </div>
+      <div class="w-12 h-0.5 bg-gray-200"></div>
+      <div class="flex items-center gap-2">
+        <div class="step-indicator inactive">3</div>
+        <span class="text-sm text-gray-400">完成預約</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Select Date & Time -->
+    <div id="step1" class="booking-step mb-6">
+      <h2 class="font-bold text-lg text-night mb-4">📅 選擇服務日期與時段</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Calendar -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <button onclick="changeMonth(-1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">←</button>
+            <span id="currentMonth" class="font-bold text-night">2024年5月</span>
+            <button onclick="changeMonth(1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">→</button>
+          </div>
+          
+          <!-- Weekday Headers -->
+          <div class="calendar-grid mb-2">
+            <div class="text-center text-xs text-red-500 font-bold py-2">日</div>
+            <div class="text-center text-xs text-gray-500 font-bold py-2">一</div>
+            <div class="text-center text-xs text-gray-500 font-bold py-2">二</div>
+            <div class="text-center text-xs text-gray-500 font-bold py-2">三</div>
+            <div class="text-center text-xs text-gray-500 font-bold py-2">四</div>
+            <div class="text-center text-xs text-gray-500 font-bold py-2">五</div>
+            <div class="text-center text-xs text-red-500 font-bold py-2">六</div>
+          </div>
+          
+          <!-- Days Grid -->
+          <div id="calendarDays" class="calendar-grid"></div>
+          
+          <p class="text-xs text-gray-400 mt-3">⚠️ 淺色日期為週末，費用較高</p>
+        </div>
+
+        <!-- Time Slots -->
+        <div>
+          <h3 class="font-bold text-night mb-3">🕐 選擇時段</h3>
+          <div class="space-y-2 mb-4">
+            <div class="font-medium text-sm text-gray-600">上午時段</div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="selectTime(this, '08:00-12:00')" class="time-slot">08:00-12:00</button>
+            </div>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="font-medium text-sm text-gray-600">下午時段</div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="selectTime(this, '13:00-17:00')" class="time-slot">13:00-17:00</button>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="font-medium text-sm text-gray-600">晚間時段</div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="selectTime(this, '18:00-21:00')" class="time-slot">18:00-21:00</button>
+            </div>
+          </div>
+          
+          <!-- Selected Summary -->
+          <div id="selectedSummary" class="mt-6 p-4 bg-sand rounded-xl hidden">
+            <div class="text-sm text-gray-600">已選擇：</div>
+            <div class="font-bold text-night" id="selectedDateTime">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button onclick="goToStep2()" class="bg-gradient-to-r from-ocean to-island text-white px-6 py-3 rounded-xl font-bold">
+          下一步 →
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Fill Info -->
+    <div id="step2" class="booking-step mb-6 hidden">
+      <h2 class="font-bold text-lg text-night mb-4">👤 填寫服務資訊</h2>
+      
+      <form onsubmit="submitBooking(event)">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2">個案姓名 *</label>
+            <input type="text" required class="form-input w-full px-4 py-3" placeholder="請輸入個案姓名">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2">個案年齡 *</label>
+            <input type="number" required class="form-input w-full px-4 py-3" placeholder="年齡">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-600 mb-2">聯絡人姓名 *</label>
+            <input type="text" required class="form-input w-full px-4 py-3" placeholder="請輸入聯絡人姓名">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-600 mb-2">聯絡電話 *</label>
+            <input type="tel" required class="form-input w-full px-4 py-3" placeholder="0912-XXX-XXX">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-600 mb-2">服務地址 *</label>
+            <input type="text" required class="form-input w-full px-4 py-3" placeholder="新北市XX區XX路XX號">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-600 mb-2">服務項目 *</label>
+            <select required class="form-input form-select w-full px-4 py-3">
+              <option value="">請選擇服務項目</option>
+              <option>🛏️ 身體照顧服務</option>
+              <option>🏠 日常生活照顧</option>
+              <option>🚶 陪同就醫</option>
+              <option>🛁 沐浴照顧</option>
+              <option>🧘 復健運動</option>
+              <option>💊 藥物提醒</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-600 mb-2">特殊需求或注意事項</label>
+            <textarea rows="3" class="form-input w-full px-4 py-3" placeholder="請說明是否有特殊照護需求、過敏史、注意事項等"></textarea>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-between">
+          <button type="button" onclick="goToStep1()" class="px-6 py-3 border border-gray-300 rounded-xl font-medium hover:bg-gray-50">
+            ← 上一步
+          </button>
+          <button type="submit" class="submit-btn text-white px-8 py-3 rounded-xl font-bold">
+            🚢 確認預約
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div id="step3" class="booking-step mb-6 hidden text-center">
+      <div class="text-8xl mb-4">🎉</div>
+      <h2 class="font-display font-bold text-2xl text-night mb-4">預約成功！</h2>
+      <p class="text-gray-600 mb-6">島主將在24小時內與您聯繫確認詳細服務時間。</p>
+      <div class="bg-sand rounded-xl p-6 mb-6 text-left max-w-md mx-auto">
+        <div class="text-sm text-gray-500 mb-2">預約摘要</div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span>島主</span>
+            <span class="font-bold">吳佩蓉</span>
+          </div>
+          <div class="flex justify-between">
+            <span>日期</span>
+            <span class="font-bold" id="confirmDate">-</span>
+          </div>
+          <div class="flex justify-between">
+            <span>時段</span>
+            <span class="font-bold" id="confirmTime">-</span>
+          </div>
+        </div>
+      </div>
+      <a href="dashboard.html" class="inline-flex items-center gap-2 bg-gradient-to-r from-ocean to-island text-white px-6 py-3 rounded-xl font-bold">
+        ← 返回我的島嶼
+      </a>
+    </div>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white py-8 mt-12">
-    <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
-      <p>© 2026 智慧照護Match 版權所有 | 本網站為展示用途</p>
+  <footer class="bg-night text-white py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <span class="text-2xl">🏝️</span>
+        <span class="font-display font-bold">群島生態系</span>
+      </div>
+      <p class="text-gray-400 text-sm">© 2024 群島生態系長照服務平台</p>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
-    function renderBooking() {
-      const params = getUrlParams();
-      const caregiverId = parseInt(params.caregiverId);
-      const cg = caregivers.find(c => c.id === caregiverId);
+    let currentDate = new Date();
+    let selectedDate = null;
+    let selectedTime = null;
 
-      if (!cg) {
-        document.getElementById('bookingContent').innerHTML = `
-          <div class="text-center py-16">
-            <h2 class="text-2xl font-bold mb-4">請選擇要預約的照服員</h2>
-            <a href="caregivers.html" class="btn-primary inline-block">前往找照服員</a>
-          </div>
-        `;
-        return;
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      
+      document.getElementById('currentMonth').textContent = `${year}年${month + 1}月`;
+      
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      
+      const container = document.getElementById('calendarDays');
+      container.innerHTML = '';
+      
+      // Empty cells before first day
+      for (let i = 0; i < firstDay; i++) {
+        container.innerHTML += '<div class="calendar-day disabled"></div>';
       }
-
-      // 取得明天起的日期選項
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const dateOptions = [];
-      for (let i = 0; i < 14; i++) {
-        const d = new Date(tomorrow);
-        d.setDate(d.getDate() + i);
-        dateOptions.push(d.toISOString().split('T')[0]);
+      
+      // Days
+      for (let d = 1; d <= daysInMonth; d++) {
+        const isWeekend = (firstDay + d - 1) % 7 === 0 || (firstDay + d - 1) % 7 === 6;
+        const isToday = new Date().toDateString() === new Date(year, month, d).toDateString();
+        const classes = [
+          'calendar-day',
+          isWeekend ? 'text-red-400' : 'text-night',
+          isToday ? 'today' : '',
+          selectedDate === new Date(year, month, d).toDateString() ? 'selected' : ''
+        ].filter(Boolean).join(' ');
+        
+        container.innerHTML += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${d})">${d}</div>`;
       }
-
-      document.getElementById('bookingContent').innerHTML = `
-        <a href="caregiver-profile.html?id=${cg.id}" class="inline-flex items-center gap-1 text-gray-600 hover:text-primary mb-6">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          返回照服員頁面
-        </a>
-
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <!-- Caregiver Summary -->
-          <div class="p-6 border-b flex items-center gap-4 bg-gray-50">
-            <img src="${cg.avatar}" alt="${cg.name}" class="w-16 h-16 rounded-full object-cover">
-            <div>
-              <h2 class="font-bold text-lg">${cg.name}</h2>
-              <p class="text-gray-500 text-sm">${cg.location}｜${cg.serviceNames.join('、')}</p>
-              <p class="text-accent font-bold">$${cg.price}/小時</p>
-            </div>
-          </div>
-
-          <!-- Booking Form -->
-          <form onsubmit="submitBooking(event)" class="p-6">
-            <h3 class="font-bold text-lg mb-6">填寫預約資訊</h3>
-
-            <!-- Service Type -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-gray-700 mb-2">服務項目 *</label>
-              <select id="serviceType" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-                <option value="">請選擇服務項目</option>
-                ${cg.services.map((s, i) => `
-                  <option value="${s}">${cg.serviceNames[i]}</option>
-                `).join('')}
-              </select>
-            </div>
-
-            <!-- Date -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-gray-700 mb-2">服務日期 *</label>
-              <input type="date" id="serviceDate" required min="${dateOptions[0]}"
-                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-            </div>
-
-            <!-- Time -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-gray-700 mb-2">服務時段 *</label>
-              <select id="serviceTime" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary">
-                <option value="">請選擇時段</option>
-                <option value="08:00-10:00">08:00 - 10:00</option>
-                <option value="10:00-12:00">10:00 - 12:00</option>
-                <option value="14:00-16:00">14:00 - 16:00</option>
-                <option value="16:00-18:00">16:00 - 18:00</option>
-                <option value="19:00-21:00">19:00 - 21:00</option>
-              </select>
-            </div>
-
-            <!-- Hours -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-gray-700 mb-2">服務時數 *</label>
-              <select id="serviceHours" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary" onchange="updateTotal()">
-                <option value="1">1 小時</option>
-                <option value="2" selected>2 小時</option>
-                <option value="3">3 小時</option>
-                <option value="4">4 小時</option>
-                <option value="6">6 小時（半日）</option>
-                <option value="8">8 小時（全日）</option>
-              </select>
-            </div>
-
-            <!-- Case Info -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-gray-700 mb-2">個案狀況說明</label>
-              <textarea id="caseNotes" rows="3" placeholder="請描述需要照護的狀況、特殊需求或注意事項..."
-                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
-            </div>
-
-            <!-- Price Summary -->
-            <div class="bg-gray-50 rounded-lg p-4 mb-6">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-600">照服員</span>
-                <span>${cg.name}</span>
-              </div>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-600">單價</span>
-                <span>$${cg.price}/小時</span>
-              </div>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-600">時數</span>
-                <span id="hoursDisplay">2 小時</span>
-              </div>
-              <hr class="my-3">
-              <div class="flex justify-between items-center">
-                <span class="font-bold text-lg">預估費用</span>
-                <span id="totalPrice" class="font-bold text-2xl text-accent">$${cg.price * 2}</span>
-              </div>
-              <p class="text-xs text-gray-400 mt-2">* 實際費用以當日服務確認</p>
-            </div>
-
-            <button type="submit" class="w-full btn-secondary py-3 text-lg">送出預約</button>
-          </form>
-        </div>
-      `;
     }
 
-    function updateTotal() {
-      const params = getUrlParams();
-      const caregiverId = parseInt(params.caregiverId);
-      const cg = caregivers.find(c => c.id === caregiverId);
-      const hours = parseInt(document.getElementById('serviceHours').value);
-      
-      document.getElementById('hoursDisplay').textContent = hours + ' 小時';
-      document.getElementById('totalPrice').textContent = '$' + (cg.price * hours).toLocaleString();
+    function changeMonth(delta) {
+      currentDate.setMonth(currentDate.getMonth() + delta);
+      renderCalendar();
+    }
+
+    function selectDate(year, month, day) {
+      selectedDate = new Date(year, month, day).toDateString();
+      renderCalendar();
+      updateSummary();
+    }
+
+    function selectTime(el, time) {
+      document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedTime = time;
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const summary = document.getElementById('selectedSummary');
+      if (selectedDate || selectedTime) {
+        summary.classList.remove('hidden');
+        document.getElementById('selectedDateTime').textContent = 
+          `${selectedDate ? new Date(selectedDate).toLocaleDateString('zh-TW', {year:'numeric',month:'long',day:'numeric'}) : ''} ${selectedTime || ''}`;
+      }
+    }
+
+    function goToStep2() {
+      if (!selectedDate || !selectedTime) {
+        alert('請選擇日期和時段');
+        return;
+      }
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+    }
+
+    function goToStep1() {
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step1').classList.remove('hidden');
     }
 
     function submitBooking(e) {
       e.preventDefault();
-      
-      if (!checkLogin()) return;
-
-      const params = getUrlParams();
-      const caregiverId = parseInt(params.caregiverId);
-      const cg = caregivers.find(c => c.id === caregiverId);
-      const hours = parseInt(document.getElementById('serviceHours').value);
-
-      const booking = createBooking({
-        caregiverId: cg.id,
-        caregiverName: cg.name,
-        service: document.getElementById('serviceType').value,
-        date: document.getElementById('serviceDate').value,
-        time: document.getElementById('serviceTime').value,
-        hours: hours,
-        totalPrice: cg.price * hours,
-        notes: document.getElementById('caseNotes').value
-      });
-
-      alert('預約成功！\\n\\n照服員：' + cg.name + '\\n日期：' + booking.date + '\\n時段：' + booking.time + '\\n費用：$' + booking.totalPrice + '\\n\\n預約編號：' + booking.id + '\\n\\n請留意手機通知，照服員會儘快與您聯繫確認。');
-      window.location.href = 'dashboard.html';
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step3').classList.remove('hidden');
+      document.getElementById('confirmDate').textContent = new Date(selectedDate).toLocaleDateString('zh-TW', {year:'numeric',month:'long',day:'numeric'});
+      document.getElementById('confirmTime').textContent = selectedTime;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      renderBooking();
-      updateCartCount();
-    });
+    // Init
+    renderCalendar();
   </script>
 </body>
 </html>
