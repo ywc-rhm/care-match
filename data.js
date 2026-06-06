@@ -1,4 +1,4 @@
-// ===== 長照服務媒合平台 - 共享資料 =====
+// ===== 照護服務平台 - 共享資料 =====
 
 // 照服員資料
 const caregivers = [
@@ -56,7 +56,7 @@ const caregivers = [
     reviews: 156,
     experience: 10,
     certified: true,
-    intro: '十年以上長照經驗，專精失智症照護與認知訓練，家屬口碑極佳。',
+    intro: '十年以上照護經驗，專精失智症照護與認知訓練，家屬口碑極佳。',
     availability: {
       weekdays: ['09:00-18:00'],
       weekends: ['09:00-12:00']
@@ -76,7 +76,7 @@ const caregivers = [
     reviews: 203,
     experience: 15,
     certified: true,
-    intro: '全方位照服員，涵蓋所有長照項目，特別適合複雜照護需求個案。',
+    intro: '全方位照護工作者，涵蓋所有照護項目，特別適合複雜照護需求個案。',
     availability: {
       weekdays: ['07:00-19:00'],
       weekends: ['08:00-16:00']
