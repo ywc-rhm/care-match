@@ -105,18 +105,18 @@
   <div class="island-hero pt-12 pb-32 px-4">
     <div class="max-w-4xl mx-auto text-center text-white relative z-10">
       <!-- Avatar -->
-      <div class="w-32 h-32 rounded-full bg-white/20 backdrop-blur border-4 border-white/50 mx-auto mb-4 flex items-center justify-center text-6xl shadow-2xl">
-        👩‍⚕️
+      <div class="w-32 h-32 rounded-full bg-white/20 backdrop-blur border-4 border-white/50 mx-auto mb-4 flex items-center justify-center text-6xl shadow-2xl overflow-hidden">
+        <img id="profileAvatar" src="" alt="" class="w-full h-full object-cover">
       </div>
-      <h1 class="font-display font-bold text-3xl mb-2">吳佩蓉 的島嶼</h1>
+      <h1 class="font-display font-bold text-3xl mb-2"><span id="profileName">載入中...</span> 的島嶼</h1>
       <div class="flex items-center justify-center gap-4 text-white/90 text-sm mb-4">
-        <span>📍 新北市永和區</span>
-        <span>⭐ 4.9 (47則評價)</span>
-        <span>🛡️ 認證照服員</span>
+        <span id="profileLocation">📍 -</span>
+        <span id="profileRating">⭐ - (-則評價)</span>
+        <span id="profileBadge">🛡️ 認證照服員</span>
       </div>
       <div class="island-badge inline-flex items-center gap-2 text-night">
         <span>🏆</span>
-        <span class="font-bold">服務達人</span>
+        <span id="profileTitle" class="font-bold">服務達人</span>
       </div>
     </div>
   </div>
@@ -128,17 +128,17 @@
     <div class="grid grid-cols-3 gap-4 mb-6">
       <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
         <div class="text-3xl mb-1">📅</div>
-        <div class="text-2xl font-bold text-night">3年+</div>
+        <div class="text-2xl font-bold text-night"><span id="profileExperience">-</span>年</div>
         <div class="text-sm text-gray-500">服務經驗</div>
       </div>
       <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
         <div class="text-3xl mb-1">👥</div>
-        <div class="text-2xl font-bold text-night">128</div>
-        <div class="text-sm text-gray-500">服務個案</div>
+        <div class="text-2xl font-bold text-night"><span id="profileReviews">-</span>則</div>
+        <div class="text-sm text-gray-500">評價</div>
       </div>
       <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
         <div class="text-3xl mb-1">⭐</div>
-        <div class="text-2xl font-bold text-night">4.9</div>
+        <div class="text-2xl font-bold text-night" id="profileRating2">-</div>
         <div class="text-sm text-gray-500">滿意度</div>
       </div>
     </div>
@@ -146,26 +146,15 @@
     <!-- About -->
     <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
       <h2 class="font-bold text-lg text-night mb-4">🏝️ 關於這座島嶼</h2>
-      <p class="text-gray-600 leading-relaxed">
-        您好，我是吳佩蓉，擁有3年以上的照護服務經驗。專長包括：身體照顧服務、日常生活照顧、陪同就醫等。我耐心、細心，期待能為您和您的家人提供優質的照護服務。
-      </p>
-      <p class="text-gray-600 leading-relaxed mt-3">
-        持有<strong>照顧服務員丙級證照</strong>，已完成照護人員認證。希望用我的專業和愛心，守护每位需要照顧的長者。
-      </p>
+      <p id="profileIntro1" class="text-gray-600 leading-relaxed"></p>
+      <p id="profileIntro2" class="text-gray-600 leading-relaxed mt-3"></p>
     </div>
 
     <!-- Services -->
     <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
       <h2 class="font-bold text-lg text-night mb-4">🛠️ 提供的服務</h2>
-      <div class="flex flex-wrap gap-3">
-        <span class="service-tag">🛏️ 身體照顧服務</span>
-        <span class="service-tag">🏠 日常生活照顧</span>
-        <span class="service-tag">🚶 陪同就醫</span>
-        <span class="service-tag">🛁 沐浴照顧</span>
-        <span class="service-tag">💊 藥物提醒</span>
-        <span class="service-tag">🧘 復健運動</span>
-        <span class="service-tag">🍽️ 餐食照顧</span>
-        <span class="service-tag">🌙 喘息服務</span>
+      <div id="profileServices" class="flex flex-wrap gap-3">
+        <!-- 動態填充 -->
       </div>
     </div>
 
@@ -175,7 +164,7 @@
       <div class="grid grid-cols-2 gap-4">
         <div class="p-4 bg-sand rounded-xl">
           <div class="text-sm text-gray-500">一般時段</div>
-          <div class="text-2xl font-bold text-night">$350<span class="text-sm font-normal text-gray-500">/小時</span></div>
+          <div class="text-2xl font-bold text-night">$<span id="profilePrice">-</span><span class="text-sm font-normal text-gray-500">/小時</span></div>
           <div class="text-xs text-gray-400 mt-1">週一至週五 08:00-18:00</div>
         </div>
         <div class="p-4 bg-orange-50 rounded-xl">
@@ -234,7 +223,7 @@
 
     <!-- Book Button -->
     <div class="sticky bottom-4">
-      <a href="booking.html?caregiver=吳佩蓉" class="block w-full book-btn text-white py-4 rounded-2xl font-bold text-lg text-center shadow-xl">
+      <a id="profileBookingBtn" href="" class="block w-full book-btn text-white py-4 rounded-2xl font-bold text-lg text-center shadow-xl">
         🚢 預約這座島嶼
       </a>
     </div>
@@ -253,5 +242,57 @@
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script>
+    // 動態渲染照護夥伴個人頁
+    const serviceIconMap = {
+      home: '🏠', daycare: '☀️', respite: '🤝', medical: '🏥'
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = parseInt(params.get('id'));
+      const cg = caregivers.find(c => c.id === id);
+
+      if (!cg) {
+        document.getElementById('profileName').textContent = '找不到這位夥伴';
+        return;
+      }
+
+      // Hero
+      document.getElementById('profileAvatar').src = cg.avatar;
+      document.getElementById('profileAvatar').alt = cg.name;
+      document.getElementById('profileName').textContent = cg.name;
+      document.getElementById('profileLocation').textContent = '📍 ' + cg.location;
+      document.getElementById('profileRating').textContent = '⭐ ' + cg.rating + ' (' + cg.reviews + '則評價)';
+      document.getElementById('profileBadge').textContent = cg.certified ? '🛡️ 認證照服員' : '⛔ 一般照服員';
+      document.getElementById('profileTitle').textContent = cg.certified ? '服務達人' : '照護夥伴';
+
+      // Stat cards
+      document.getElementById('profileExperience').textContent = cg.experience + '+';
+      document.getElementById('profileReviews').textContent = cg.reviews;
+      document.getElementById('profileRating2').textContent = cg.rating;
+
+      // About
+      document.getElementById('profileIntro1').textContent =
+        '您好，我是' + cg.name + '，擁有' + cg.experience + '年以上的照護服務經驗。' + cg.intro;
+      document.getElementById('profileIntro2').innerHTML = cg.certified
+        ? '持有<strong>照顧服務員丙級證照</strong>，已完成照護人員認證。'
+        : '期待能為您和您的家人提供優質的照護服務。';
+
+      // Services
+      const svcContainer = document.getElementById('profileServices');
+      const svcLabels = { home: '居家陪伴', daycare: '日間照護', respite: '喘息服務', medical: '就醫陪同' };
+      svcContainer.innerHTML = (cg.serviceNames || []).map((s, i) =>
+        '<span class="service-tag">' + (serviceIconMap[cg.services[i]] || '🛡️') + ' ' + s + '</span>'
+      ).join('');
+
+      // Price
+      document.getElementById('profilePrice').textContent = cg.price;
+
+      // Booking
+      document.getElementById('profileBookingBtn').href = 'booking.html?caregiverId=' + cg.id;
+      document.title = cg.name + ' 的島嶼 - 群島生態系';
+    });
+  </script>
 </body>
 </html>

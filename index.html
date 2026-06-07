@@ -735,6 +735,9 @@
     }
 
     // ===== 服務類型跳轉 =====
+    // index.html: goToService('home') → ?type=home
+    // caregivers.html: openZone() takes zone names homecare/daycare/respite/medical
+    const typeToZone = { home: 'homecare', daycare: 'daycare', respite: 'respite', medical: 'medical' };
     function goToService(type) {
       window.location.href = 'caregivers.html?type=' + type;
     }

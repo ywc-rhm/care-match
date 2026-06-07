@@ -665,22 +665,24 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
-    // Zone data
+    // Zone data (static demo data for map display)
+    // When clicked on a real caregiver, we redirect to caregiver-profile.html?id=X using real IDs from data.js
     const zoneData = {
       homecare: {
-        title: '居家服務群島',
+        title: '居家陪伴群島',
         subtitle: '共 8 座島嶼',
         icon: '🏠',
         color: 'from-cyan-500 to-emerald-500',
+        // id matches caregiver id in data.js (1-6), repeated to fill 8 slots
         caregivers: [
-          { name: '吳佩蓉', area: '新北市永和區', rating: 4.9, reviews: 47, price: 350, services: ['身體照顧', '日常生活'], emoji: '👩‍⚕️' },
-          { name: '王小明', area: '新北市板橋區', rating: 4.8, reviews: 38, price: 350, services: ['沐浴照顧', '餐食照顧'], emoji: '👨‍⚕️' },
-          { name: '林美玲', area: '新北市中和區', rating: 4.9, reviews: 56, price: 350, services: ['身體照顧', '陪同就醫'], emoji: '👩‍⚕️' },
-          { name: '陳雅惠', area: '新北市三重區', rating: 4.7, reviews: 29, price: 380, services: ['復健運動', '藥物提醒'], emoji: '👩‍🏫' },
-          { name: '黃大姐', area: '新北市新莊區', rating: 4.8, reviews: 41, price: 360, services: ['身體照顧', '喘息服務'], emoji: '👩‍⚕️' },
-          { name: '劉先生', area: '新北市土城區', rating: 4.6, reviews: 22, price: 370, services: ['日常生活', '陪同就醫'], emoji: '👨‍⚕️' },
-          { name: '楊小姐', area: '新北市樹林區', rating: 4.7, reviews: 33, price: 350, services: ['沐浴照顧', '復健運動'], emoji: '👩‍⚕️' },
-          { name: '蔡先生', area: '新北市鶯歌區', rating: 4.5, reviews: 18, price: 340, services: ['身體照顧', '藥物提醒'], emoji: '👨‍⚕️' },
+          { id: 1, name: '陳雅惠', area: '新北市', rating: 4.9, reviews: 127, price: 350, services: ['身體照顧', '日常生活'], emoji: '👩‍⚕️' },
+          { id: 2, name: '林志偉', area: '台北市', rating: 4.8, reviews: 89, price: 400, services: ['日間陪伴', '復健運動'], emoji: '👨‍⚕️' },
+          { id: 3, name: '黃淑芬', area: '桃園市', rating: 4.9, reviews: 156, price: 320, services: ['喘息服務', '失智症照護'], emoji: '👩‍⚕️' },
+          { id: 4, name: '王明華', area: '台中市', rating: 5.0, reviews: 203, price: 380, services: ['全方位', '複雜照護'], emoji: '👨‍⚕️' },
+          { id: 1, name: '吳佩蓉', area: '新北市永和區', rating: 4.9, reviews: 47, price: 350, services: ['身體照顧', '日常生活'], emoji: '👩‍⚕️' },
+          { id: 2, name: '王小明', area: '新北市板橋區', rating: 4.8, reviews: 38, price: 350, services: ['沐浴照顧', '餐食照顧'], emoji: '👨‍⚕️' },
+          { id: 3, name: '林美玲', area: '新北市中和區', rating: 4.9, reviews: 56, price: 350, services: ['身體照顧', '陪同就醫'], emoji: '👩‍⚕️' },
+          { id: 1, name: '陳雅惠', area: '新北市三重區', rating: 4.7, reviews: 29, price: 380, services: ['復健運動', '藥物提醒'], emoji: '👩‍🏫' },
         ]
       },
       daycare: {
@@ -689,11 +691,11 @@
         icon: '☀️',
         color: 'from-yellow-400 to-orange-500',
         caregivers: [
-          { name: '張志偉', area: '台北市大安區', rating: 4.8, reviews: 42, price: 400, services: ['日照服務', '活動帶領'], emoji: '☀️' },
-          { name: '李秀英', area: '台北市信義區', rating: 4.6, reviews: 31, price: 380, services: ['日照服務', '認知訓練'], emoji: '👩‍🏫' },
-          { name: '孫大哥', area: '台北市中山區', rating: 4.7, reviews: 28, price: 390, services: ['日照服務', '生活重建'], emoji: '👨‍🎓' },
-          { name: '陳老師', area: '台北市松山區', rating: 4.9, reviews: 52, price: 420, services: ['日照服務', '藝術治療'], emoji: '👩‍🏫' },
-          { name: '林大哥', area: '台北市南港區', rating: 4.5, reviews: 19, price: 360, services: ['日照服務', '運動健身'], emoji: '👨‍🎓' },
+          { id: 2, name: '林志偉', area: '台北市', rating: 4.8, reviews: 89, price: 400, services: ['日照服務', '復健運動'], emoji: '☀️' },
+          { id: 5, name: '李雅琪', area: '高雄市', rating: 4.7, reviews: 72, price: 330, services: ['日間陪伴', '生活陪伴'], emoji: '☀️' },
+          { id: 2, name: '林志偉', area: '台北市大安區', rating: 4.8, reviews: 42, price: 400, services: ['日照服務', '活動帶領'], emoji: '☀️' },
+          { id: 5, name: '李雅琪', area: '高雄市新興區', rating: 4.6, reviews: 31, price: 380, services: ['日照服務', '認知訓練'], emoji: '👩‍🏫' },
+          { id: 2, name: '林志偉', area: '台北市中山區', rating: 4.7, reviews: 28, price: 390, services: ['日照服務', '生活重建'], emoji: '👨‍🎓' },
         ]
       },
       respite: {
@@ -702,27 +704,39 @@
         icon: '🌙',
         color: 'from-indigo-500 to-purple-500',
         caregivers: [
-          { name: '黃建志', area: '新北市新店區', rating: 4.7, reviews: 23, price: 400, services: ['短期照護', '夜間陪伴'], emoji: '🌙' },
-          { name: '楊曉如', area: '新北市蘆洲區', rating: 4.9, reviews: 35, price: 420, services: ['喘息服務', '臨時照顧'], emoji: '👩‍⚕️' },
-          { name: '許先生', area: '新北市淡水區', rating: 4.6, reviews: 17, price: 380, services: ['喘息服務', '短期照護'], emoji: '🌙' },
-          { name: '吳小姐', area: '新北市汐止區', rating: 4.8, reviews: 29, price: 410, services: ['喘息服務', '夜間陪伴'], emoji: '👩‍⚕️' },
+          { id: 3, name: '黃淑芬', area: '桃園市', rating: 4.9, reviews: 156, price: 320, services: ['喘息服務', '失智症照護'], emoji: '🌙' },
+          { id: 6, name: '張美雲', area: '台北市', rating: 4.8, reviews: 94, price: 360, services: ['喘息服務', '末期照護'], emoji: '🌙' },
+          { id: 1, name: '陳雅惠', area: '新北市', rating: 4.9, reviews: 127, price: 350, services: ['喘息服務', '術後照護'], emoji: '🌙' },
+          { id: 3, name: '黃淑芬', area: '桃園市蘆竹區', rating: 4.7, reviews: 23, price: 400, services: ['短期照護', '夜間陪伴'], emoji: '👩‍⚕️' },
         ]
       },
       medical: {
-        title: '醫療陪同群島',
+        title: '就醫陪同群島',
         subtitle: '共 6 座島嶼',
         icon: '🏥',
         color: 'from-red-500 to-pink-500',
         caregivers: [
-          { name: '劉佳怡', area: '台北市中山區', rating: 4.8, reviews: 51, price: 450, services: ['陪同就醫', '手術陪同'], emoji: '🏥' },
-          { name: '周明輝', area: '台北市內湖區', rating: 4.7, reviews: 28, price: 450, services: ['陪同就醫', '回診追蹤'], emoji: '👨‍⚕️' },
-          { name: '林雅琪', area: '新北市汐止區', rating: 4.9, reviews: 39, price: 480, services: ['醫療陪同', '復健護理'], emoji: '👩‍⚕️' },
-          { name: '趙先生', area: '台北市士林區', rating: 4.6, reviews: 24, price: 440, services: ['陪同就醫', '用藥諮詢'], emoji: '🏥' },
-          { name: '錢小姐', area: '台北市北投區', rating: 4.8, reviews: 33, price: 460, services: ['手術陪同', '回診追蹤'], emoji: '👩‍⚕️' },
-          { name: '孫爺爺', area: '新北市瑞芳區', rating: 4.5, reviews: 15, price: 420, services: ['陪同就醫', '長期陪伴'], emoji: '👨‍⚕️' },
+          { id: 2, name: '林志偉', area: '台北市', rating: 4.8, reviews: 89, price: 400, services: ['陪同就醫', '手術陪同'], emoji: '🏥' },
+          { id: 6, name: '張美雲', area: '台北市', rating: 4.8, reviews: 94, price: 360, services: ['陪同就醫', '末期照護'], emoji: '🏥' },
+          { id: 2, name: '林志偉', area: '台北市中山區', rating: 4.8, reviews: 51, price: 450, services: ['陪同就醫', '手術陪同'], emoji: '🏥' },
+          { id: 4, name: '王明華', area: '台中市', rating: 5.0, reviews: 203, price: 380, services: ['陪同就醫', '複雜照護'], emoji: '🏥' },
+          { id: 2, name: '林志偉', area: '台北市內湖區', rating: 4.7, reviews: 28, price: 450, services: ['陪同就醫', '回診追蹤'], emoji: '👨‍⚕️' },
+          { id: 4, name: '王明華', area: '台中市西區', rating: 4.9, reviews: 39, price: 480, services: ['醫療陪同', '復健護理'], emoji: '👩‍⚕️' },
         ]
       }
     };
+
+    // URL query param → zone name mapping
+    const typeToZone = { home: 'homecare', daycare: 'daycare', respite: 'respite', medical: 'medical' };
+
+    // Auto-open zone from ?type= query param (for links from index.html)
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const type = params.get('type');
+      if (type && typeToZone[type]) {
+        openZone(typeToZone[type]);
+      }
+    });
 
     function openZone(zone) {
       const data = zoneData[zone];
@@ -734,7 +748,7 @@
 
       const list = document.getElementById('islandsList');
       list.innerHTML = data.caregivers.map((cg, i) => `
-        <div class="island-list-card flex items-center gap-4" onclick="window.location.href='caregiver-profile.html'">
+        <div class="island-list-card flex items-center gap-4" onclick="window.location.href='caregiver-profile.html?id=${cg.id}'">
           <!-- Mini island -->
           <div class="mini-island flex-shrink-0 flex items-center justify-center">
             <div class="mini-beach"></div>

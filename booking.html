@@ -317,7 +317,7 @@
         <div class="space-y-2 text-sm">
           <div class="flex justify-between">
             <span>島主</span>
-            <span class="font-bold">吳佩蓉</span>
+            <span id="bookingCaregiverName" class="font-bold">-</span>
           </div>
           <div class="flex justify-between">
             <span>日期</span>
@@ -435,6 +435,13 @@
     }
 
     // Init
+    const params = new URLSearchParams(window.location.search);
+    const cid = parseInt(params.get('caregiverId'));
+    const cg = cid && typeof caregivers !== 'undefined' ? caregivers.find(c => c.id === cid) : null;
+    if (cg) {
+      const el = document.getElementById('bookingCaregiverName');
+      if (el) el.textContent = cg.name;
+    }
     renderCalendar();
   </script>
 </body>
