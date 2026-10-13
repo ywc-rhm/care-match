@@ -3,244 +3,491 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品詳情 - 群島生態系</title>
+  <title>商品詳情｜輔具商店｜群島生態系</title>
+  <meta name="description" content="照護輔具商品詳情：售價與庫存、規格標示、適用對象與使用注意事項。滿 $1,000 免運費，7 天內可申請退換貨。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="商品詳情｜輔具商店｜群島生態系">
+  <meta property="og:description" content="查看輔具規格、適用對象與注意事項，加入購物車或直接購買。">
+  <meta name="theme-color" content="#0F5565">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .product-img {
-      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .qty-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-bold text-xl;
-      transition: all 0.2s ease;
-    }
-    .qty-btn:hover {
-      transform: scale(1.1);
-    }
-
-    .add-btn {
-      background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
-      transition: all 0.3s ease;
-    }
-    .add-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.5);
-    }
-
-    .spec-tag {
-      background: #F5F0E8;
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-size: 14px;
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-sand font-sans">
-  
-  <!-- Header -->
-  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
-    <div class="max-w-4xl mx-auto px-4 py-4">
-      <div class="flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
-            <span class="text-2xl">🏝️</span>
-          </div>
-          <div>
-            <span class="font-display font-bold text-xl text-night">群島生態系</span>
-          </div>
+<body class="font-sans">
+
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html">首頁</a>
+        <a class="nav-link" href="index.html#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html" aria-current="page">輔具商店</a>
+      </nav>
+
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
         </a>
-        <a href="shop.html" class="flex items-center gap-2 text-ocean hover:underline">
-          ← 返回補給站
-        </a>
+        <a class="btn btn--primary btn--sm" href="login.html"><span class="hide-sm">登入 / 註冊</span><span class="show-sm">登入</span></a>
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
+        </button>
       </div>
+    </div>
+
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="index.html#services"><i data-ic="squares-2x2" data-ic-class="ic-20"></i>服務項目</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html" aria-current="page"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="cart.html"><i data-ic="shopping-cart" data-ic-class="ic-20"></i>購物車</a>
+        <a href="login.html"><i data-ic="arrow-right-on-rectangle" data-ic-class="ic-20"></i>登入 / 註冊</a>
+      </nav>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="max-w-4xl mx-auto px-4 py-8">
-    
-    <div class="bg-white rounded-3xl overflow-hidden shadow-xl">
-      <div class="grid grid-cols-1 md:grid-cols-2">
-        
-        <!-- Product Image -->
-        <div class="product-img p-12">
-          <span class="text-[180px]">🦽</span>
-        </div>
+  <main id="main">
 
-        <!-- Product Info -->
-        <div class="p-8">
-          <!-- Category & Badge -->
-          <div class="flex items-center gap-2 mb-3">
-            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">行動輔具</span>
-            <span class="px-3 py-1 bg-red-100 text-red-600 text-xs rounded-full font-medium">75折</span>
-          </div>
+    <!-- ===================== 商品主資訊 ===================== -->
+    <section class="section section--paper" aria-labelledby="productTitle">
+      <div class="wrap">
+        <a class="more-link" href="shop.html">
+          <i data-ic="arrow-left" data-ic-class="ic-16"></i>
+          返回輔具商店
+        </a>
 
-          <!-- Title -->
-          <h1 class="font-display font-bold text-2xl text-night mb-2">輕量鋁合金輪椅</h1>
-          <p class="text-gray-500 mb-4">可折疊攜帶 · 8kg超輕設計 · 免充氣胎</p>
-
-          <!-- Price -->
-          <div class="mb-6">
-            <span class="text-3xl font-bold text-coral">$2,680</span>
-            <span class="text-lg text-gray-400 line-through ml-2">$3,580</span>
-            <span class="ml-2 text-sm text-coral font-medium">省 $900</span>
-          </div>
-
-          <!-- Features -->
-          <div class="space-y-2 mb-6">
-            <div class="flex items-center gap-2 text-sm text-gray-600">
-              <span class="text-green-500">✓</span> 超輕量鋁合金骨架僅 8kg
-            </div>
-            <div class="flex items-center gap-2 text-sm text-gray-600">
-              <span class="text-green-500">✓</span> 一鍵快速折疊，方便攜帶
-            </div>
-            <div class="flex items-center gap-2 text-sm text-gray-600">
-              <span class="text-green-500">✓</span> 免充氣實心胎，無爆胎風險
-            </div>
-            <div class="flex items-center gap-2 text-sm text-gray-600">
-              <span class="text-green-500">✓</span> 可調式扶手與腳踏板
-            </div>
-          </div>
-
-          <!-- Specs -->
-          <div class="mb-6">
-            <div class="text-sm font-medium text-gray-600 mb-2">規格</div>
-            <div class="flex flex-wrap gap-2">
-              <span class="spec-tag">座寬 45cm</span>
-              <span class="spec-tag">承重 100kg</span>
-              <span class="spec-tag">車輪 12吋</span>
-            </div>
-          </div>
-
-          <!-- Quantity -->
-          <div class="mb-6">
-            <div class="text-sm font-medium text-gray-600 mb-2">數量</div>
-            <div class="flex items-center gap-4">
-              <button onclick="changeQty(-1)" class="qty-btn bg-gray-100 text-gray-600">−</button>
-              <span id="qty" class="text-xl font-bold w-12 text-center">1</span>
-              <button onclick="changeQty(1)" class="qty-btn bg-ocean text-white">+</button>
-            </div>
-          </div>
-
-          <!-- Buttons -->
-          <div class="flex gap-3">
-            <button onclick="addToCart()" class="flex-1 add-btn text-white py-4 rounded-xl font-bold text-lg">
-              🛒 加入購物船艙
-            </button>
-            <button onclick="buyNow()" class="flex-1 bg-gradient-to-r from-ocean to-island text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg transition">
-              🚢 立即購買
-            </button>
-          </div>
-
-          <!-- Shipping Info -->
-          <div class="mt-6 p-4 bg-sand rounded-xl text-sm text-gray-600">
-            <div class="flex items-center gap-2 mb-1">
-              <span>🚚</span> 滿 $1,000 免運費
-            </div>
-            <div class="flex items-center gap-2">
-              <span>🔄</span> 7天內可退換貨
-            </div>
-          </div>
+        <div class="grid gap-8 mt-6 lg:gap-12 lg:grid-cols-2 lg:items-start" id="productView">
+          <!-- 由 JS 依 ?id= 參數填入商品資料 -->
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Product Details -->
-    <div class="bg-white rounded-3xl p-8 mt-6 shadow-lg">
-      <h2 class="font-bold text-xl text-night mb-6">📋 商品詳情</h2>
-      <div class="prose prose-gray max-w-none text-gray-600">
-        <h3 class="text-lg font-bold text-night mb-3">商品特色</h3>
-        <p class="mb-4">這款輕量鋁合金輪椅採用高品質航空級鋁合金材料，支架堅固耐用，整體重量僅 8kg，是目前市面上最輕便的折疊式輪椅之一。</p>
-        
-        <h3 class="text-lg font-bold text-night mb-3">適用對象</h3>
-        <ul class="list-disc list-inside mb-4 space-y-1">
-          <li>行動不便的長者</li>
-          <li>術後康復者</li>
-          <li>殘障人士</li>
-          <li>需要長期使用輪椅的使用者</li>
-        </ul>
-        
-        <h3 class="text-lg font-bold text-night mb-3">注意事項</h3>
-        <ul class="list-disc list-inside space-y-1">
-          <li>請定期檢查螺絲是否鬆動</li>
-          <li>避免在潮濕環境下長時間放置</li>
-          <li>清潔時請使用中性清潔劑</li>
-        </ul>
+    <!-- ===================== 商品說明 ===================== -->
+    <section class="section section--sand" aria-labelledby="detailTitle" id="detailSection">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">商品說明</p>
+          <h2 class="sec-title" id="detailTitle">規格特色、適用對象與注意事項</h2>
+          <p class="sec-lead">購買前請先確認規格尺寸與使用情境，如有疑問可於客服時間內與我們聯繫。</p>
+        </div>
+        <div class="grid gap-6 lg:grid-cols-3" id="detailCards"></div>
       </div>
-    </div>
+    </section>
+
+    <!-- ===================== 相關商品 ===================== -->
+    <section class="section section--paper" aria-labelledby="relatedTitle" id="relatedSection">
+      <div class="wrap">
+        <div class="sec-head sec-head__row">
+          <div>
+            <p class="eyebrow">相關商品</p>
+            <h2 class="sec-title" id="relatedTitle">同一類別的其他輔具</h2>
+          </div>
+          <a class="more-link" href="shop.html">
+            查看全部商品
+            <i data-ic="arrow-right" data-ic-class="ic-16"></i>
+          </a>
+        </div>
+        <div class="grid-cards grid-cards--3" id="relatedProducts"></div>
+      </div>
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-night text-white py-8 mt-12">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <div class="flex items-center justify-center gap-2 mb-4">
-        <span class="text-2xl">🏝️</span>
-        <span class="font-display font-bold">群島生態系</span>
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name text-white">群島生態系</span>
+              <span class="brand__tag text-ocean-light">專業照護服務平台</span>
+            </span>
+          </div>
+          <p class="card__text text-ocean-light">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
+        </div>
+
+        <div>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
+        </div>
       </div>
-      <p class="text-gray-400 text-sm">© 2024 群島生態系照護服務平台</p>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
+    // ===== 商品詳情（依 ?id= 參數取得 data.js 商品資料） =====
+    const urlParams = getUrlParams();
+    const productId = parseInt(urlParams.id, 10) || 1;
+    const product = products.find(p => p.id === productId) || null;
     let qty = 1;
 
-    function changeQty(delta) {
-      qty = Math.max(1, qty + delta);
-      document.getElementById('qty').textContent = qty;
+    function formatNT(value) {
+      return '$' + Number(value).toLocaleString();
     }
 
-    function addToCart() {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const name = '輕量鋁合金輪椅';
-      const price = 2680;
-      const exist = cart.find(i => i.name === name);
-      if (exist) {
-        exist.qty += qty;
-      } else {
-        cart.push({ name, price, qty });
+    // 圖庫圖片載入失敗時，改用中性圖示佔位，避免出現破圖
+    function handleImageError(img) {
+      const label = img.getAttribute('alt') || '商品圖片';
+      const holder = document.createElement('div');
+      holder.className = img.className + ' flex items-center justify-center';
+      holder.setAttribute('role', 'img');
+      holder.setAttribute('aria-label', label + '（圖片暫時無法載入）');
+      holder.innerHTML = '<span class="icon-tile"><i data-ic="camera" data-ic-class="ic-24"></i></span>';
+      img.replaceWith(holder);
+      renderIcons(holder);
+    }
+
+    function discountRate(prod) {
+      if (!prod.originalPrice) return null;
+      return Math.round((1 - prod.price / prod.originalPrice) * 100);
+    }
+
+    // 各類別共用的適用對象與注意事項說明
+    const CATEGORY_GUIDE = {
+      mobility: {
+        audience: ['行動能力下降、行走需支撐的長者', '術後短期需要輔助移動的康復者', '需要外出就醫或復健的使用者'],
+        cautions: ['使用前請確認剎車與固定裝置已鎖定，並由他人協助上下坡。', '請依原廠建議定期檢查螺絲、腳墊與車輪是否鬆動。', '清潔時請使用中性清潔劑與乾布，避免長時間潮濕或日曬。']
+      },
+      bathroom: {
+        audience: ['如廁、沐浴需要支撐的長者', '術後或下肢力量不足的使用者', '希望降低浴室滑倒風險的家庭'],
+        cautions: ['安裝前請確認牆面或地面材質可承受重量，避免使用於空心或龜裂表面。', '請定期檢查固定處是否鬆動，確認承重標示後再使用。', '使用時請緩慢移動，勿將全身重量瞬間施加於扶手。']
+      },
+      safety: {
+        audience: ['夜間需要起身照明或防跌的長者', '術後需要輔助起身、避免跌倒的康復者', '獨居或家庭照顧者需強化居家安全者'],
+        cautions: ['請依安裝說明固定於穩固表面，並確認不阻擋動線與緊急出口。', '請定期清潔與檢查固定件，若鬆動或破損請停止使用。', '本商品為輔助器材，無法取代他人的照護與陪伴。']
+      },
+      comfort: {
+        audience: ['長時間坐姿、久臥而感不適者', '輪椅、座椅或車上需要腰部支撐的使用者', '需要舒緩壓迫與疲勞的家庭照顧者'],
+        cautions: ['請依產品標示調整鬆緊，避免綁帶過緊影響血液循環。', '外罩請依洗滌標示清洗，勿高溫烘乾以免變形。', '若使用後出現持續不適，請停止使用並諮詢醫療人員。']
+      },
+      medical: {
+        audience: ['需要在家監測生理數據的慢性病患者', '家屬或家庭照顧者日常健康追蹤使用', '出院後短期需要留意身體狀況者'],
+        cautions: ['本商品為日常監測輔助，量測數值不得作為醫療診斷依據。', '請依說明書校正與清潔，並避免潮濕、摔落或高溫存放。', '數值持續異常時，請立即聯繫醫療院所或就醫。']
       }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`✅ 已加入 ${qty} 件「輕量鋁合金輪椅」到購物船艙`);
+    };
+
+    const DEFAULT_GUIDE = {
+      audience: ['需要日常照護輔助的長者', '術後或行動不便的康復者', '家庭主要照顧者'],
+      cautions: ['請依原廠說明書使用與保養，並於建議期限內檢查零件。', '若商品有破損、鬆動或異音，請停止使用並聯繫客服。', '實際到貨內容以原廠包裝標示為準。']
+    };
+
+    function guideFor(prod) {
+      return CATEGORY_GUIDE[prod.category] || DEFAULT_GUIDE;
     }
 
-    function buyNow() {
-      addToCart();
-      window.location.href = 'cart.html';
+    // ===== 數量選擇（沿用原 changeQty 與 id="qty"） =====
+    function changeQty(delta) {
+      const max = product && product.stock ? product.stock : 99;
+      qty = Math.max(1, Math.min(qty + delta, max));
+      const valueEl = document.getElementById('qty');
+      if (valueEl) valueEl.textContent = qty;
+      const lineEl = document.getElementById('lineTotal');
+      if (lineEl && product) lineEl.textContent = formatNT(product.price * qty);
     }
+
+    // ===== 購物車（沿用 data.js 的 orders.products 結構：商品欄位 + quantity） =====
+    function addProductToCart(id, count) {
+      const item = products.find(p => p.id === id);
+      if (!item) return;
+      const amount = count || 1;
+      const existing = orders.products.find(p => p.id === item.id);
+      if (existing) existing.quantity += amount;
+      else orders.products.push(Object.assign({}, item, { quantity: amount }));
+
+      saveToStorage();
+      updateCartCount();
+      showNotification('已加入 ' + amount + ' 件「' + item.name + '」到購物車', 'success');
+    }
+
+    // 加入購物車：使用目前頁面商品的數量選擇
+    function addToCart() {
+      if (!product) return;
+      addProductToCart(product.id, qty);
+    }
+
+    // 立即購買：加入購物車後前往購物車頁
+    function buyNow() {
+      if (!product) return;
+      addProductToCart(product.id, qty);
+    }
+
+    // ===== 畫面渲染 =====
+    function featureList(features) {
+      return features.map(f => `
+        <li class="flex items-start gap-3">
+          <span class="text-island flex mt-1"><i data-ic="check" data-ic-class="ic-16"></i></span>
+          <span class="card__text">${f}</span>
+        </li>
+      `).join('');
+    }
+
+    function renderProduct() {
+      const host = document.getElementById('productView');
+      if (!product) {
+        host.innerHTML = `
+          <div class="empty lg:col-span-2">
+            <span class="empty__icon"><i data-ic="magnifying-glass" data-ic-class="ic-24"></i></span>
+            <h2 class="empty__title">找不到這項商品</h2>
+            <p class="empty__text">此商品可能已下架，或連結中的商品編號有誤。請回到輔具商店重新選擇。</p>
+            <a class="btn btn--primary" href="shop.html">返回輔具商店</a>
+          </div>
+        `;
+        renderIcons(host);
+        const detailSection = document.getElementById('detailSection');
+        const relatedSection = document.getElementById('relatedSection');
+        if (detailSection) detailSection.classList.add('hidden');
+        if (relatedSection) relatedSection.classList.add('hidden');
+        return;
+      }
+
+      const rate = discountRate(product);
+      const saved = product.originalPrice ? product.originalPrice - product.price : 0;
+
+      host.innerHTML = `
+        <!-- 商品圖 -->
+        <div>
+          <img class="media-1x1 rounded-xl border border-line" src="${product.image}"
+               alt="${product.name}（${product.categoryName}）商品外觀照" onerror="handleImageError(this)">
+          <div class="alert alert--info mt-4">
+            <span class="alert__icon"><i data-ic="truck" data-ic-class="ic-20"></i></span>
+            <div>
+              滿 $1,000 免運費（限台灣本島），訂單確認後 2–3 個工作天出貨；
+              收到商品後 7 天內可申請退換貨。
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品資訊 -->
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <span class="badge badge--info">${product.categoryName}</span>
+            ${rate ? `<span class="badge badge--price">-${rate}%</span>` : ''}
+          </div>
+
+          <h1 class="sec-title" id="productTitle">${product.name}</h1>
+          <p class="card__text">${product.description}</p>
+
+          <p class="rating mt-4">
+            ${icon('star-solid', 'ic-16')}${product.rating}
+            <span class="rating__count">／5.0 · 已售 ${product.sold} 件</span>
+          </p>
+
+          <div class="flex flex-wrap items-end gap-3 mt-4">
+            <span class="price text-2xl">${formatNT(product.price)}</span>
+            ${product.originalPrice ? `<span class="price-old text-base">${formatNT(product.originalPrice)}</span>` : ''}
+            ${saved ? `<span class="badge badge--price">省 ${formatNT(saved)}</span>` : ''}
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="badge badge--neutral">庫存 ${product.stock} 件</span>
+            <span class="badge badge--neutral">已售 ${product.sold} 件</span>
+            <span class="badge badge--verified">規格與售價公開</span>
+          </div>
+
+          <div class="mt-6">
+            <p class="label">規格標示</p>
+            <div class="flex flex-wrap gap-2">
+              ${product.features.map(f => `<span class="tag">${f}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <p class="label" id="qtyLabel">數量</p>
+            <div class="flex flex-wrap items-center gap-4">
+              <div class="qty" role="group" aria-labelledby="qtyLabel">
+                <button class="qty__btn" type="button" onclick="changeQty(-1)" aria-label="減少數量">
+                  <i data-ic="minus" data-ic-class="ic-20"></i>
+                </button>
+                <span class="qty__value" id="qty" aria-live="polite">1</span>
+                <button class="qty__btn" type="button" onclick="changeQty(1)" aria-label="增加數量">
+                  <i data-ic="plus" data-ic-class="ic-20"></i>
+                </button>
+              </div>
+              <span class="card__text">
+                小計 <span class="num" id="lineTotal">${formatNT(product.price)}</span>
+              </span>
+            </div>
+            <p class="hint">單筆訂單最多 ${product.stock} 件（依目前庫存）。</p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 mt-6">
+            <button class="btn btn--primary btn--lg flex-1" type="button" onclick="addToCart()">
+              <i data-ic="shopping-cart" data-ic-class="ic-20"></i>加入購物車
+            </button>
+            <a class="btn btn--secondary btn--lg flex-1" href="cart.html" onclick="buyNow()">
+              立即購買
+            </a>
+          </div>
+
+          <p class="card__text mt-4">
+            需要協助確認規格是否符合使用情境？來信
+            <a href="mailto:service@archipelago.tw">service@archipelago.tw</a>，
+            客服時間為週一至週五 09:00–18:00。
+          </p>
+        </div>
+      `;
+
+      document.title = product.name + '｜輔具商店｜群島生態系';
+      renderIcons(host);
+    }
+
+    function renderDetails() {
+      const host = document.getElementById('detailCards');
+      if (!host || !product) return;
+      const guide = guideFor(product);
+
+      host.innerHTML = `
+        <article class="card">
+          <span class="icon-tile"><i data-ic="clipboard-document-list" data-ic-class="ic-24"></i></span>
+          <h3 class="card__title mt-4">商品特色</h3>
+          <p class="card__text">${product.description}</p>
+          <ul class="stack-8 mt-4">
+            ${featureList(product.features)}
+          </ul>
+          <p class="hint mt-4">規格為原廠標示，實際到貨內容以原廠包裝說明為準。</p>
+        </article>
+
+        <article class="card">
+          <span class="icon-tile icon-tile--green"><i data-ic="user-group" data-ic-class="ic-24"></i></span>
+          <h3 class="card__title mt-4">適用對象</h3>
+          <p class="card__text">本商品適合以下使用情境：</p>
+          <ul class="stack-8 mt-3">
+            ${guide.audience.map(a => `
+              <li class="flex items-start gap-3">
+                <span class="text-island flex mt-1"><i data-ic="check" data-ic-class="ic-16"></i></span>
+                <span class="card__text">${a}</span>
+              </li>
+            `).join('')}
+          </ul>
+          <p class="hint mt-4">若不確定是否適用，可先與客服或原照護團隊確認再購買。</p>
+        </article>
+
+        <article class="card">
+          <span class="icon-tile icon-tile--clay"><i data-ic="exclamation-triangle" data-ic-class="ic-24"></i></span>
+          <h3 class="card__title mt-4">注意事項</h3>
+          <div class="alert alert--warn mt-3" role="note">
+            <span class="alert__icon"><i data-ic="exclamation-triangle" data-ic-class="ic-20"></i></span>
+            <ul class="stack-12">
+              ${guide.cautions.map(c => `<li>${c}</li>`).join('')}
+            </ul>
+          </div>
+        </article>
+      `;
+      renderIcons(host);
+    }
+
+    function renderRelated() {
+      const host = document.getElementById('relatedProducts');
+      if (!host || !product) return;
+
+      const sameCategory = products.filter(p => p.id !== product.id && p.category === product.category);
+      const others = products.filter(p => p.id !== product.id && p.category !== product.category);
+      const list = sameCategory.concat(others).slice(0, 3);
+
+      host.innerHTML = list.map(prod => {
+        const rate = discountRate(prod);
+        return `
+          <article class="prod-card">
+            <a class="prod-card__media" href="product.html?id=${prod.id}" aria-label="查看 ${prod.name} 商品詳情">
+              <img class="media-4x3" src="${prod.image}" alt="${prod.name}（${prod.categoryName}）商品照" onerror="handleImageError(this)">
+              ${rate ? `<span class="badge badge--price prod-card__cat">-${rate}%</span>`
+                     : `<span class="badge badge--neutral prod-card__cat">${prod.categoryName}</span>`}
+            </a>
+            <div class="prod-card__body">
+              <h3 class="prod-card__name"><a href="product.html?id=${prod.id}">${prod.name}</a></h3>
+              <p class="prod-card__desc">${prod.description}</p>
+              <div class="prod-card__foot">
+                <span class="price">${formatNT(prod.price)}
+                  ${prod.originalPrice ? `<span class="price-old">${formatNT(prod.originalPrice)}</span>` : ''}
+                </span>
+                <button class="btn btn--secondary btn--sm" type="button"
+                        onclick="addProductToCart(${prod.id})" aria-label="將 ${prod.name} 加入購物車">
+                  ${icon('plus', 'ic-16')}加入
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+      renderIcons(host);
+    }
+
+    // ===== 行動版選單 =====
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProduct();
+      renderDetails();
+      renderRelated();
+      updateCartCount();
+      initReveal();
+    });
   </script>
 </body>
 </html>

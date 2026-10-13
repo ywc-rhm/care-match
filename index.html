@@ -3,756 +3,530 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>群島生態系 - 照護服務平台</title>
+  <title>群島生態系｜專業照護服務平台</title>
+  <meta name="description" content="依需求媒合通過資格審核的照護服務人員：居家陪伴、日照中心、喘息服務、就醫陪同。服務時段與收費公開透明，23 位照護夥伴可預約。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="群島生態系｜專業照護服務平台">
+  <meta property="og:description" content="依需求媒合通過資格審核的照護服務人員，服務時段與收費公開透明。">
+  <meta name="theme-color" content="#0F5565">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            'ocean-dark': '#0E7490',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A',
-            'night-light': '#1E293B'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* 波浪動畫 */
-    .wave {
-      position: relative;
-      overflow: hidden;
-    }
-    .wave::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(ellipse at center, rgba(34,211,238,0.12) 0%, transparent 70%);
-      animation: wavePulse 4s ease-in-out infinite;
-    }
-    @keyframes wavePulse {
-      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
-      50% { transform: scale(1.1) rotate(5deg); opacity: 0.8; }
-    }
-
-    /* 島嶼卡片懸浮效果 */
-    .island-card {
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .island-card:hover {
-      transform: translateY(-8px) scale(1.02);
-    }
-
-    /* 浮動動畫 */
-    .float {
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* 導航列玻璃效果 */
-    .glass-nav {
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(8, 145, 178, 0.1);
-    }
-
-    /* 登入按鈕漸層 */
-    .btn-primary {
-      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #0E7490 0%, #047857 100%);
-      transform: scale(1.05);
-      box-shadow: 0 10px 30px -10px rgba(8, 145, 178, 0.5);
-    }
-
-    /* 步進指示器 */
-    .step-dot {
-      transition: all 0.3s ease;
-    }
-    .step-dot.active {
-      background: #0891B2;
-      transform: scale(1.3);
-    }
-    .step-dot.done {
-      background: #059669;
-    }
-
-    /* 服務分類卡片 */
-    .service-card {
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .service-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px -15px rgba(8, 145, 178, 0.25);
-    }
-
-    /* 波浪底線 */
-    .wave-divider {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      line-height: 0;
-    }
-
-    /* 緊急咨询浮動標籤 */
-    .help-float {
-      animation: pulse-ring 2s ease-out infinite;
-    }
-    @keyframes pulse-ring {
-      0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
-      70% { box-shadow: 0 0 0 12px rgba(249, 115, 22, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gradient-to-b from-ocean via-ocean-light to-sand min-h-screen font-sans text-night">
+<body class="font-sans">
 
-  <!-- Navigation -->
-  <nav class="glass-nav sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center h-16">
-        <a href="index.html" class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
-            <span class="text-xl">🏝️</span>
-          </div>
-          <div>
-            <span class="font-display font-bold text-xl bg-gradient-to-r from-ocean to-island bg-clip-text text-transparent">群島生態系</span>
-            <p class="text-xs text-gray-500 -mt-1">照護服務平台</p>
-          </div>
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html" aria-current="page">首頁</a>
+        <a class="nav-link" href="#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html">輔具商店</a>
+      </nav>
+
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
         </a>
-        <!-- Desktop Nav -->
-        <div class="hidden md:flex items-center gap-6">
-          <a href="#how-it-works" class="text-night-light hover:text-ocean font-medium text-sm">如何使用</a>
-          <a href="#services" class="text-night-light hover:text-ocean font-medium text-sm">服務項目</a>
-          <a href="shop.html" class="text-night-light hover:text-ocean font-medium text-sm">好物推薦</a>
-          <a href="login.html" class="btn-primary text-white px-5 py-2 rounded-full font-bold text-sm shadow-lg">
-            登入 / 註冊
-          </a>
-        </div>
-        <!-- Mobile Nav: Hamburger -->
-        <button id="mobileMenuBtn" class="md:hidden p-2 text-night" onclick="toggleMobileMenu()">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+        <a class="btn btn--primary btn--sm" href="login.html"><span class="hide-sm">登入 / 註冊</span><span class="show-sm">登入</span></a>
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
         </button>
       </div>
-      <!-- Mobile Menu -->
-      <div id="mobileMenu" class="hidden md:hidden pb-4 border-t border-gray-100 mt-2 pt-3">
-        <div class="flex flex-col gap-3">
-          <a href="#how-it-works" class="text-night-light font-medium text-sm py-1" onclick="toggleMobileMenu()">如何使用</a>
-          <a href="#services" class="text-night-light font-medium text-sm py-1" onclick="toggleMobileMenu()">服務項目</a>
-          <a href="shop.html" class="text-night-light font-medium text-sm py-1">好物推薦</a>
-          <a href="login.html" class="btn-primary text-white px-5 py-2.5 rounded-full font-bold text-sm text-center shadow-lg mt-1">
-            登入 / 註冊
+    </div>
+
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html" aria-current="page"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="#services"><i data-ic="squares-2x2" data-ic-class="ic-20"></i>服務項目</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="cart.html"><i data-ic="shopping-cart" data-ic-class="ic-20"></i>購物車</a>
+        <a href="login.html"><i data-ic="arrow-right-on-rectangle" data-ic-class="ic-20"></i>登入 / 註冊</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================== Hero ===================== -->
+    <section class="hero">
+      <div class="wrap hero__inner">
+        <div>
+          <p class="eyebrow">群島生態系 · 照護服務媒合</p>
+          <h1 class="hero__title">每一位照護夥伴，<br>都是一座可以信任的島嶼</h1>
+          <p class="hero__lead">
+            依您的照護需求，媒合通過資格審核的照護服務人員。服務項目、可預約時段與收費標準皆公開透明，
+            您可以先看評價與專長，再決定是否聯繫。
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="#services">
+              開始尋找照護夥伴
+              <i data-ic="arrow-right" data-ic-class="ic-20"></i>
+            </a>
+            <a class="btn btn--secondary btn--lg" href="caregivers.html">
+              查看照護夥伴清單
+            </a>
+          </div>
+          <p class="hero__meta">
+            <i data-ic="information-circle" data-ic-class="ic-16"></i>
+            本網站為服務展示用途，資料為模擬範例。
+          </p>
+        </div>
+
+        <!-- 服務區域分布：把群島概念轉為可讀的資料面板 -->
+        <div class="hero__panel" aria-labelledby="zoneMapTitle">
+          <div class="hero__panel-head">
+            <span class="hero__panel-title" id="zoneMapTitle">
+              <i data-ic="map" data-ic-class="ic-20"></i>
+              服務區域分布
+            </span>
+            <span class="badge badge--info">23 位照護夥伴</span>
+          </div>
+
+          <div class="hero__map map-grid" aria-hidden="true">
+            <span class="map-pin" style="top:14%;left:8%"><i class="legend-dot" style="background:#0F5565"></i>居家陪伴 8</span>
+            <span class="map-pin" style="top:52%;left:34%"><i class="legend-dot" style="background:#A9552A"></i>日照中心 5</span>
+            <span class="map-pin" style="top:16%;left:62%"><i class="legend-dot" style="background:#4A8A97"></i>喘息服務 4</span>
+            <span class="map-pin" style="top:56%;left:74%"><i class="legend-dot" style="background:#1A6E58"></i>就醫陪同 6</span>
+          </div>
+
+          <div style="padding:4px 20px 20px">
+            <div class="stack-12" id="zoneRows"></div>
+            <a class="more-link" href="caregivers.html" style="margin-top:18px">
+              查看完整服務區域與人員名單
+              <i data-ic="arrow-right" data-ic-class="ic-16"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 信任指標 -->
+      <div class="trust-bar">
+        <div class="wrap trust-bar__inner">
+          <div class="trust-item">
+            <i data-ic="shield-check" data-ic-class="ic-24"></i>
+            <div>
+              <p class="trust-item__title">資格與證照審核</p>
+              <p class="trust-item__text">照護夥伴的證照與服務經歷均經人工確認後才上架。</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <i data-ic="clipboard-document-list" data-ic-class="ic-24"></i>
+            <div>
+              <p class="trust-item__title">收費與時段透明</p>
+              <p class="trust-item__text">每位夥伴的參考費用、可預約時段與服務項目完整列出。</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <i data-ic="clock" data-ic-class="ic-24"></i>
+            <div>
+              <p class="trust-item__title">客服時間</p>
+              <p class="trust-item__text">週一至週五 09:00–18:00，可協助調整或取消服務。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 如何開始 ===================== -->
+    <section class="section section--sand" id="how-it-works" aria-labelledby="howTitle">
+      <div class="wrap">
+        <div class="sec-head sec-head__row">
+          <div>
+            <p class="eyebrow">使用流程</p>
+            <h2 class="sec-title" id="howTitle">三步驟完成照護媒合</h2>
+            <p class="sec-lead">不需要複雜的申請程序。填寫需求、挑選夥伴、確認時段，就完成預約。</p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <article class="step-card">
+            <span class="step-card__num">1</span>
+            <h3 class="card__title">說明照護需求</h3>
+            <p class="step-card__time">約 1 分鐘</p>
+            <p class="card__text" style="margin-top:10px">
+              選擇需要的服務類型（居家陪伴、日照中心、喘息服務、就醫陪同），
+              並填寫照護對象的基本情況與期望時段。
+            </p>
+          </article>
+          <article class="step-card">
+            <span class="step-card__num">2</span>
+            <h3 class="card__title">比較照護夥伴</h3>
+            <p class="step-card__time">瀏覽評價與專長</p>
+            <p class="card__text" style="margin-top:10px">
+              查看每位夥伴的服務年資、專長項目、評價與參考費用，
+              選定後送出詢問或直接預約時段。
+            </p>
+          </article>
+          <article class="step-card">
+            <span class="step-card__num">3</span>
+            <h3 class="card__title">確認服務與追蹤</h3>
+            <p class="step-card__time">服務前 24 小時可調整</p>
+            <p class="card__text" style="margin-top:10px">
+              預約成立後可於會員專區查看服務紀錄，
+              如需更改時間，請於服務開始前 24 小時通知。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 服務項目 ===================== -->
+    <section class="section section--paper" id="services" aria-labelledby="servicesTitle">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">服務項目</p>
+          <h2 class="sec-title" id="servicesTitle">我需要哪一種服務？</h2>
+          <p class="sec-lead">依照護情境分成四類，選擇最接近的項目即可看到對應的照護夥伴。</p>
+        </div>
+
+        <div class="grid-cards grid-cards--4">
+          <a class="card card--interactive" href="caregivers.html?type=home">
+            <span class="icon-tile"><i data-ic="home" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">居家陪伴</h3>
+            <p class="card__text">到府協助日常生活：起居照顧、身體清潔、服藥提醒、餐食準備。</p>
+            <p class="card__foot"><span>適合長期臥床、獨居長輩</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
+          </a>
+
+          <a class="card card--interactive" href="caregivers.html?type=daycare">
+            <span class="icon-tile icon-tile--clay"><i data-ic="sun" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">日照中心</h3>
+            <p class="card__text">白天到日照據點參與活動與復健運動，晚間返回自宅。</p>
+            <p class="card__foot"><span>適合輕度失能、需要陪伴者</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
+          </a>
+
+          <a class="card card--interactive" href="caregivers.html?type=respite">
+            <span class="icon-tile icon-tile--line"><i data-ic="lifebuoy" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">喘息服務</h3>
+            <p class="card__text">主要照顧者需要休息時，由其他夥伴短期接手照護工作。</p>
+            <p class="card__foot"><span>適合家庭照顧者喘息需求</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
+          </a>
+
+          <a class="card card--interactive" href="caregivers.html?type=medical">
+            <span class="icon-tile icon-tile--green"><i data-ic="medical-cross" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">就醫陪同</h3>
+            <p class="card__text">陪同就醫、傳達醫囑、協助記錄病情與回診追蹤。</p>
+            <p class="card__foot"><span>適合獨居長輩、無法請假的家屬</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
           </a>
         </div>
       </div>
-    </div>
-  </nav>
+    </section>
 
-  <!-- ===== HERO: 服務使用者視角 ===== -->
-  <section class="relative pt-8 pb-0 md:pt-12 md:pb-0 overflow-hidden">
-    <!-- 深海背景 -->
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0A1628] via-[#0F3460] to-[#16425B] -z-10"></div>
-    <!-- 背景裝飾：迷你群島地圖（淡化修飾） -->
-    <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-8 left-[5%] w-16 h-12">
-        <div class="w-full h-full bg-gradient-to-br from-green-400 to-green-600 rounded-full"></div>
-      </div>
-      <div class="absolute top-16 left-[15%] w-10 h-8">
-        <div class="w-full h-full bg-gradient-to-br from-green-500 to-green-700 rounded-full"></div>
-      </div>
-      <div class="absolute top-6 right-[20%] w-14 h-10">
-        <div class="w-full h-full bg-gradient-to-br from-green-400 to-green-600 rounded-full"></div>
-      </div>
-      <div class="absolute top-20 right-[10%] w-8 h-6">
-        <div class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 rounded-full"></div>
-      </div>
-      <div class="absolute bottom-32 left-[8%] w-12 h-9">
-        <div class="w-full h-full bg-gradient-to-br from-green-500 to-green-700 rounded-full"></div>
-      </div>
-      <div class="absolute bottom-24 right-[15%] w-10 h-7">
-        <div class="w-full h-full bg-gradient-to-br from-green-400 to-green-600 rounded-full"></div>
-      </div>
-      <!-- 沙灘光暈 -->
-      <div class="absolute top-8 left-[5%] w-20 h-16 bg-yellow-300/20 rounded-full blur-xl"></div>
-      <div class="absolute top-6 right-[20%] w-18 h-14 bg-yellow-300/15 rounded-full blur-xl"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-        <!-- Left: 主要訊息（使用者視角） -->
-        <div class="text-center md:text-left pb-12 md:pb-16">
-          <!-- 麵包屑 -->
-          <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 px-4 py-2 rounded-full mb-6">
-            <span class="w-2 h-2 bg-coral rounded-full"></span>
-            <span class="text-sm font-medium text-white/90">🏝️ 群島生態系</span>
+    <!-- ===================== 精選照護夥伴 ===================== -->
+    <section class="section section--sand" aria-labelledby="featuredTitle">
+      <div class="wrap">
+        <div class="sec-head sec-head__row">
+          <div>
+            <p class="eyebrow">照護夥伴</p>
+            <h2 class="sec-title" id="featuredTitle">評價最高的照護夥伴</h2>
+            <p class="sec-lead">以下為近期評價較高、服務年資 5 年以上的照護人員。</p>
           </div>
-
-          <h1 class="font-display font-extrabold text-3xl md:text-5xl lg:text-6xl text-white leading-tight mb-4">
-            每座島嶼，<br class="hidden md:block">
-            都是願意陪伴您的人
-          </h1>
-          <p class="text-base md:text-lg text-white/80 mb-2 leading-relaxed">
-            在這片群島中，每位照護工作者都有自己的小島。<br class="hidden md:block">
-            找到合適的夥伴，就像找到一座能信任的島嶼。
-          </p>
-          <p class="text-sm text-white/60 mb-8">
-            不知道從哪裡開始？選擇您需要的服務，立刻開始探索。
-          </p>
-
-          <!-- 雙按鈕 -->
-          <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-            <a href="#services" class="bg-white text-ocean px-7 py-3.5 rounded-full font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-2">
-              開始尋找合適的夥伴
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
-            </a>
-            <a href="caregivers.html" class="border-2 border-white/50 text-white px-7 py-3.5 rounded-full font-bold text-base hover:bg-white/10 transition-all text-center text-sm">
-              🌴 探索所有島嶼
-            </a>
-          </div>
+          <a class="more-link" href="caregivers.html">
+            查看全部 23 位夥伴
+            <i data-ic="arrow-right" data-ic-class="ic-16"></i>
+          </a>
         </div>
 
-        <!-- Right: 群島裝飾圖（手機時簡化為純視覺） -->
-        <div class="hidden md:flex flex-col items-center justify-center pb-12">
-          <!-- 島嶼地圖視覺效果 -->
-          <div class="relative w-full max-w-md">
-            <!-- 海洋背景卡片 -->
-            <div class="bg-gradient-to-br from-[#0F3460] to-[#16425B] rounded-3xl p-6 border border-cyan-500/20 shadow-2xl">
-              <!-- 地圖標題 -->
-              <div class="flex items-center gap-2 mb-4">
-                <span class="text-cyan-400 text-sm">🗺️</span>
-                <span class="text-white/80 text-sm font-medium">探索群島</span>
-              </div>
-              <!-- 島嶼群（裝飾性地呈現） -->
-              <div class="relative h-48">
-                <!-- 網格線 -->
-                <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(rgba(34,211,238,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.5) 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="grid-cards grid-cards--3" id="featuredCaregivers"></div>
+      </div>
+    </section>
 
-                <!-- Zone Label 左上 -->
-                <div class="absolute top-2 left-2 bg-slate-800/80 border border-cyan-500/30 rounded-lg px-2 py-1 text-xs text-white z-10">
-                  <span class="text-cyan-400">🏠</span> 居家陪伴
-                </div>
-                <!-- Zone Label 右上 -->
-                <div class="absolute top-2 right-2 bg-slate-800/80 border border-orange-500/30 rounded-lg px-2 py-1 text-xs text-white z-10">
-                  <span class="text-orange-400">☀️</span> 日間照護
-                </div>
+    <!-- ===================== 服務對象 ===================== -->
+    <section class="section section--white" aria-labelledby="audienceTitle">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">服務對象</p>
+          <h2 class="sec-title" id="audienceTitle">誰適合使用這項服務？</h2>
+          <p class="sec-lead">無論是為自己、為父母，或為家中其他長輩尋找協助，都可以提出需求。</p>
+        </div>
 
-                <!-- 島嶼們 -->
-                <!-- 島嶼1：大島 -->
-                <div class="absolute top-10 left-6">
-                  <div class="relative">
-                    <div class="absolute -inset-1 bg-yellow-300/40 rounded-full blur-sm"></div>
-                    <div class="relative w-16 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-                      <div class="absolute -top-1.5 -left-1 w-3 h-3 bg-green-700 rounded-full opacity-70"></div>
-                      <div class="absolute -top-0.5 right-2 w-2 h-2 bg-green-800 rounded-full opacity-60"></div>
-                      <span class="text-lg">👩‍⚕️</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- 島嶼2 -->
-                <div class="absolute top-8 right-10">
-                  <div class="relative">
-                    <div class="absolute -inset-1 bg-yellow-300/40 rounded-full blur-sm"></div>
-                    <div class="relative w-12 h-9 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center shadow-md">
-                      <span class="text-sm">👨‍⚕️</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- 島嶼3 -->
-                <div class="absolute top-20 left-20">
-                  <div class="relative">
-                    <div class="absolute -inset-1 bg-yellow-300/30 rounded-full blur-sm"></div>
-                    <div class="relative w-10 h-7 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-md">
-                      <span class="text-xs">👩‍🏫</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- 島嶼4 -->
-                <div class="absolute bottom-10 left-8">
-                  <div class="relative">
-                    <div class="absolute -inset-1 bg-yellow-300/40 rounded-full blur-sm"></div>
-                    <div class="relative w-11 h-8 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center shadow-md">
-                      <span class="text-sm">🌙</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- 島嶼5：右側大島 -->
-                <div class="absolute bottom-8 right-6">
-                  <div class="relative">
-                    <div class="absolute -inset-1 bg-yellow-300/40 rounded-full blur-sm"></div>
-                    <div class="relative w-14 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-                      <div class="absolute -top-1 left-2 w-2 h-2 bg-green-800 rounded-full opacity-60"></div>
-                      <span class="text-base">🏥</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- 島嶼6：小島 -->
-                <div class="absolute top-16 right-20">
-                  <div class="relative">
-                    <div class="absolute -inset-1 bg-yellow-300/30 rounded-full blur-sm"></div>
-                    <div class="relative w-8 h-6 bg-gradient-to-br from-green-600 to-green-800 rounded-full flex items-center justify-center shadow-sm">
-                      <span class="text-xs">👨‍⚕️</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 底部敘述 -->
-              <div class="mt-4 text-center">
-                <p class="text-white/70 text-xs">共 6 座島嶼，等待您的到來</p>
-                <a href="caregivers.html" class="inline-block mt-2 text-cyan-400 text-xs hover:text-cyan-300 font-medium">
-                  探索完整地圖 →
-                </a>
-              </div>
-            </div>
-          </div>
+        <div class="grid-cards grid-cards--3">
+          <article class="card card--flat">
+            <span class="icon-tile"><i data-ic="user-group" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">銀髮長輩</h3>
+            <p class="card__text">日常生活需要協助、子女白天無法全時陪伴的長者。</p>
+          </article>
+          <article class="card card--flat">
+            <span class="icon-tile icon-tile--green"><i data-ic="heart" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">術後與慢性病者</h3>
+            <p class="card__text">出院後需要居家照護、定期回診需要陪同的康復者。</p>
+          </article>
+          <article class="card card--flat">
+            <span class="icon-tile icon-tile--clay"><i data-ic="briefcase" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">主要照顧者與家屬</h3>
+            <p class="card__text">工作與照護難以兼顧，需要短期支援或分工的家庭。</p>
+          </article>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 波浪底線 -->
-    <div class="wave-divider">
-      <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 50L48 45C96 40 192 30 288 35C384 40 480 60 576 65C672 70 768 60 864 50C960 40 1056 30 1152 35C1248 40 1344 60 1392 70L1440 80V100H0V50Z" fill="#F5F0E8"/>
-      </svg>
-    </div>
-  </section>
-
-  <!-- ===== 如何開始：三步驟向導 ===== -->
-  <section id="how-it-works" class="bg-sand py-16">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="font-display font-bold text-2xl md:text-3xl text-night mb-3">簡單三步，開始使用</h2>
-        <p class="text-gray-500 text-sm">不需要複雜的申請流程，幾分鐘就能找到合適的照護夥伴</p>
-      </div>
-
-      <!-- 步進指示器 -->
-      <div class="flex justify-center items-center gap-3 mb-10">
-        <div class="step-dot active w-3 h-3 rounded-full bg-gray-300" id="stepDot1"></div>
-        <div class="w-12 h-0.5 bg-gray-300" id="stepLine1"></div>
-        <div class="step-dot w-3 h-3 rounded-full bg-gray-300" id="stepDot2"></div>
-        <div class="w-12 h-0.5 bg-gray-300" id="stepLine2"></div>
-        <div class="step-dot w-3 h-3 rounded-full bg-gray-300" id="stepDot3"></div>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Step 1 -->
-        <div class="bg-white rounded-2xl p-6 shadow-md border-2 border-transparent hover:border-ocean/20 transition-all">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-ocean to-ocean-light rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-md">
-              1
-            </div>
-            <div>
-              <h3 class="font-bold text-lg text-night">說說您的需求</h3>
-              <p class="text-xs text-gray-400">大約 1 分鐘</p>
-            </div>
+    <!-- ===================== 輔具推薦 ===================== -->
+    <section class="section section--sand" aria-labelledby="shopTitle">
+      <div class="wrap">
+        <div class="sec-head sec-head__row">
+          <div>
+            <p class="eyebrow">輔具補給</p>
+            <h2 class="sec-title" id="shopTitle">照護輔具推薦</h2>
+            <p class="sec-lead">協助日常照護的實用輔具，皆附規格與適用對象說明。</p>
           </div>
-          <p class="text-gray-600 text-sm leading-relaxed">
-            選擇您需要的服務類型（居家陪伴、日間照護、短期照護等），並告訴我們照護對象的基本情況。
-          </p>
+          <a class="more-link" href="shop.html">
+            前往輔具商店
+            <i data-ic="arrow-right" data-ic-class="ic-16"></i>
+          </a>
         </div>
 
-        <!-- Step 2 -->
-        <div class="bg-white rounded-2xl p-6 shadow-md border-2 border-transparent hover:border-ocean/20 transition-all">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-ocean to-ocean-light rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-md">
-              2
-            </div>
-            <div>
-              <h3 class="font-bold text-lg text-night">找到合適的夥伴</h3>
-              <p class="text-xs text-gray-400">瀏覽評價與專長</p>
-            </div>
-          </div>
-          <p class="text-gray-600 text-sm leading-relaxed">
-            瀏覽照護夥伴的簡介、評價與可服務時段，選中您認為最合適的人選，直接發送詢問。
-          </p>
+        <div class="grid-cards grid-cards--4" id="featuredProducts"></div>
+      </div>
+    </section>
+
+    <!-- ===================== 常見問題 ===================== -->
+    <section class="section section--paper" aria-labelledby="faqTitle">
+      <div class="wrap wrap--narrow">
+        <div class="sec-head">
+          <p class="eyebrow">常見問題</p>
+          <h2 class="sec-title" id="faqTitle">預約前想確認的事</h2>
         </div>
 
-        <!-- Step 3 -->
-        <div class="bg-white rounded-2xl p-6 shadow-md border-2 border-transparent hover:border-ocean/20 transition-all">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-ocean to-ocean-light rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-md">
-              3
-            </div>
-            <div>
-              <h3 class="font-bold text-lg text-night">開始安心的照護</h3>
-              <p class="text-xs text-gray-400">即時進度確認</p>
-            </div>
-          </div>
-          <p class="text-gray-600 text-sm leading-relaxed">
-            確認合作後即可開始服務。我們提供進度追蹤與雙向溝通，讓您隨時掌握照護情形。
-          </p>
+        <div class="stack-12">
+          <details class="card" style="padding:0">
+            <summary class="faq-summary">服務費用如何計算？</summary>
+            <p class="faq-body">
+              費用依服務項目、時段與照護需求程度而不同。每位照護夥伴的頁面皆列出參考時薪，
+              實際費用於聯繫時確認，不會在服務後追加未告知的項目。
+            </p>
+          </details>
+          <details class="card" style="padding:0">
+            <summary class="faq-summary">可以臨時取消或更改服務時間嗎？</summary>
+            <p class="faq-body">
+              可以。請於服務開始前至少 24 小時通知照護夥伴或客服，讓雙方都有充足的調整時間。
+            </p>
+          </details>
+          <details class="card" style="padding:0">
+            <summary class="faq-summary">照護夥伴的背景有把關嗎？</summary>
+            <p class="faq-body">
+              平台上的照護夥伴皆經資格與證照審核，並公開服務年資、專長項目與使用者評價，
+              協助您在聯繫前做出判斷。
+            </p>
+          </details>
+          <details class="card" style="padding:0">
+            <summary class="faq-summary">還有其他問題怎麼辦？</summary>
+            <p class="faq-body">
+              可透過客服信箱 service@archipelago.tw 聯繫，或於照護夥伴頁面直接送出詢問。
+              客服時間為週一至週五 09:00–18:00。
+            </p>
+          </details>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- ===== 服務項目：四大需求導向 ===== -->
-  <section id="services" class="bg-sand py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-10">
-        <h2 class="font-display font-bold text-2xl md:text-3xl text-night mb-3">我需要什麼樣的服務？</h2>
-        <p class="text-gray-500 text-sm">點擊符合您需求的項目，快速找到適合的照護夥伴</p>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <!-- 居家陪伴 -->
-        <div class="service-card bg-white rounded-2xl p-6 shadow-md border-2 border-transparent" onclick="goToService('home')">
-          <div class="w-16 h-16 bg-gradient-to-br from-ocean/10 to-ocean-light/20 rounded-2xl flex items-center justify-center mb-4 text-3xl">
-            🏠
-          </div>
-          <h3 class="font-bold text-lg text-night mb-2">居家陪伴</h3>
-          <p class="text-gray-500 text-sm leading-relaxed mb-4">
-            到府提供日常生活協助，包含起居照顧、身體清潔、服藥提醒、餐食準備等。
-          </p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-ocean font-medium">適合：長期臥床、長輩</span>
-            <span class="text-ocean">→</span>
-          </div>
-        </div>
-
-        <!-- 日間照護 -->
-        <div class="service-card bg-white rounded-2xl p-6 shadow-md border-2 border-transparent" onclick="goToService('daycare')">
-          <div class="w-16 h-16 bg-gradient-to-br from-coral/10 to-orange-200/20 rounded-2xl flex items-center justify-center mb-4 text-3xl">
-            ☀️
-          </div>
-          <h3 class="font-bold text-lg text-night mb-2">日間照護</h3>
-          <p class="text-gray-500 text-sm leading-relaxed mb-4">
-            白天來到日照據點，有專人陪伴活動、復健運動，晚上回到自己的家。
-          </p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-coral font-medium">適合：輕度失能、孤單長輩</span>
-            <span class="text-coral">→</span>
-          </div>
-        </div>
-
-        <!-- 短期照護 -->
-        <div class="service-card bg-white rounded-2xl p-6 shadow-md border-2 border-transparent" onclick="goToService('respite')">
-          <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200/30 rounded-2xl flex items-center justify-center mb-4 text-3xl">
-            🤝
-          </div>
-          <h3 class="font-bold text-lg text-night mb-2">短期照護</h3>
-          <p class="text-gray-500 text-sm leading-relaxed mb-4">
-            照顧者需要休息時，我們可以臨時接管，讓您放心暫時放下照護工作。
-          </p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-purple-600 font-medium">適合：照顧者喘息需求</span>
-            <span class="text-purple-500">→</span>
-          </div>
-        </div>
-
-        <!-- 就醫陪同 -->
-        <div class="service-card bg-white rounded-2xl p-6 shadow-md border-2 border-transparent" onclick="goToService('medical')">
-          <div class="w-16 h-16 bg-gradient-to-br from-island/10 to-island-light/20 rounded-2xl flex items-center justify-center mb-4 text-3xl">
-            🏥
-          </div>
-          <h3 class="font-bold text-lg text-night mb-2">就醫陪同</h3>
-          <p class="text-gray-500 text-sm leading-relaxed mb-4">
-            陪伴就醫、傳達醫囑、協助記錄病情，解決您無法親自陪同的擔憂。
-          </p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-island font-medium">適合：獨居長輩、忙碌家屬</span>
-            <span class="text-island">→</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 照護夥伴精選 ===== -->
-  <section class="bg-sand pb-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
         <div>
-          <h2 class="font-display font-bold text-2xl md:text-3xl text-night mb-1">照護夥伴精選</h2>
-          <p class="text-gray-500 text-sm">經驗豐富、深獲好評的照護工作者</p>
-        </div>
-        <a href="caregivers.html" class="text-ocean font-bold text-sm flex items-center gap-1 whitespace-nowrap">
-          看看所有夥伴 →
-        </a>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="featuredCaregivers">
-        <!-- 動態載入 -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 服務對象：誰需要這項服務 ===== -->
-  <section class="bg-white py-16">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="font-display font-bold text-2xl md:text-3xl text-night mb-3">誰適合使用這項服務？</h2>
-        <p class="text-gray-500 text-sm">無論是您自己、父母或家中長輩，只要有需求都可以使用</p>
-      </div>
-
-      <div class="grid sm:grid-cols-3 gap-6">
-        <div class="bg-sand rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-4">👴👵</div>
-          <h3 class="font-bold text-lg mb-2">銀髮長輩</h3>
-          <p class="text-gray-600 text-sm">日常生活需要協助、子女忙碌無法全日照護的長者</p>
-        </div>
-        <div class="bg-sand rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-4">🩺</div>
-          <h3 class="font-bold text-lg mb-2">術後/慢性病者</h3>
-          <p class="text-gray-600 text-sm">出院後需要居家照護、定期回診陪同的康復者</p>
-        </div>
-        <div class="bg-sand rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-4">💼</div>
-          <h3 class="font-bold text-lg mb-2">忙碌的家屬</h3>
-          <p class="text-gray-600 text-sm">想好好照顧家人，但工作與生活讓您分身乏術</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 好物推薦（不改方向，維持供應商視角OK） ===== -->
-  <section class="bg-night py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-10">
-        <span class="text-4xl mb-3 block">🛥️</span>
-        <h2 class="font-display font-bold text-2xl md:text-3xl text-white mb-2">照護好物推薦</h2>
-        <p class="text-gray-400 text-sm">協助日常照護的實用輔具，讓生活更輕鬆</p>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" id="featuredProducts">
-        <!-- 動態載入 -->
-      </div>
-
-      <div class="text-center mt-8">
-        <a href="shop.html" class="inline-block bg-white/10 border border-white/30 text-white px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-all">
-          更多好物 →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 常見問題 ===== -->
-  <section class="bg-sand py-16">
-    <div class="max-w-3xl mx-auto px-4">
-      <div class="text-center mb-10">
-        <h2 class="font-display font-bold text-2xl md:text-3xl text-night mb-3">常見問題</h2>
-      </div>
-
-      <div class="space-y-3" id="faqList">
-        <details class="bg-white rounded-xl p-4 shadow-sm cursor-pointer group">
-          <summary class="font-bold text-night flex items-center justify-between gap-3 list-none">
-            <span>服務費用怎麼計算？</span>
-            <span class="text-ocean group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <p class="text-gray-600 text-sm mt-3 leading-relaxed">
-            費用依據服務項目、時段與照護對象的照護需求程度而有所不同。您可以在瀏覽照護夥伴頁面時看到每位夥伴的參考費用，亦可於諮詢時進一步了解。
-          </p>
-        </details>
-        <details class="bg-white rounded-xl p-4 shadow-sm cursor-pointer group">
-          <summary class="font-bold text-night flex items-center justify-between gap-3 list-none">
-            <span>可以臨時取消或更改服務時間嗎？</span>
-            <span class="text-ocean group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <p class="text-gray-600 text-sm mt-3 leading-relaxed">
-            可以的。請在預定服務開始前至少 24 小時通知您的照護夥伴或透過客服協助更改，確保雙方有充足的準備時間。
-          </p>
-        </details>
-        <details class="bg-white rounded-xl p-4 shadow-sm cursor-pointer group">
-          <summary class="font-bold text-night flex items-center justify-between gap-3 list-none">
-            <span>照護夥伴的背景有把關嗎？</span>
-            <span class="text-ocean group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <p class="text-gray-600 text-sm mt-3 leading-relaxed">
-            所有照護夥伴均為经过篩選的專業從業人員。我們會確認其資格認證，並參考其他使用者給予的評價，協助您做判斷。
-          </p>
-        </details>
-        <details class="bg-white rounded-xl p-4 shadow-sm cursor-pointer group">
-          <summary class="font-bold text-night flex items-center justify-between gap-3 list-none">
-            <span>我有其他問題該怎麼辦？</span>
-            <span class="text-ocean group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <p class="text-gray-600 text-sm mt-3 leading-relaxed">
-            歡迎透過網站聯絡我們，或在瀏覽照護夥伴時直接發送訊息詢問。我們的客服時間為週一至週五 9:00-18:00。
-          </p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Footer ===== -->
-  <footer class="bg-night text-white py-12">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div>
-          <div class="flex items-center gap-2 mb-4">
-            <div class="w-10 h-10 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center">
-              <span class="text-xl">🏝️</span>
-            </div>
-            <span class="font-display font-bold text-lg">群島生態系</span>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name" style="color:#fff">群島生態系</span>
+              <span class="brand__tag" style="color:#a9c0c5">專業照護服務平台</span>
+            </span>
           </div>
-          <p class="text-gray-400 text-sm leading-relaxed">用溫暖的陪伴，<br>守护每一個需要關懷的人。</p>
+          <p style="font-size:0.9375rem;line-height:1.75;color:#a9c0c5">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
         </div>
+
         <div>
-          <h4 class="font-bold mb-4 text-sm">服務項目</h4>
-          <ul class="space-y-2 text-gray-400 text-sm">
-            <li><a href="caregivers.html?type=home" class="hover:text-ocean">🏠 居家陪伴</a></li>
-            <li><a href="caregivers.html?type=daycare" class="hover:text-ocean">☀️ 日間照護</a></li>
-            <li><a href="caregivers.html?type=respite" class="hover:text-ocean">🤝 短期照護</a></li>
-            <li><a href="caregivers.html?type=medical" class="hover:text-ocean">🏥 就醫陪同</a></li>
-          </ul>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
         </div>
+
         <div>
-          <h4 class="font-bold mb-4 text-sm">好物推薦</h4>
-          <ul class="space-y-2 text-gray-400 text-sm">
-            <li><a href="shop.html?category=mobility" class="hover:text-ocean">🦽 行動輔具</a></li>
-            <li><a href="shop.html?category=bathroom" class="hover:text-ocean">🚿 衛浴輔具</a></li>
-            <li><a href="shop.html?category=safety" class="hover:text-ocean">🔒 居家安全</a></li>
-            <li><a href="shop.html" class="hover:text-ocean">全部商品 →</a></li>
-          </ul>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
         </div>
+
         <div>
-          <h4 class="font-bold mb-4 text-sm">聯絡我們</h4>
-          <ul class="space-y-2 text-gray-400 text-sm">
-            <li>✉️ service@archipelago.tw</li>
-            <li>🕐 週一至週五 9:00-18:00</li>
-          </ul>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
         </div>
       </div>
-      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-xs">
-        <p>© 2026 群島生態系 版權所有 | 本網站為服務展示用途</p>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
       </div>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
-    // ===== 精選夥伴 =====
-    function loadFeaturedCaregivers() {
-      const container = document.getElementById('featuredCaregivers');
-      const featured = caregivers.slice(0, 3);
-      container.innerHTML = featured.map(cg => createIslandCardNew(cg)).join('');
+    // ===== 服務區域分布（群島概念 → 資料面板） =====
+    const zoneSummary = [
+      { key: 'homecare', name: '居家陪伴', count: 8, total: 23, label: '8 位照護夥伴' },
+      { key: 'daycare', name: '日照中心', count: 5, total: 23, label: '5 位照護夥伴' },
+      { key: 'respite', name: '喘息服務', count: 4, total: 23, label: '4 位照護夥伴' },
+      { key: 'medical', name: '就醫陪同', count: 6, total: 23, label: '6 位照護夥伴' }
+    ];
+
+    function renderZoneRows() {
+      const host = document.getElementById('zoneRows');
+      host.innerHTML = zoneSummary.map(z => `
+        <a href="caregivers.html?type=${z.key === 'homecare' ? 'home' : z.key}"
+           class="list-row" style="padding:12px 14px;text-decoration:none;color:inherit">
+          <span class="list-row__main">
+            <span style="display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+              <span style="font-weight:700">${z.name}</span>
+              <span class="num" style="font-size:0.8125rem;color:var(--muted)">${z.label}</span>
+            </span>
+            <span class="zone__bar"><i style="width:${Math.round(z.count / z.total * 100)}%"></i></span>
+          </span>
+          <i data-ic="chevron-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+        </a>
+      `).join('');
+      renderIcons(host);
     }
 
-    function createIslandCardNew(cg) {
-      const serviceIcons = { home: '🏠', daycare: '☀️', respite: '🤝', medical: '🏥' };
-      const servicesHtml = cg.services.map(s => `<span class="text-xs bg-sand px-2 py-0.5 rounded-full">${serviceIcons[s] || ''}</span>`).join('');
+    // ===== 精選照護夥伴 =====
+    function serviceTags(cg) {
+      return (cg.serviceNames || []).map(s => `<span class="tag">${s}</span>`).join('');
+    }
 
+    function createCaregiverCardPro(cg) {
       return `
-        <div class="island-card bg-white rounded-2xl overflow-hidden shadow-lg">
-          <div class="h-20 bg-gradient-to-br from-ocean/20 to-island/20 relative">
-            <div class="absolute -bottom-10 left-1/2 transform -translate-x-1/2">
-              <img src="${cg.avatar}" alt="${cg.name}" class="w-20 h-20 rounded-full border-4 border-white object-cover shadow-lg">
+        <article class="cg-card">
+          <div class="cg-card__media">
+            <img class="media-4x3" src="${cg.avatar}" alt="${cg.name}，${cg.location}照護服務人員">
+            ${cg.certified ? `<span class="badge badge--verified cg-card__badge">${icon('shield-check', 'ic-14')}已認證</span>` : ''}
+          </div>
+          <div class="cg-card__body">
+            <h3 class="cg-card__name">${cg.name}</h3>
+            <p class="cg-card__meta">${cg.location} · ${cg.age}歲 · 服務 ${cg.experience} 年</p>
+            <p class="rating" style="margin-top:8px">
+              ${icon('star-solid', 'ic-16')}${cg.rating}
+              <span class="rating__count">（${cg.reviews} 則評價）</span>
+            </p>
+            <p class="cg-card__intro">${cg.intro}</p>
+            <div class="cg-card__tags">${serviceTags(cg)}</div>
+            <div class="cg-card__foot">
+              <span class="price">$${cg.price}<span class="price__unit">／小時</span></span>
+              <span style="display:flex;gap:8px">
+                <a class="btn btn--secondary btn--sm" href="caregiver-profile.html?id=${cg.id}">查看</a>
+                <a class="btn btn--primary btn--sm" href="booking.html?caregiverId=${cg.id}">預約</a>
+              </span>
             </div>
           </div>
-          <div class="pt-12 pb-5 px-4 text-center">
-            <div class="flex items-center justify-center gap-2 mb-1">
-              <h3 class="font-bold text-lg">${cg.name}</h3>
-              ${cg.certified ? '<span class="text-xs bg-island/20 text-island px-2 py-0.5 rounded-full">已認證</span>' : ''}
-            </div>
-            <p class="text-gray-500 text-xs mb-2">${cg.location} · ${cg.age}歲</p>
-            <div class="flex items-center justify-center gap-1 mb-3">
-              <span class="text-coral">★</span>
-              <span class="font-bold text-sm">${cg.rating}</span>
-              <span class="text-gray-400 text-xs">(${cg.reviews}則評價)</span>
-            </div>
-            <div class="flex flex-wrap justify-center gap-1.5 mb-3">
-              ${servicesHtml}
-            </div>
-            <p class="text-gray-600 text-xs line-clamp-2 mb-4 px-2">${cg.intro}</p>
-            <div class="flex items-center justify-between px-2 pt-3 border-t border-gray-100">
-              <div>
-                <span class="text-xl font-bold text-coral">$${cg.price}</span>
-                <span class="text-gray-400 text-xs">/小時</span>
-              </div>
-              <div class="flex gap-2">
-                <a href="caregiver-profile.html?id=${cg.id}" class="px-3 py-1.5 border border-ocean/40 text-ocean rounded-full text-xs hover:bg-ocean/5 transition-colors">
-                  查看
-                </a>
-                <a href="booking.html?caregiverId=${cg.id}" class="px-3 py-1.5 bg-ocean text-white rounded-full text-xs hover:bg-ocean-dark transition-colors">
-                  詢問
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </article>
       `;
     }
 
-    // ===== 精選商品 =====
-    function loadFeaturedProducts() {
-      const container = document.getElementById('featuredProducts');
-      const featured = products.slice(0, 4);
-      container.innerHTML = featured.map(p => createSupplyCardNew(p)).join('');
+    function loadFeaturedCaregivers() {
+      const host = document.getElementById('featuredCaregivers');
+      const featured = caregivers.slice().sort((a, b) => b.rating - a.rating).slice(0, 3);
+      host.innerHTML = featured.map(createCaregiverCardPro).join('');
+      renderIcons(host);
     }
 
-    function createSupplyCardNew(prod) {
+    // ===== 輔具推薦 =====
+    function createProductCardPro(prod) {
+      const discount = prod.originalPrice
+        ? Math.round((1 - prod.price / prod.originalPrice) * 100)
+        : null;
       return `
-        <div class="bg-night-light rounded-xl overflow-hidden hover:scale-105 transition-all cursor-pointer">
-          <div class="relative">
-            <img src="${prod.image}" alt="${prod.name}" class="w-full h-32 object-cover">
-            <span class="absolute top-2 right-2 bg-coral/90 text-white text-xs px-2 py-0.5 rounded-full">
-              ${prod.categoryName}
-            </span>
-          </div>
-          <div class="p-3">
-            <h4 class="font-bold text-white text-sm mb-1 line-clamp-1">${prod.name}</h4>
-            <div class="flex items-center gap-1 mb-2">
-              <span class="text-coral text-xs">★</span>
-              <span class="text-white text-xs">${prod.rating}</span>
-              <span class="text-gray-500 text-xs">已售${prod.sold}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-base font-bold text-coral">$${prod.price}</span>
-              <button onclick="event.stopPropagation(); addToCart(${prod.id})" class="w-7 h-7 bg-ocean/30 rounded-full flex items-center justify-center hover:bg-ocean/50 transition-colors">
-                <span class="text-white text-xs">+</span>
+        <article class="prod-card">
+          <a class="prod-card__media" href="product.html?id=${prod.id}" aria-label="${prod.name}">
+            <img class="media-4x3" src="${prod.image}" alt="${prod.name}">
+            ${discount ? `<span class="badge badge--price prod-card__cat">-${discount}%</span>`
+                       : `<span class="badge badge--neutral prod-card__cat">${prod.categoryName}</span>`}
+          </a>
+          <div class="prod-card__body">
+            <h3 class="prod-card__name"><a href="product.html?id=${prod.id}" style="color:inherit">${prod.name}</a></h3>
+            <p class="prod-card__desc">${prod.description}</p>
+            <div class="prod-card__foot">
+              <span class="price">$${prod.price.toLocaleString()}
+                ${prod.originalPrice ? `<span class="price-old">$${prod.originalPrice.toLocaleString()}</span>` : ''}
+              </span>
+              <button class="btn btn--secondary btn--sm" type="button"
+                      onclick="addToCart(${prod.id})" aria-label="將 ${prod.name} 加入購物車">
+                ${icon('plus', 'ic-16')}加入
               </button>
             </div>
           </div>
-        </div>
+        </article>
       `;
     }
 
-    // ===== 服務類型跳轉 =====
-    // index.html: goToService('home') → ?type=home
-    // caregivers.html: openZone() takes zone names homecare/daycare/respite/medical
-    const typeToZone = { home: 'homecare', daycare: 'daycare', respite: 'respite', medical: 'medical' };
-    function goToService(type) {
-      window.location.href = 'caregivers.html?type=' + type;
+    function loadFeaturedProducts() {
+      const host = document.getElementById('featuredProducts');
+      host.innerHTML = products.slice(0, 4).map(createProductCardPro).join('');
+      renderIcons(host);
     }
 
-    // ===== Mobile Menu =====
+    // ===== 行動版選單 =====
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
-      menu.classList.toggle('hidden');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
     }
 
-    // ===== 初始化 =====
     document.addEventListener('DOMContentLoaded', () => {
+      renderZoneRows();
       loadFeaturedCaregivers();
       loadFeaturedProducts();
       updateCartCount();
+      initReveal();
     });
   </script>
 </body>

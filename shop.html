@@ -3,388 +3,398 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>島嶼補給站 - 群島生態系</title>
+  <title>輔具商店｜群島生態系</title>
+  <meta name="description" content="照護輔具線上商店：行動輔具、衛浴輔具、居家安全、舒壓輔具與健康監測共 8 項商品，皆附規格與適用對象說明，滿千免運、正品保證、七天鑑賞。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="輔具商店｜群島生態系">
+  <meta property="og:description" content="依照護情境挑選行動輔具、衛浴輔具、居家安全與健康監測用品，規格與適用對象公開透明。">
+  <meta name="theme-color" content="#0F5565">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* 海洋漸層背景 */
-    .ocean-bg {
-      background: linear-gradient(180deg, #E0F2FE 0%, #F5F0E8 100%);
-    }
-    
-    /* 商品卡片 */
-    .product-card {
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.15);
-    }
-    .product-card .img-wrapper {
-      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    /* 分類標籤 */
-    .category-btn {
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-    }
-    .category-btn:hover {
-      border-color: #0891B2;
-    }
-    .category-btn.active {
-      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
-      color: white;
-      border-color: transparent;
-    }
-    
-    /* 折扣標籤 */
-    .discount-tag {
-      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-    }
-    
-    /* 島嶼裝飾 */
-    .island-deco {
-      position: absolute;
-      opacity: 0.1;
-      pointer-events: none;
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="ocean-bg font-sans">
-  
-  <!-- Header -->
-  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
-    <div class="max-w-6xl mx-auto px-4 py-4">
-      <div class="flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
-            <span class="text-2xl">🏝️</span>
-          </div>
-          <div>
-            <span class="font-display font-bold text-xl text-night">群島生態系</span>
-            <p class="text-xs text-gray-500">照護服務平台</p>
-          </div>
+<body class="font-sans">
+
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html">首頁</a>
+        <a class="nav-link" href="index.html#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html" aria-current="page">輔具商店</a>
+      </nav>
+
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
         </a>
-        <nav class="flex items-center gap-4">
-          <a href="dashboard.html" class="text-gray-600 hover:text-ocean">🏠 我的島嶼</a>
-          <a href="caregivers.html" class="text-gray-600 hover:text-ocean">🚢 探索群島</a>
-          <a href="shop.html" class="text-ocean font-medium">🛒 島嶼補給站</a>
-          <a href="cart.html" class="relative">
-            <span class="text-2xl">🛒</span>
-            <span id="cartBadge" class="absolute -top-2 -right-2 w-5 h-5 bg-coral text-white text-xs rounded-full flex items-center justify-center font-bold">0</span>
-          </a>
-          <a href="login.html" class="px-4 py-2 bg-gradient-to-r from-ocean to-island text-white rounded-lg font-medium">登入</a>
-        </nav>
+        <a class="btn btn--primary btn--sm" href="login.html"><span class="hide-sm">登入 / 註冊</span><span class="show-sm">登入</span></a>
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
+        </button>
       </div>
+    </div>
+
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="index.html#services"><i data-ic="squares-2x2" data-ic-class="ic-20"></i>服務項目</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html" aria-current="page"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="cart.html"><i data-ic="shopping-cart" data-ic-class="ic-20"></i>購物車</a>
+        <a href="login.html"><i data-ic="arrow-right-on-rectangle" data-ic-class="ic-20"></i>登入 / 註冊</a>
+      </nav>
     </div>
   </header>
 
-  <!-- Hero Banner -->
-  <div class="relative bg-gradient-to-r from-ocean via-ocean-light to-island py-12 overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-      <svg class="w-full h-full" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
-        <ellipse cx="50" cy="150" rx="40" ry="30" fill="#166534"/>
-        <ellipse cx="150" cy="140" rx="50" ry="35" fill="#15803D"/>
-        <ellipse cx="300" cy="145" rx="45" ry="32" fill="#166534"/>
-        <ellipse cx="380" cy="155" rx="30" ry="20" fill="#15803D"/>
-      </svg>
-    </div>
-    <div class="max-w-6xl mx-auto px-4 text-center text-white relative z-10">
-      <h1 class="font-display font-bold text-4xl mb-3">🛒 島嶼補給站</h1>
-      <p class="text-lg text-white/90 mb-6">照護好物精選，讓照護更輕鬆</p>
-      <div class="flex justify-center gap-4 text-sm">
-        <span class="bg-white/20 backdrop-blur px-4 py-2 rounded-full">🚚 滿千免運</span>
-        <span class="bg-white/20 backdrop-blur px-4 py-2 rounded-full">💯 正品保證</span>
-        <span class="bg-white/20 backdrop-blur px-4 py-2 rounded-full">🔄 七天退換</span>
-      </div>
-    </div>
-  </div>
+  <main id="main">
 
-  <!-- Main Content -->
-  <main class="max-w-6xl mx-auto px-4 py-8">
-    
-    <!-- Categories -->
-    <div class="flex gap-3 mb-8 overflow-x-auto pb-2">
-      <button onclick="filterCategory('all')" class="category-btn active whitespace-nowrap px-5 py-2.5 rounded-full font-medium text-sm bg-white shadow">
-        📦 全部商品
-      </button>
-      <button onclick="filterCategory('mobility')" class="category-btn whitespace-nowrap px-5 py-2.5 rounded-full font-medium text-sm bg-white shadow">
-        🦽 行動輔具
-      </button>
-      <button onclick="filterCategory('daily')" class="category-btn whitespace-nowrap px-5 py-2.5 rounded-full font-medium text-sm bg-white shadow">
-        🛏️ 日常照護
-      </button>
-      <button onclick="filterCategory('medical')" class="category-btn whitespace-nowrap px-5 py-2.5 rounded-full font-medium text-sm bg-white shadow">
-        💊 醫護用品
-      </button>
-      <button onclick="filterCategory('safety')" class="category-btn whitespace-nowrap px-5 py-2.5 rounded-full font-medium text-sm bg-white shadow">
-        ⚠️ 安全防護
-      </button>
-      <button onclick="filterCategory('rehab')" class="category-btn whitespace-nowrap px-5 py-2.5 rounded-full font-medium text-sm bg-white shadow">
-        🧘 復健器材
-      </button>
-    </div>
-
-    <!-- Products Grid -->
-    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      
-      <!-- Product 1 -->
-      <div class="product-card" data-category="mobility">
-        <div class="img-wrapper relative">
-          <span class="discount-tag absolute top-3 left-3 text-white text-xs px-2 py-1 rounded-full font-bold">75折</span>
-          <span class="text-7xl">🦽</span>
-        </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">行動輔具</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">輕量鋁合金輪椅</h3>
-          <p class="text-sm text-gray-500 mb-3">可折疊攜帶 · 8kg超輕設計</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-2xl font-bold text-coral">$2,680</span>
-              <span class="text-sm text-gray-400 line-through ml-1">$3,580</span>
-            </div>
-            <button onclick="addToCart('輕量鋁合金輪椅', 2680)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
+    <!-- ===================== 商店標題 ===================== -->
+    <section class="section section--paper" aria-labelledby="shopTitle">
+      <div class="wrap">
+        <div class="sec-head sec-head__row">
+          <div>
+            <p class="eyebrow">輔具商店</p>
+            <h1 class="sec-title" id="shopTitle">照護輔具與生活輔具</h1>
+            <p class="sec-lead">
+              商品依照護情境分成五類，每項皆附規格、適用對象與售後說明。
+              可先查看單品詳細資訊，再決定是否加入購物車。
+            </p>
           </div>
         </div>
       </div>
 
-      <!-- Product 2 -->
-      <div class="product-card" data-category="daily">
-        <div class="img-wrapper relative">
-          <span class="discount-tag absolute top-3 left-3 text-white text-xs px-2 py-1 rounded-full font-bold">82折</span>
-          <span class="text-7xl">🛏️</span>
-        </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">日常照護</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">三折式病床床墊</h3>
-          <p class="text-sm text-gray-500 mb-3">防壓瘡 · 透氣防水</p>
-          <div class="flex items-center justify-between">
+      <div class="trust-bar">
+        <div class="wrap trust-bar__inner">
+          <div class="trust-item">
+            <i data-ic="truck" data-ic-class="ic-24"></i>
             <div>
-              <span class="text-2xl font-bold text-coral">$4,200</span>
-              <span class="text-sm text-gray-400 line-through ml-1">$5,120</span>
+              <p class="trust-item__title">滿千免運</p>
+              <p class="trust-item__text">單筆訂單金額滿 NT$1,000，本島地區免收運費。</p>
             </div>
-            <button onclick="addToCart('三折式病床床墊', 4200)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
+          </div>
+          <div class="trust-item">
+            <i data-ic="shield-check" data-ic-class="ic-24"></i>
+            <div>
+              <p class="trust-item__title">正品保證</p>
+              <p class="trust-item__text">商品皆附購買證明，輔具類依原廠規範提供保固。</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <i data-ic="arrow-path" data-ic-class="ic-24"></i>
+            <div>
+              <p class="trust-item__title">七天鑑賞</p>
+              <p class="trust-item__text">收貨後七日內可申請退換，需保持商品與包裝完整。</p>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Product 3 -->
-      <div class="product-card" data-category="safety">
-        <div class="img-wrapper relative">
-          <span class="text-7xl">⚠️</span>
-        </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">安全防護</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">床邊扶手起身架</h3>
-          <p class="text-sm text-gray-500 mb-3">輔助起身 · 防摔設計</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-2xl font-bold text-night">$1,480</span>
-            </div>
-            <button onclick="addToCart('床邊扶手起身架', 1480)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
+    <!-- ===================== 商品目錄 ===================== -->
+    <section class="section section--white" aria-labelledby="catalogTitle">
+      <div class="wrap">
+        <div class="sec-head sec-head__row">
+          <div>
+            <p class="eyebrow">商品目錄</p>
+            <h2 class="sec-title" id="catalogTitle">依需求挑選輔具</h2>
+            <p class="sec-lead">
+              目前分類：<strong id="resultCategory">全部商品</strong>，共
+              <span class="num" id="resultCount">0</span> 項商品。選擇下方分類可縮小範圍。
+            </p>
           </div>
         </div>
-      </div>
 
-      <!-- Product 4 -->
-      <div class="product-card" data-category="medical">
-        <div class="img-wrapper relative">
-          <span class="discount-tag absolute top-3 left-3 text-white text-xs px-2 py-1 rounded-full font-bold">88折</span>
-          <span class="text-7xl">💊</span>
+        <div class="flex flex-wrap gap-2.5 mb-7" id="categoryChips" role="group" aria-label="商品分類篩選">
+          <button class="chip" type="button" data-category="all" aria-pressed="true" onclick="filterCategory('all')">
+            <i data-ic="squares-2x2" data-ic-class="ic-20"></i>全部商品
+          </button>
+          <button class="chip" type="button" data-category="mobility" aria-pressed="false" onclick="filterCategory('mobility')">
+            <i data-ic="wheelchair" data-ic-class="ic-20"></i>行動輔具
+          </button>
+          <button class="chip" type="button" data-category="bathroom" aria-pressed="false" onclick="filterCategory('bathroom')">
+            <i data-ic="home-modern" data-ic-class="ic-20"></i>衛浴輔具
+          </button>
+          <button class="chip" type="button" data-category="safety" aria-pressed="false" onclick="filterCategory('safety')">
+            <i data-ic="shield-check" data-ic-class="ic-20"></i>居家安全
+          </button>
+          <button class="chip" type="button" data-category="comfort" aria-pressed="false" onclick="filterCategory('comfort')">
+            <i data-ic="heart" data-ic-class="ic-20"></i>舒壓輔具
+          </button>
+          <button class="chip" type="button" data-category="medical" aria-pressed="false" onclick="filterCategory('medical')">
+            <i data-ic="medical-cross" data-ic-class="ic-20"></i>健康監測
+          </button>
         </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">醫護用品</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">智能藥盒提醒器</h3>
-          <p class="text-sm text-gray-500 mb-3">定時提醒 · 7格分裝</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-2xl font-bold text-coral">$680</span>
-              <span class="text-sm text-gray-400 line-through ml-1">$780</span>
-            </div>
-            <button onclick="addToCart('智能藥盒提醒器', 680)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- Product 5 -->
-      <div class="product-card" data-category="rehab">
-        <div class="img-wrapper relative">
-          <span class="text-7xl">🧘</span>
-        </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">復健器材</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">康復拉力訓練套組</h3>
-          <p class="text-sm text-gray-500 mb-3">5段阻力 · 訓練肌力</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-2xl font-bold text-night">$1,280</span>
-            </div>
-            <button onclick="addToCart('康復拉力訓練套組', 1280)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
-          </div>
+        <div class="grid-cards grid-cards--4" id="productsGrid"></div>
+
+        <div class="empty" id="emptyState" hidden>
+          <div class="empty__icon" aria-hidden="true"><i data-ic="magnifying-glass" data-ic-class="ic-24"></i></div>
+          <h3 class="empty__title">這個分類目前沒有商品</h3>
+          <p class="empty__text">此分類尚無上架品項，可切換其他分類，或回到全部商品重新挑選。</p>
+          <button class="btn btn--primary btn--sm" type="button" onclick="filterCategory('all')">查看全部商品</button>
         </div>
       </div>
+    </section>
 
-      <!-- Product 6 -->
-      <div class="product-card" data-category="mobility">
-        <div class="img-wrapper relative">
-          <span class="text-7xl">🦯</span>
+    <!-- ===================== 購買前提醒 ===================== -->
+    <section class="section section--sand" aria-labelledby="noticeTitle">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">購買前提醒</p>
+          <h2 class="sec-title" id="noticeTitle">選購輔具常問的事</h2>
+          <p class="sec-lead">若對規格或適用對象有疑問，可先來信客服，我們會依使用情境提供建議。</p>
         </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">行動輔具</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">四腳摺疊拐杖</h3>
-          <p class="text-sm text-gray-500 mb-3">可調高度 · 防滑底座</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-2xl font-bold text-night">$780</span>
-            </div>
-            <button onclick="addToCart('四腳摺疊拐杖', 780)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
-          </div>
+
+        <div class="grid-cards grid-cards--3">
+          <article class="card card--flat">
+            <span class="icon-tile"><i data-ic="adjustments-horizontal" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">不確定該選哪一類？</h3>
+            <p class="card__text">
+              可從照護情境出發：行走與移位挑行動輔具，如廁洗澡挑衛浴輔具，
+              防跌與夜間動線挑居家安全，久坐久躺的舒適度挑舒壓輔具，需要量測生理數值則選健康監測。
+            </p>
+          </article>
+
+          <article class="card card--flat">
+            <span class="icon-tile icon-tile--line"><i data-ic="clipboard-document-list" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">規格與承重如何確認？</h3>
+            <p class="card__text">
+              每項商品的詳細頁列出尺寸、材質、承重與適用對象。
+              若仍有疑問，請提供使用者的身高、體重與使用環境，客服可協助確認。
+            </p>
+          </article>
+
+          <article class="card card--flat">
+            <span class="icon-tile icon-tile--green"><i data-ic="receipt-percent" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">可以申請輔具補助嗎？</h3>
+            <p class="card__text">
+              平台不代辦補助申請。如需申請輔具補助，建議洽各縣市長期照顧管理中心，
+              確認補助項目、額度與流程後再選購。
+            </p>
+          </article>
         </div>
+
+        <p style="margin-top:24px;font-size:0.9375rem;color:var(--muted)">
+          <i data-ic="information-circle" data-ic-class="ic-16"></i>
+          客服時間為週一至週五 09:00–18:00，來信 <a href="mailto:service@archipelago.tw">service@archipelago.tw</a>。
+        </p>
       </div>
-
-      <!-- Product 7 -->
-      <div class="product-card" data-category="daily">
-        <div class="img-wrapper relative">
-          <span class="discount-tag absolute top-3 left-3 text-white text-xs px-2 py-1 rounded-full font-bold">7折</span>
-          <span class="text-7xl">🛁</span>
-        </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">日常照護</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">坐浴盆輔助椅</h3>
-          <p class="text-sm text-gray-500 mb-3">洗澡安全 · 升降可調</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-2xl font-bold text-coral">$1,860</span>
-              <span class="text-sm text-gray-400 line-through ml-1">$2,680</span>
-            </div>
-            <button onclick="addToCart('坐浴盆輔助椅', 1860)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product 8 -->
-      <div class="product-card" data-category="safety">
-        <div class="img-wrapper relative">
-          <span class="text-7xl">🚨</span>
-        </div>
-        <div class="p-5">
-          <div class="text-xs text-island font-medium mb-1">安全防護</div>
-          <h3 class="font-bold text-night mb-2 line-clamp-2">離床感應警报器</h3>
-          <p class="text-sm text-gray-500 mb-3">遠離床墊立即通知</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-2xl font-bold text-night">$2,480</span>
-            </div>
-            <button onclick="addToCart('離床感應警报器', 2480)" class="w-10 h-10 bg-gradient-to-r from-ocean to-island text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-              +
-            </button>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-night text-white py-8 mt-12">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <div class="flex items-center justify-center gap-2 mb-4">
-        <span class="text-2xl">🏝️</span>
-        <span class="font-display font-bold">群島生態系</span>
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name" style="color:#fff">群島生態系</span>
+              <span class="brand__tag" style="color:#a9c0c5">專業照護服務平台</span>
+            </span>
+          </div>
+          <p style="font-size:0.9375rem;line-height:1.75;color:#a9c0c5">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
+        </div>
+
+        <div>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
+        </div>
       </div>
-      <p class="text-gray-400 text-sm">© 2024 群島生態系照護服務平台 | 守護每座島嶼的幸福</p>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // ===== 分類定義（對應 data.js 的 category 值） =====
+    const SHOP_CATEGORIES = [
+      { key: 'all', name: '全部商品' },
+      { key: 'mobility', name: '行動輔具' },
+      { key: 'bathroom', name: '衛浴輔具' },
+      { key: 'safety', name: '居家安全' },
+      { key: 'comfort', name: '舒壓輔具' },
+      { key: 'medical', name: '健康監測' }
+    ];
 
-    function updateCartBadge() {
-      const total = cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById('cartBadge').textContent = total;
+    let activeCategory = 'all';
+
+    // 分類代表圖示（圖片載入失敗時的替代顯示）
+    const CATEGORY_ICON = {
+      mobility: 'wheelchair', bathroom: 'home-modern', safety: 'shield-check',
+      comfort: 'heart', medical: 'medical-cross'
+    };
+
+    // 圖片若無法載入，改以中性色塊＋分類圖示替代，避免破圖
+    function handleImageError(img) {
+      img.style.display = 'none';
+      const host = img.parentElement;
+      if (!host || host.querySelector('.prod-card__ph')) return;
+      const ph = document.createElement('div');
+      ph.className = 'prod-card__ph flex items-center justify-center w-full aspect-[4/3] bg-sand text-ocean-light';
+      ph.setAttribute('aria-hidden', 'true');
+      const card = host.closest('.prod-card');
+      ph.innerHTML = icon(CATEGORY_ICON[card && card.dataset.category] || 'shopping-bag', 'ic-32');
+      host.insertBefore(ph, host.firstChild);
     }
 
-    function addToCart(name, price) {
-      const exist = cart.find(i => i.name === name);
-      if (exist) {
-        exist.qty++;
-      } else {
-        cart.push({ name, price, qty: 1 });
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartBadge();
-      
-      // Animation feedback
-      const badge = document.getElementById('cartBadge');
-      badge.classList.add('scale-125');
-      setTimeout(() => badge.classList.remove('scale-125'), 200);
-      
-      alert(`✅ 已加入購物車：${name}`);
+    // 供屬性（alt / aria-label）使用的簡易跳脫
+    function escAttr(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
-    function filterCategory(cat) {
-      // Update tab
-      document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+    // ===== 商品卡片 =====
+    function createProductCard(prod) {
+      const discount = prod.originalPrice
+        ? Math.round((1 - prod.price / prod.originalPrice) * 100)
+        : null;
+      const name = escAttr(prod.name);
 
-      // Filter cards
-      document.querySelectorAll('.product-card').forEach(card => {
-        if (cat === 'all' || card.dataset.category === cat) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
+      return `
+        <article class="prod-card" data-category="${prod.category}">
+          <a class="prod-card__media" href="product.html?id=${prod.id}" aria-label="檢視 ${name} 商品詳細資訊">
+            <img class="media-4x3" src="${prod.image}" alt="${name}，${prod.categoryName}商品照片" loading="lazy" onerror="handleImageError(this)">
+            ${discount ? `<span class="badge badge--price prod-card__cat">-${discount}%</span>` : ''}
+          </a>
+          <div class="prod-card__body">
+            <span class="badge badge--neutral" style="align-self:flex-start">${prod.categoryName}</span>
+            <h3 class="prod-card__name" style="margin-top:10px">
+              <a href="product.html?id=${prod.id}" style="color:inherit">${prod.name}</a>
+            </h3>
+            <p class="prod-card__desc">${prod.description}</p>
+            <p class="rating">
+              <i data-ic="star-solid" data-ic-class="ic-16"></i>${prod.rating}
+              <span class="rating__count">已售 ${prod.sold} 件</span>
+            </p>
+            <div class="prod-card__foot">
+              <span class="price">$${prod.price.toLocaleString()}${prod.originalPrice ? `<span class="price-old">$${prod.originalPrice.toLocaleString()}</span>` : ''}</span>
+              <button class="btn btn--secondary btn--sm" type="button"
+                      onclick="addProductToCart(${prod.id})"
+                      aria-label="將 ${name} 加入購物車">
+                <i data-ic="plus" data-ic-class="ic-16"></i>加入
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    // ===== 加入購物車（沿用 data.js 的 addToCart） =====
+    function addProductToCart(productId) {
+      const prod = products.find(p => p.id === productId);
+      if (!prod) return;
+      addToCart(productId);
+      showNotification(`已將「${prod.name}」加入購物車`, 'success');
+    }
+
+    // ===== 篩選與渲染 =====
+    function renderProducts() {
+      const grid = document.getElementById('productsGrid');
+      const emptyState = document.getElementById('emptyState');
+      const list = filterProducts(products, { category: activeCategory });
+
+      grid.innerHTML = list.map(createProductCard).join('');
+      renderIcons(grid);
+
+      document.getElementById('resultCount').textContent = list.length;
+      const current = SHOP_CATEGORIES.find(c => c.key === activeCategory) || SHOP_CATEGORIES[0];
+      document.getElementById('resultCategory').textContent = current.name;
+
+      grid.style.display = list.length ? '' : 'none';
+      emptyState.hidden = list.length > 0;
+    }
+
+    function filterCategory(category) {
+      const valid = SHOP_CATEGORIES.some(c => c.key === category);
+      activeCategory = valid ? category : 'all';
+
+      document.querySelectorAll('#categoryChips .chip').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.category === activeCategory));
       });
+
+      renderProducts();
+
+      // 同步網址參數，方便分享或由頁尾分類連結進入
+      const url = new URL(window.location.href);
+      if (activeCategory === 'all') url.searchParams.delete('category');
+      else url.searchParams.set('category', activeCategory);
+      history.replaceState(null, '', url);
     }
 
-    // Init
-    updateCartBadge();
+    // ===== 行動版選單 =====
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = getUrlParams();
+      filterCategory(params.category || 'all');
+      updateCartCount();
+      initReveal();
+    });
   </script>
 </body>
 </html>

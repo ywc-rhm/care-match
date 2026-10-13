@@ -3,267 +3,442 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>登入探索 - 群島生態系</title>
+  <title>登入 / 註冊會員｜群島生態系</title>
+  <meta name="description" content="登入或註冊群島生態系會員：登入後可查看照護服務預約紀錄、服務時程與輔具訂單內容。本網站為服務展示用途，可使用任意 Email 體驗流程。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="登入 / 註冊會員｜群島生態系">
+  <meta property="og:description" content="登入後可查看照護服務預約紀錄、服務時程與輔具訂單內容。">
+  <meta name="theme-color" content="#0F5565">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .ocean-bg {
-      background: linear-gradient(135deg, #0891B2 0%, #22D3EE 50%, #67E8F9 100%);
-      min-height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    /* 海浪裝飾 */
-    .wave-decoration {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-    
-    /* 浮島裝飾 */
-    .floating-island {
-      position: absolute;
-      background: linear-gradient(145deg, #86EFAC 0%, #22C55E 60%, #16A34A 100%);
-      border-radius: 50% 50% 45% 55% / 55% 50% 50% 45%;
-    }
-    .floating-island::before {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      background: linear-gradient(145deg, #FCD34D 0%, #F59E0B 100%);
-      border-radius: inherit;
-      z-index: -1;
-    }
-    
-    /* 玻璃卡片 */
-    .glass-card {
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-    }
-    
-    /* 標籤切換 */
-    .tab-btn.active {
-      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
-      color: white;
-    }
-    
-    /* 登入按鈕 */
-    .btn-login {
-      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
-      transition: all 0.3s ease;
-    }
-    .btn-login:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px -10px rgba(8, 145, 178, 0.5);
-    }
-    
-    /* 第三方登入按鈕 */
-    .btn-social {
-      transition: all 0.3s ease;
-    }
-    .btn-social:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="ocean-bg font-sans flex items-center justify-center py-12 px-4">
-  
-  <!-- 浮島裝飾 -->
-  <div class="floating-island w-32 h-24 top-[10%] left-[5%]" style="animation: float 6s ease-in-out infinite;"></div>
-  <div class="floating-island w-20 h-16 top-[20%] right-[10%]" style="animation: float 8s ease-in-out infinite 1s;"></div>
-  <div class="floating-island w-16 h-12 bottom-[30%] left-[15%]" style="animation: float 7s ease-in-out infinite 2s;"></div>
-  
-  <!-- 浮動動畫 -->
-  <style>
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-15px) rotate(3deg); }
-    }
-  </style>
-  
-  <div class="relative z-10 w-full max-w-md">
-    <!-- Logo -->
-    <div class="text-center mb-8">
-      <a href="index.html" class="inline-flex items-center gap-3">
-        <div class="w-14 h-14 bg-gradient-to-br from-white to-sand rounded-full flex items-center justify-center shadow-xl">
-          <span class="text-3xl">🏝️</span>
-        </div>
-        <div class="text-left">
-          <span class="font-display font-bold text-2xl text-white drop-shadow-lg">群島生態系</span>
-          <p class="text-white/80 text-sm">照護服務平台</p>
-        </div>
+<body class="font-sans">
+
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
       </a>
-    </div>
 
-    <!-- Tab Switch -->
-    <div class="flex bg-white/20 backdrop-blur rounded-2xl p-1 mb-6">
-      <button id="tabLogin" onclick="switchTab('login')" class="tab-btn active flex-1 py-3 rounded-xl font-bold text-sm transition-all">
-        🚢 登入探索
-      </button>
-      <button id="tabRegister" onclick="switchTab('register')" class="tab-btn flex-1 py-3 rounded-xl font-bold text-sm text-white/70 transition-all">
-        🌱 加入群島
-      </button>
-    </div>
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html">首頁</a>
+        <a class="nav-link" href="index.html#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html">輔具商店</a>
+      </nav>
 
-    <!-- Login Form -->
-    <div id="loginForm" class="glass-card p-8">
-      <h2 class="font-display font-bold text-2xl text-night text-center mb-6">歡迎回來，島主</h2>
-      <form onsubmit="handleLogin(event)">
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">📧 電子郵件</label>
-          <input type="email" id="loginEmail" required placeholder="請輸入Email"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-ocean focus:border-ocean">
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">🔐 密碼</label>
-          <input type="password" id="loginPassword" required placeholder="請輸入密碼" minlength="6"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-ocean focus:border-ocean">
-        </div>
-        <div class="flex items-center justify-between mb-6">
-          <label class="flex items-center">
-            <input type="checkbox" class="rounded border-gray-300 text-ocean focus:ring-ocean">
-            <span class="ml-2 text-sm text-gray-600">記住我</span>
-          </label>
-          <a href="#" class="text-sm text-ocean hover:underline">忘記密碼？</a>
-        </div>
-        <button type="submit" class="w-full btn-login text-white py-3 rounded-xl font-bold text-lg">
-          🚢 登入探索
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
+        </a>
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
         </button>
-      </form>
-      
-      <div class="mt-6 pt-6 border-t border-gray-100">
-        <p class="text-center text-sm text-gray-500 mb-4">或使用以下方式登入</p>
-        <div class="grid grid-cols-2 gap-3">
-          <button class="btn-social flex items-center justify-center gap-2 py-3 border border-gray-200 rounded-xl bg-white">
-            <svg class="w-5 h-5" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Google
-          </button>
-          <button class="btn-social flex items-center justify-center gap-2 py-3 border border-gray-200 rounded-xl bg-green-500 text-white">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
-            </svg>
-            LINE
-          </button>
-        </div>
       </div>
     </div>
 
-    <!-- Register Form -->
-    <div id="registerForm" class="glass-card p-8 hidden">
-      <h2 class="font-display font-bold text-2xl text-night text-center mb-6">加入我們的群島</h2>
-      <form onsubmit="handleRegister(event)">
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">👤 角色選擇</label>
-          <select id="registerRole" required class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-ocean focus:border-ocean">
-            <option value="">請選擇您的身份</option>
-            <option value="caregiver">🏝️ 我是照服員（島主）</option>
-            <option value="family">👨‍👩‍👧 我是需要服務的家屬</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">📛 姓名</label>
-          <input type="text" id="registerName" required placeholder="請輸入真實姓名"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-ocean focus:border-ocean">
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">📧 電子郵件</label>
-          <input type="email" id="registerEmail" required placeholder="請輸入Email"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-ocean focus:border-ocean">
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">📱 手機號碼</label>
-          <input type="tel" id="registerPhone" required placeholder="0912-XXX-XXX" pattern="09[0-9]{8}"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-ocean focus:border-ocean">
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">🔐 密碼</label>
-          <input type="password" id="registerPassword" required placeholder="至少6個字元" minlength="6"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-ocean focus:border-ocean">
-        </div>
-        <div class="mb-6">
-          <label class="flex items-start">
-            <input type="checkbox" required class="mt-1 rounded border-gray-300 text-ocean focus:ring-ocean">
-            <span class="ml-2 text-sm text-gray-600">我已閱讀並同意<a href="#" class="text-ocean hover:underline">服務條款</a>與<a href="#" class="text-ocean hover:underline">隱私權政策</a></span>
-          </label>
-        </div>
-        <button type="submit" class="w-full btn-login text-white py-3 rounded-xl font-bold text-lg">
-          🌱 加入群島
-        </button>
-      </form>
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="index.html#services"><i data-ic="squares-2x2" data-ic-class="ic-20"></i>服務項目</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="cart.html"><i data-ic="shopping-cart" data-ic-class="ic-20"></i>購物車</a>
+      </nav>
     </div>
+  </header>
 
-    <!-- Demo Notice -->
-    <div class="mt-6 p-4 bg-white/20 backdrop-blur rounded-xl">
-      <p class="text-sm text-white text-center">
-        🧪 <strong>展示提示：</strong>本網站為展示用途，輸入任意Email格式即可註冊登入
-      </p>
+  <main id="main">
+
+    <!-- ===================== 登入 / 註冊 ===================== -->
+    <section class="section section--paper" aria-labelledby="authTitle">
+      <div class="wrap">
+        <div style="max-width:480px;margin:0 auto">
+
+          <div style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:28px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name">群島生態系</span>
+              <span class="brand__tag">專業照護服務平台</span>
+            </span>
+          </div>
+
+          <div class="sec-head sec-head--center">
+            <p class="eyebrow">會員專區</p>
+            <h1 class="sec-title" id="authTitle">登入會員</h1>
+            <p class="sec-lead">登入後可查看照護服務預約紀錄、服務時程提醒與輔具訂單內容。</p>
+          </div>
+
+          <div class="alert alert--info" id="redirectNotice" style="display:none;margin-bottom:20px">
+            <span class="alert__icon"><i data-ic="information-circle" data-ic-class="ic-20"></i></span>
+            <span>您是從其他頁面前來登入，登入成功後將自動返回原先瀏覽的頁面。</span>
+          </div>
+
+          <div class="card card--pad-lg">
+
+            <!-- 登入 / 註冊切換 -->
+            <div class="tabs" role="tablist" aria-label="登入或註冊會員">
+              <button class="tab flex-1" type="button" id="tabLogin" role="tab"
+                      aria-selected="true" aria-controls="loginForm" onclick="switchTab('login')">登入帳號</button>
+              <button class="tab flex-1" type="button" id="tabRegister" role="tab"
+                      aria-selected="false" aria-controls="registerForm" onclick="switchTab('register')">註冊會員</button>
+            </div>
+
+            <!-- ============ 登入表單 ============ -->
+            <div id="loginForm" role="tabpanel" aria-labelledby="tabLogin" style="padding-top:24px">
+              <form novalidate onsubmit="handleLogin(event)">
+                <p class="hint" style="margin:0 0 18px">標示「<span class="req" aria-hidden="true">*</span>」的欄位為必填。</p>
+
+                <div class="field">
+                  <label class="label" for="loginEmail">電子郵件 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="email" id="loginEmail" name="email" placeholder="name@example.com"
+                         autocomplete="email" inputmode="email" aria-required="true"
+                         aria-describedby="loginEmailError">
+                  <p class="error-text" id="loginEmailError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="loginPassword">密碼 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="password" id="loginPassword" name="password" placeholder="請輸入密碼"
+                         autocomplete="current-password" minlength="6" aria-required="true"
+                         aria-describedby="loginPasswordHint loginPasswordError">
+                  <p class="hint" id="loginPasswordHint">至少 6 個字元。</p>
+                  <p class="error-text" id="loginPasswordError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:24px">
+                  <label class="check" for="rememberMe">
+                    <input type="checkbox" id="rememberMe" name="remember">
+                    <span>記住我</span>
+                  </label>
+                  <a href="mailto:service@archipelago.tw?subject=%E5%BF%98%E8%A8%98%E5%AF%86%E7%A2%BC%E5%8D%8F%E5%8A%A9"
+                     style="font-size:0.9375rem;font-weight:700;padding:11px 0">忘記密碼？</a>
+                </div>
+
+                <button class="btn btn--primary btn--block" type="submit">
+                  <i data-ic="arrow-right-on-rectangle" data-ic-class="ic-20"></i>登入會員
+                </button>
+              </form>
+
+              <div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--line)">
+                <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:14px">或使用下列方式登入</p>
+                <div class="grid gap-3 sm:grid-cols-2">
+                  <button class="btn btn--secondary btn--block" type="button" onclick="socialLogin('Google')">
+                    <i data-ic="globe-alt" data-ic-class="ic-20"></i>使用 Google 登入
+                  </button>
+                  <button class="btn btn--secondary btn--block" type="button" onclick="socialLogin('LINE')">
+                    <i data-ic="chat-bubble-left-right" data-ic-class="ic-20"></i>使用 LINE 登入
+                  </button>
+                </div>
+                <p class="hint" style="margin-top:12px">第三方登入於展示版本中以模擬方式呈現，不會連結外部帳號。</p>
+              </div>
+            </div>
+
+            <!-- ============ 註冊表單 ============ -->
+            <div id="registerForm" role="tabpanel" aria-labelledby="tabRegister" style="padding-top:24px;display:none">
+              <form novalidate onsubmit="handleRegister(event)">
+                <p class="hint" style="margin:0 0 18px">標示「<span class="req" aria-hidden="true">*</span>」的欄位為必填。</p>
+
+                <div class="field">
+                  <label class="label" for="registerRole">身分 <span class="req" aria-hidden="true">*</span></label>
+                  <select class="select" id="registerRole" name="role" aria-required="true"
+                          aria-describedby="registerRoleError">
+                    <option value="">請選擇您的身分</option>
+                    <option value="caregiver">我是照護服務人員</option>
+                    <option value="family">我是需要服務的家屬</option>
+                  </select>
+                  <p class="error-text" id="registerRoleError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="registerName">姓名 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="text" id="registerName" name="name" placeholder="請輸入真實姓名"
+                         autocomplete="name" aria-required="true" aria-describedby="registerNameError">
+                  <p class="error-text" id="registerNameError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="registerEmail">電子郵件 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="email" id="registerEmail" name="email" placeholder="name@example.com"
+                         autocomplete="email" inputmode="email" aria-required="true"
+                         aria-describedby="registerEmailError">
+                  <p class="error-text" id="registerEmailError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="registerPhone">手機號碼 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="tel" id="registerPhone" name="phone" placeholder="0912345678"
+                         autocomplete="tel" inputmode="tel" pattern="09[0-9]{8}" aria-required="true"
+                         aria-describedby="registerPhoneHint registerPhoneError">
+                  <p class="hint" id="registerPhoneHint">09 開頭共 10 位數字，例如 0912345678。</p>
+                  <p class="error-text" id="registerPhoneError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="registerPassword">密碼 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="password" id="registerPassword" name="new-password" placeholder="請設定至少 6 個字元"
+                         autocomplete="new-password" minlength="6" aria-required="true"
+                         aria-describedby="registerPasswordHint registerPasswordError">
+                  <p class="hint" id="registerPasswordHint">至少 6 個字元。</p>
+                  <p class="error-text" id="registerPasswordError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="check" for="registerTerms">
+                    <input type="checkbox" id="registerTerms" name="terms" aria-required="true"
+                           aria-describedby="registerTermsError">
+                    <span>我已閱讀並同意<a href="legal.html#terms">服務條款</a>與<a href="legal.html#privacy">隱私權政策</a>。</span>
+                  </label>
+                  <p class="error-text" id="registerTermsError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <button class="btn btn--primary btn--block" type="submit">
+                  <i data-ic="user-plus" data-ic-class="ic-20"></i>建立會員帳號
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- 展示提示 -->
+          <div class="alert alert--info" style="margin-top:20px">
+            <span class="alert__icon"><i data-ic="information-circle" data-ic-class="ic-20"></i></span>
+            <span><strong>展示提示：</strong>本網站為服務展示用途，可使用任意 Email 體驗登入與註冊流程；資料僅儲存於您的瀏覽器，不會上傳。</span>
+          </div>
+
+          <p style="margin-top:20px;font-size:0.9375rem;color:var(--muted);text-align:center">
+            還沒有帳號？
+            <a href="login.html?tab=register" onclick="switchTab('register');return false;"
+               style="display:inline-block;padding:11px 6px;font-weight:700">切換到註冊表單</a>
+          </p>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 服務承諾 ===================== -->
+    <div class="trust-bar">
+      <div class="wrap trust-bar__inner">
+        <div class="trust-item">
+          <i data-ic="shield-check" data-ic-class="ic-24"></i>
+          <div>
+            <p class="trust-item__title">帳號資料保護</p>
+            <p class="trust-item__text">登入狀態僅儲存於您的瀏覽器，平台不會另行上傳個人資料。</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <i data-ic="clipboard-document-list" data-ic-class="ic-24"></i>
+          <div>
+            <p class="trust-item__title">預約與服務紀錄</p>
+            <p class="trust-item__text">登入後可查看預約時段、服務紀錄與輔具訂單內容。</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <i data-ic="clock" data-ic-class="ic-24"></i>
+          <div>
+            <p class="trust-item__title">客服時間</p>
+            <p class="trust-item__text">週一至週五 09:00–18:00，可協助帳號與預約相關問題。</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </main>
 
-  <!-- 底部波浪 -->
-  <div class="wave-decoration">
-    <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 50L60 45C120 40 240 30 360 35C480 40 600 50 720 55C840 60 960 55 1080 50C1200 45 1320 40 1380 37.5L1440 35V100H0V50Z" fill="rgba(245,240,232,0.3)"/>
-    </svg>
-  </div>
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name" style="color:#fff">群島生態系</span>
+              <span class="brand__tag" style="color:#a9c0c5">專業照護服務平台</span>
+            </span>
+          </div>
+          <p style="font-size:0.9375rem;line-height:1.75;color:#a9c0c5">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
+        </div>
+
+        <div>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
+    // ===== 分頁切換（登入 / 註冊） =====
     function switchTab(tab) {
+      const isLogin = tab === 'login';
       const loginTab = document.getElementById('tabLogin');
       const registerTab = document.getElementById('tabRegister');
       const loginForm = document.getElementById('loginForm');
       const registerForm = document.getElementById('registerForm');
 
-      if (tab === 'login') {
-        loginTab.classList.add('active');
-        registerTab.classList.remove('active');
-        loginForm.classList.remove('hidden');
-        registerForm.classList.add('hidden');
-      } else {
-        registerTab.classList.add('active');
-        loginTab.classList.remove('active');
-        registerForm.classList.remove('hidden');
-        loginForm.classList.add('hidden');
+      loginTab.setAttribute('aria-selected', String(isLogin));
+      registerTab.setAttribute('aria-selected', String(!isLogin));
+      loginForm.style.display = isLogin ? '' : 'none';
+      registerForm.style.display = isLogin ? 'none' : '';
+      clearAllErrors();
+    }
+
+    // ===== 行內錯誤訊息 =====
+    function setFieldError(inputId, message) {
+      const input = document.getElementById(inputId);
+      const box = document.getElementById(inputId + 'Error');
+      if (box) {
+        const text = box.querySelector('span');
+        if (text) text.textContent = message || '';
+        box.style.display = message ? 'flex' : 'none';
+      }
+      if (input) {
+        if (message) input.setAttribute('aria-invalid', 'true');
+        else input.removeAttribute('aria-invalid');
       }
     }
 
+    function clearAllErrors() {
+      const boxes = document.querySelectorAll('.error-text');
+      for (let i = 0; i < boxes.length; i++) {
+        const text = boxes[i].querySelector('span');
+        if (text) text.textContent = '';
+        boxes[i].style.display = 'none';
+      }
+      const invalid = document.querySelectorAll('[aria-invalid="true"]');
+      for (let j = 0; j < invalid.length; j++) invalid[j].removeAttribute('aria-invalid');
+    }
+
+    // ===== 表單驗證 =====
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const PHONE_RE = /^09\d{8}$/;
+    const MIN_PASSWORD = 6;
+
+    function validateLoginForm() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      const emailOk = EMAIL_RE.test(email);
+      setFieldError('loginEmail', emailOk ? '' : (email ? '電子郵件格式不正確，請確認後再試。' : '請輸入電子郵件。'));
+
+      const passwordOk = password.length >= MIN_PASSWORD;
+      setFieldError('loginPassword', passwordOk ? '' : (password ? '密碼至少需要 ' + MIN_PASSWORD + ' 個字元。' : '請輸入密碼。'));
+
+      if (!emailOk) return 'loginEmail';
+      if (!passwordOk) return 'loginPassword';
+      return '';
+    }
+
+    function validateRegisterForm() {
+      const role = document.getElementById('registerRole').value;
+      const name = document.getElementById('registerName').value.trim();
+      const email = document.getElementById('registerEmail').value.trim();
+      const phone = document.getElementById('registerPhone').value.replace(/[\s-]/g, '');
+      const password = document.getElementById('registerPassword').value;
+      const terms = document.getElementById('registerTerms').checked;
+
+      setFieldError('registerRole', role ? '' : '請選擇您的身分（照護服務人員或家屬）。');
+      setFieldError('registerName', name ? '' : '請輸入姓名。');
+      setFieldError('registerEmail', EMAIL_RE.test(email) ? '' : (email ? '電子郵件格式不正確，請確認後再試。' : '請輸入電子郵件。'));
+      setFieldError('registerPhone', PHONE_RE.test(phone) ? '' : (phone ? '手機號碼格式不正確，請輸入 09 開頭共 10 位數字。' : '請輸入手機號碼。'));
+      setFieldError('registerPassword', password.length >= MIN_PASSWORD ? '' : (password ? '密碼至少需要 ' + MIN_PASSWORD + ' 個字元。' : '請設定密碼。'));
+      setFieldError('registerTerms', terms ? '' : '請先閱讀並同意服務條款與隱私權政策。');
+
+      if (!role) return 'registerRole';
+      if (!name) return 'registerName';
+      if (!EMAIL_RE.test(email)) return 'registerEmail';
+      if (!PHONE_RE.test(phone)) return 'registerPhone';
+      if (password.length < MIN_PASSWORD) return 'registerPassword';
+      if (!terms) return 'registerTerms';
+      return '';
+    }
+
+    function focusInvalid(inputId) {
+      const el = document.getElementById(inputId);
+      if (el) el.focus();
+    }
+
+    // ===== 登入 =====
     function handleLogin(e) {
       e.preventDefault();
-      
-      const email = document.getElementById('loginEmail').value;
+
+      const firstBad = validateLoginForm();
+      if (firstBad) {
+        showNotification('登入資料尚未填寫完整，請依欄位提示修正。', 'error');
+        focusInvalid(firstBad);
+        return;
+      }
+
+      const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
 
       // 檢查管理員登入
@@ -271,7 +446,7 @@
       if (adminUser) {
         currentUser = adminUser;
         saveToStorage();
-        alert('🏝️ 管理員登入成功！');
+        showNotification('管理員登入成功，正在前往管理後台。', 'success');
         window.location.href = 'admin.html';
         return;
       }
@@ -286,18 +461,26 @@
         createdAt: new Date().toISOString()
       };
       saveToStorage();
+      rememberEmail(email);
 
-      alert('🚢 登入成功，歡迎回到群島！');
-      const params = getUrlParams();
-      window.location.href = params.redirect || 'dashboard.html';
+      showNotification('登入成功，正在前往會員專區。', 'success');
+      redirectAfterAuth('dashboard.html');
     }
 
+    // ===== 註冊 =====
     function handleRegister(e) {
       e.preventDefault();
-      
-      const name = document.getElementById('registerName').value;
-      const email = document.getElementById('registerEmail').value;
-      const phone = document.getElementById('registerPhone').value;
+
+      const firstBad = validateRegisterForm();
+      if (firstBad) {
+        showNotification('註冊資料尚未填寫完整，請依欄位提示修正。', 'error');
+        focusInvalid(firstBad);
+        return;
+      }
+
+      const name = document.getElementById('registerName').value.trim();
+      const email = document.getElementById('registerEmail').value.trim();
+      const phone = document.getElementById('registerPhone').value.replace(/[\s-]/g, '');
       const role = document.getElementById('registerRole').value;
 
       currentUser = {
@@ -311,9 +494,79 @@
       };
       saveToStorage();
 
-      alert('🌱 註冊成功，歡迎加入群島生態系！');
-      window.location.href = 'dashboard.html';
+      showNotification('註冊成功，歡迎加入群島生態系！', 'success');
+      redirectAfterAuth('dashboard.html');
     }
+
+    // ===== 第三方登入（展示用） =====
+    function socialLogin(provider) {
+      showNotification(provider + ' 登入於展示版本中尚未開放，請使用上方 Email 表單登入。', 'info');
+    }
+
+    // ===== 記住我：僅記住電子郵件，不儲存密碼 =====
+    const REMEMBER_KEY = 'careMatchRememberedEmail';
+
+    function rememberEmail(email) {
+      const checked = document.getElementById('rememberMe').checked;
+      try {
+        if (checked) localStorage.setItem(REMEMBER_KEY, email);
+        else localStorage.removeItem(REMEMBER_KEY);
+      } catch (err) { /* 瀏覽器停用儲存時忽略 */ }
+    }
+
+    function restoreRememberedEmail() {
+      try {
+        const saved = localStorage.getItem(REMEMBER_KEY);
+        if (!saved) return;
+        document.getElementById('loginEmail').value = saved;
+        document.getElementById('rememberMe').checked = true;
+      } catch (err) { /* 同上 */ }
+    }
+
+    // ===== 登入後導向（保留 ?redirect= 參數） =====
+    function redirectAfterAuth(fallback) {
+      const params = getUrlParams();
+      window.location.href = params.redirect || fallback;
+    }
+
+    // ===== 行動版選單 =====
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = getUrlParams();
+
+      // ?redirect= 提示
+      if (params.redirect) {
+        const notice = document.getElementById('redirectNotice');
+        if (notice) notice.style.display = 'flex';
+      }
+
+      // 直接開啟註冊表單
+      if (params.tab === 'register') switchTab('register');
+
+      restoreRememberedEmail();
+
+      // 分頁鍵盤操作：左右方向鍵切換
+      const tablist = document.querySelector('[role="tablist"]');
+      if (tablist) {
+        tablist.addEventListener('keydown', (ev) => {
+          if (ev.key !== 'ArrowLeft' && ev.key !== 'ArrowRight') return;
+          ev.preventDefault();
+          const toRegister = document.getElementById('tabRegister').getAttribute('aria-selected') !== 'true';
+          switchTab(toRegister ? 'register' : 'login');
+          document.getElementById(toRegister ? 'tabRegister' : 'tabLogin').focus();
+        });
+      }
+
+      // 好用的「切換到註冊表單」連結（無 JS 時仍可開啟登入頁並帶入註冊分頁）
+    });
   </script>
 </body>
 </html>

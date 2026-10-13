@@ -3,319 +3,517 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的島嶼 - 群島生態系</title>
+  <title>會員專區｜群島生態系</title>
+  <meta name="description" content="會員專區：查看照護服務預約紀錄、即將到來的服務時程、累計服務時數與本期支出，並快速前往預約下一次服務或選購輔具。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="會員專區｜群島生態系">
+  <meta property="og:description" content="查看照護服務預約紀錄、服務時程、累計時數與本期支出，快速預約下一次服務。">
+  <meta name="theme-color" content="#0F5565">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .island-card {
-      background: linear-gradient(145deg, #86EFAC 0%, #22C55E 60%, #16A34A 100%);
-      border-radius: 24px 24px 8px 8px;
-      position: relative;
-      overflow: hidden;
-    }
-    .island-card::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40%;
-      background: linear-gradient(to top, #FCD34D 0%, #F59E0B 100%);
-      border-radius: 0 0 8px 8px;
-    }
-    .island-card .trees {
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle at 20% 30%, #166534 8px, transparent 8px),
-                        radial-gradient(circle at 50% 20%, #15803D 10px, transparent 10px),
-                        radial-gradient(circle at 75% 35%, #166534 7px, transparent 7px),
-                        radial-gradient(circle at 35% 50%, #22C55E 5px, transparent 5px),
-                        radial-gradient(circle at 65% 55%, #15803D 6px, transparent 6px);
-    }
-    
-    /* 海浪動畫 */
-    @keyframes wave-move {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(-25px); }
-    }
-    .wave-bg {
-      animation: wave-move 8s ease-in-out infinite;
-    }
-    
-    .stat-card {
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s ease;
-    }
-    .stat-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .booking-card {
-      background: white;
-      border-radius: 16px;
-      transition: all 0.3s ease;
-    }
-    .booking-card:hover {
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
-    }
-    
-    .wave-divider {
-      height: 80px;
-      background: linear-gradient(135deg, #0891B2 0%, #22D3EE 50%, #67E8F9 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .wave-divider::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23F5F0E8' d='M0 50L60 45C120 40 240 30 360 35C480 40 600 50 720 55C840 60 960 55 1080 50C1200 45 1320 40 1380 37.5L1440 35V100H0V50Z'/%3E%3C/svg%3E") no-repeat bottom center;
-      background-size: cover;
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-sand font-sans">
-  
-  <!-- Header -->
-  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-island/10">
-    <div class="max-w-6xl mx-auto px-4 py-4">
-      <div class="flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
-            <span class="text-2xl">🏝️</span>
-          </div>
-          <div>
-            <span class="font-display font-bold text-xl text-night">群島生態系</span>
-            <p class="text-xs text-gray-500">照護服務平台</p>
-          </div>
+<body class="font-sans">
+
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html">首頁</a>
+        <a class="nav-link" href="index.html#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html">輔具商店</a>
+        <a class="nav-link" href="dashboard.html" aria-current="page">我的專區</a>
+      </nav>
+
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
         </a>
-        <nav class="flex items-center gap-4">
-          <a href="dashboard.html" class="text-ocean font-medium">🏠 我的島嶼</a>
-          <a href="caregivers.html" class="text-gray-600 hover:text-ocean">🚢 探索群島</a>
-          <a href="shop.html" class="text-gray-600 hover:text-ocean">🛒 島嶼補給站</a>
-          <a href="#" onclick="logout()" class="text-gray-400 hover:text-red-500">🚪 登出</a>
-          <a href="profile.html" class="w-10 h-10 rounded-full bg-gradient-to-br from-ocean to-island flex items-center justify-center text-white font-bold">
-            <span id="userInitial">Y</span>
-          </a>
-        </nav>
+
+        <div class="user-menu">
+          <button class="user-menu__btn" type="button" id="userMenuBtn" aria-expanded="false" aria-haspopup="true" aria-label="會員選單">
+            <span class="avatar avatar--40" id="userInitial" aria-hidden="true"
+                  style="display:inline-flex;align-items:center;justify-content:center;background:var(--ocean);color:#fff;font-weight:800;font-size:0.9375rem">會</span>
+            <span class="user-menu__name" id="userNameNav">會員</span>
+            <i data-ic="chevron-down" data-ic-class="ic-16"></i>
+          </button>
+          <div class="user-menu__panel" role="menu">
+            <a role="menuitem" href="dashboard.html" aria-current="page"><i data-ic="chart-bar" data-ic-class="ic-16"></i>我的專區</a>
+            <a role="menuitem" href="profile.html"><i data-ic="user" data-ic-class="ic-16"></i>個人檔案</a>
+            <a role="menuitem" href="cart.html"><i data-ic="shopping-cart" data-ic-class="ic-16"></i>購物車</a>
+            <hr class="divider">
+            <button type="button" role="menuitem" onclick="logout()"><i data-ic="arrow-left-on-rectangle" data-ic-class="ic-16"></i>登出</button>
+          </div>
+        </div>
+
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
+        </button>
       </div>
+    </div>
+
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="dashboard.html" aria-current="page"><i data-ic="chart-bar" data-ic-class="ic-20"></i>我的專區</a>
+        <a href="profile.html"><i data-ic="user" data-ic-class="ic-20"></i>個人檔案</a>
+        <a href="cart.html"><i data-ic="shopping-cart" data-ic-class="ic-20"></i>購物車</a>
+        <a href="index.html" onclick="logout();return false;"><i data-ic="arrow-left-on-rectangle" data-ic-class="ic-20"></i>登出</a>
+      </nav>
     </div>
   </header>
 
-  <!-- Wave Divider -->
-  <div class="wave-divider"></div>
+  <main id="main">
 
-  <!-- Main Content -->
-  <main class="max-w-6xl mx-auto px-4 py-8">
-    
-    <!-- Welcome Section -->
-    <div class="mb-8">
-      <h1 class="font-display font-bold text-3xl text-night mb-2">🏝️ 歡迎回來，<span id="userName">島主</span></h1>
-      <p class="text-gray-600">您的群島最近有新的動態</p>
-    </div>
+    <!-- ===================== 歡迎區 ===================== -->
+    <section class="section section--paper" style="padding-bottom:40px" aria-labelledby="welcomeTitle">
+      <div class="wrap">
+        <p class="eyebrow">會員專區</p>
+        <h1 class="sec-title" id="welcomeTitle">你好，<span id="userName">會員</span></h1>
+        <p class="sec-lead">
+          這裡彙整您的照護服務預約、服務時數與支出紀錄。需要新的服務時，可從下方快速開始；
+          服務開始前 24 小時皆可調整或取消。
+        </p>
+        <div class="flex flex-wrap gap-3" style="margin-top:20px">
+          <a class="btn btn--primary btn--lg" href="caregivers.html">
+            預約照護服務
+            <i data-ic="arrow-right" data-ic-class="ic-20"></i>
+          </a>
+          <a class="btn btn--secondary btn--lg" href="profile.html">管理個人資料</a>
+        </div>
+      </div>
+    </section>
 
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-      <div class="stat-card rounded-2xl p-5 shadow-lg border border-white">
-        <div class="text-3xl mb-2">📅</div>
-        <div class="text-2xl font-bold text-night">12</div>
-        <div class="text-sm text-gray-500">本月服務次數</div>
-        <div class="mt-2 text-xs text-island font-medium">↑ 比上月 +3</div>
-      </div>
-      <div class="stat-card rounded-2xl p-5 shadow-lg border border-white">
-        <div class="text-3xl mb-2">⏱️</div>
-        <div class="text-2xl font-bold text-night">48</div>
-        <div class="text-sm text-gray-500">累計服務時數</div>
-        <div class="mt-2 text-xs text-island font-medium">↑ 比上月 +12</div>
-      </div>
-      <div class="stat-card rounded-2xl p-5 shadow-lg border border-white">
-        <div class="text-3xl mb-2">⭐</div>
-        <div class="text-2xl font-bold text-night">4.9</div>
-        <div class="text-sm text-gray-500">平均滿意度</div>
-        <div class="mt-2 flex text-yellow-400">★★★★★</div>
-      </div>
-      <div class="stat-card rounded-2xl p-5 shadow-lg border border-white">
-        <div class="text-3xl mb-2">💰</div>
-        <div class="text-2xl font-bold text-night">$8,400</div>
-        <div class="text-sm text-gray-500">本月收入</div>
-        <div class="mt-2 text-xs text-island font-medium">↑ 比上月 +$1,200</div>
-      </div>
-    </div>
+    <!-- ===================== 服務概況 ===================== -->
+    <section class="section section--sand" style="padding-top:40px;padding-bottom:40px" aria-labelledby="statsTitle">
+      <div class="wrap">
+        <div class="sec-head" style="margin-bottom:24px">
+          <h2 class="sec-title" id="statsTitle">服務概況</h2>
+          <p class="sec-lead">依您在本站的預約紀錄自動計算，可隨時核對服務內容與費用。</p>
+        </div>
 
-    <!-- My Island Card -->
-    <div class="bg-white rounded-3xl p-6 shadow-xl mb-8 border border-white">
-      <div class="flex flex-col md:flex-row gap-8">
-        <!-- Island Visual -->
-        <div class="flex-shrink-0">
-          <div class="island-card w-48 h-32 mx-auto">
-            <div class="trees"></div>
-            <div class="absolute inset-0 flex items-center justify-center z-10">
-              <div class="text-center">
-                <div class="text-4xl mb-1">🏠</div>
-                <div class="text-white font-bold text-sm drop-shadow">我的島嶼</div>
-              </div>
-            </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="stat">
+            <p class="stat__label">本月服務次數</p>
+            <p class="stat__value num" id="statVisits">0</p>
+            <p class="stat__delta stat__delta--up" id="deltaVisits">—</p>
+          </div>
+
+          <div class="stat">
+            <p class="stat__label">累計服務時數</p>
+            <p class="stat__value num"><span id="statHours">0</span><span class="stat__unit">小時</span></p>
+            <p class="stat__delta" id="deltaHours">—</p>
+          </div>
+
+          <div class="stat">
+            <p class="stat__label">平均滿意度</p>
+            <p class="stat__value num"><span id="statRating">0.0</span><span class="stat__unit">／5</span></p>
+            <p class="stat__delta" id="deltaRating">—</p>
+          </div>
+
+          <div class="stat">
+            <p class="stat__label">本期服務支出</p>
+            <p class="stat__value num" id="statSpend">$0</p>
+            <p class="stat__delta" id="deltaSpend">—</p>
           </div>
         </div>
-        <!-- Island Info -->
-        <div class="flex-1">
-          <h2 class="font-display font-bold text-2xl text-night mb-4">🌴 我的照護島嶼</h2>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div class="text-center p-3 bg-sand rounded-xl">
-              <div class="text-2xl">🛏️</div>
-              <div class="text-sm text-gray-600">服務項目</div>
-              <div class="font-bold text-night">12 項</div>
-            </div>
-            <div class="text-center p-3 bg-sand rounded-xl">
-              <div class="text-2xl">📍</div>
-              <div class="text-sm text-gray-600">服務區域</div>
-              <div class="font-bold text-night">6 區</div>
-            </div>
-            <div class="text-center p-3 bg-sand rounded-xl">
-              <div class="text-2xl">👥</div>
-              <div class="text-sm text-gray-600">服務個案</div>
-              <div class="font-bold text-night">8 人</div>
-            </div>
-            <div class="text-center p-3 bg-sand rounded-xl">
-              <div class="text-2xl">📅</div>
-              <div class="text-sm text-gray-600">本週預約</div>
-              <div class="font-bold text-night">5 筆</div>
-            </div>
+
+        <p class="hint" style="margin-top:16px">
+          統計數字依您瀏覽器中的預約紀錄計算；尚未建立預約時，顯示站上模擬範例值供參考。
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== 即將到來的服務 ===================== -->
+    <section class="section section--white" style="padding-top:40px" aria-labelledby="upcomingTitle">
+      <div class="wrap">
+        <div class="sec-head sec-head__row">
+          <div>
+            <h2 class="sec-title" id="upcomingTitle">即將到來的服務</h2>
+            <p class="sec-lead">包含已確認與待確認的預約；如需更改時間，請於服務開始前 24 小時通知。</p>
           </div>
-          <a href="profile.html" class="inline-flex items-center gap-2 bg-gradient-to-r from-ocean to-island text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all">
-            ✏️ 編輯島嶼資訊
+          <a class="more-link" href="caregivers.html">
+            新增預約
+            <i data-ic="arrow-right" data-ic-class="ic-16"></i>
+          </a>
+        </div>
+
+        <!-- 預約列表（由 renderUpcoming() 產生） -->
+        <div id="upcomingList" class="stack-16"></div>
+
+        <!-- 無預約時的狀態 -->
+        <div id="emptyUpcoming" class="empty" hidden>
+          <span class="empty__icon" aria-hidden="true"><i data-ic="calendar-days" data-ic-class="ic-24"></i></span>
+          <p class="empty__title">目前沒有即將到來的服務</p>
+          <p class="empty__text">從照護夥伴清單挑選合適的人員與時段，完成預約後會顯示在這裡。</p>
+          <div class="flex flex-wrap gap-3 justify-center">
+            <a class="btn btn--primary" href="caregivers.html">
+              <i data-ic="magnifying-glass" data-ic-class="ic-20"></i>
+              前往預約
+            </a>
+            <a class="btn btn--secondary" href="shop.html">前往輔具商店</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 快捷動作 ===================== -->
+    <section class="section section--sand" style="padding-top:40px" aria-labelledby="quickTitle">
+      <div class="wrap">
+        <div class="sec-head" style="margin-bottom:24px">
+          <h2 class="sec-title" id="quickTitle">快捷動作</h2>
+          <p class="sec-lead">從這裡前往最常用的功能。</p>
+        </div>
+
+        <div class="grid-cards grid-cards--3">
+          <a class="card card--interactive" href="caregivers.html">
+            <span class="icon-tile"><i data-ic="users" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">探索照護夥伴</h3>
+            <p class="card__text">依服務類型與地區篩選，查看服務年資、專長項目與使用者評價後直接預約。</p>
+            <p class="card__foot">
+              <span>查看完整人員名單</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
+          </a>
+
+          <a class="card card--interactive" href="shop.html">
+            <span class="icon-tile icon-tile--clay"><i data-ic="shopping-bag" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">輔具商店</h3>
+            <p class="card__text">行動、衛浴與居家安全輔具，皆附規格與適用對象說明，可搭配到府照護使用。</p>
+            <p class="card__foot">
+              <span>前往選購輔具</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
+          </a>
+
+          <a class="card card--interactive" href="profile.html">
+            <span class="icon-tile icon-tile--green"><i data-ic="user" data-ic-class="ic-24"></i></span>
+            <h3 class="card__title" style="margin-top:16px">個人檔案</h3>
+            <p class="card__text">更新聯絡方式、照護對象資訊與常用服務區域，讓夥伴更快掌握您的需求。</p>
+            <p class="card__foot">
+              <span>檢視與編輯資料</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
           </a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Recent Bookings -->
-    <div class="mb-8">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="font-display font-bold text-xl text-night">📅 即將到來的服務</h2>
-        <a href="#" class="text-ocean hover:underline text-sm">查看全部</a>
-      </div>
-      
-      <div class="space-y-4">
-        <div class="booking-card p-4 border border-gray-100">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-2xl">
-              👵
-            </div>
-            <div class="flex-1">
-              <div class="font-bold text-night">徐 先生/女士</div>
-              <div class="text-sm text-gray-600">🛏️ 身體照顧服務</div>
-            </div>
-            <div class="text-right">
-              <div class="font-bold text-ocean">明天 09:00-12:00</div>
-              <div class="text-xs text-gray-500">新北市板橋區</div>
-            </div>
-            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">已確認</span>
-          </div>
-        </div>
-
-        <div class="booking-card p-4 border border-gray-100">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-2xl">
-              👴
-            </div>
-            <div class="flex-1">
-              <div class="font-bold text-night">陳 先生/女士</div>
-              <div class="text-sm text-gray-600">🏠 日常生活照顧</div>
-            </div>
-            <div class="text-right">
-              <div class="font-bold text-ocean">後天 14:00-17:00</div>
-              <div class="text-xs text-gray-500">新北市中和區</div>
-            </div>
-            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">待確認</span>
-          </div>
-        </div>
-
-        <div class="booking-card p-4 border border-gray-100">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center text-2xl">
-              👵
-            </div>
-            <div class="flex-1">
-              <div class="font-bold text-night">林 先生/女士</div>
-              <div class="text-sm text-gray-600">🧘 復健運動服務</div>
-            </div>
-            <div class="text-right">
-              <div class="font-bold text-ocean">5/23 09:00-11:00</div>
-              <div class="text-xs text-gray-500">新北市永和區</div>
-            </div>
-            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">已完成</span>
+    <!-- ===================== 服務安排與收費說明 ===================== -->
+    <section class="section section--paper" style="padding-top:40px" aria-labelledby="trustTitle">
+      <div class="wrap">
+        <div class="alert alert--info" role="note" aria-labelledby="trustTitle">
+          <span class="alert__icon"><i data-ic="shield-check" data-ic-class="ic-24"></i></span>
+          <div>
+            <p id="trustTitle" style="font-weight:700;margin-bottom:8px">服務安排與收費說明</p>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+              <li>平台上的照護夥伴皆經資格與證照審核，服務年資、專長項目與評價公開可查。</li>
+              <li>收費依服務項目與時段計算，預約成立時即列出金額，不會於服務後追加未告知的項目。</li>
+              <li>需要調整或取消服務，請於服務開始前至少 24 小時通知夥伴或客服。</li>
+              <li>客服時間：週一至週五 09:00–18:00，可來信 <a href="mailto:service@archipelago.tw">service@archipelago.tw</a>。</li>
+            </ul>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <a href="caregivers.html" class="bg-gradient-to-br from-ocean to-ocean-light p-6 rounded-2xl text-white hover:shadow-xl transition-all group">
-        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🚢</div>
-        <h3 class="font-bold text-lg mb-1">探索其他島嶼</h3>
-        <p class="text-white/80 text-sm">找到更多優質照服員</p>
-      </a>
-      <a href="shop.html" class="bg-gradient-to-br from-coral to-orange-400 p-6 rounded-2xl text-white hover:shadow-xl transition-all group">
-        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🛒</div>
-        <h3 class="font-bold text-lg mb-1">島嶼補給站</h3>
-        <p class="text-white/80 text-sm">照護好物優惠中</p>
-      </a>
-      <a href="profile.html" class="bg-gradient-to-br from-island to-island-light p-6 rounded-2xl text-white hover:shadow-xl transition-all group">
-        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">⚙️</div>
-        <h3 class="font-bold text-lg mb-1">島嶼設定</h3>
-        <p class="text-white/80 text-sm">更新您的服務資訊</p>
-      </a>
-    </div>
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-night text-white py-8 mt-12">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <div class="flex items-center justify-center gap-2 mb-4">
-        <span class="text-2xl">🏝️</span>
-        <span class="font-display font-bold">群島生態系</span>
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name" style="color:#fff">群島生態系</span>
+              <span class="brand__tag" style="color:#a9c0c5">專業照護服務平台</span>
+            </span>
+          </div>
+          <p style="font-size:0.9375rem;line-height:1.75;color:#a9c0c5">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
+        </div>
+
+        <div>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
+        </div>
       </div>
-      <p class="text-gray-400 text-sm">© 2024 群島生態系照護服務平台 | 守護每座島嶼的幸福</p>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
-    // Check login
+    /* ===== 會員專區（專業照護版）=====
+       資料來源：getUserBookings()（app.js，orders.bookings 依 currentUser.id 篩選）
+       登入守門：未登入導向 login.html?redirect=dashboard.html（沿用原行為）        */
+
     if (!currentUser) {
       window.location.href = 'login.html?redirect=dashboard.html';
     }
 
-    // Load user data
-    if (currentUser) {
-      document.getElementById('userName').textContent = currentUser.name || '島主';
-      document.getElementById('userInitial').textContent = (currentUser.name || 'U').charAt(0);
+    // 預約狀態對應的標記樣式
+    const STATUS_MAP = {
+      pending:   { label: '待確認', cls: 'badge--warn' },
+      confirmed: { label: '已確認', cls: 'badge--verified' },
+      completed: { label: '已完成', cls: 'badge--info' },
+      cancelled: { label: '已取消', cls: 'badge--danger' }
+    };
+
+    // 全新帳號尚無預約紀錄時，沿用站上模擬範例值（與首頁、舊版專區一致）
+    const DEMO_STATS = { visits: 12, hours: 48, rating: 4.9, spend: 8400 };
+
+    function ymKey(value) {
+      const d = new Date(value);
+      if (isNaN(d.getTime())) return '';
+      return d.getFullYear() + '-' + (d.getMonth() + 1);
     }
+
+    function activeBookings() {
+      return getUserBookings().filter(function (b) { return b.status !== 'cancelled'; });
+    }
+
+    function sumBy(list, pick) {
+      return list.reduce(function (sum, item) { return sum + (Number(pick(item)) || 0); }, 0);
+    }
+
+    // 平台照護夥伴的平均評價（data.js: caregivers）
+    function platformRating() {
+      if (typeof caregivers === 'undefined' || !caregivers.length) return DEMO_STATS.rating;
+      const total = caregivers.reduce(function (s, cg) { return s + cg.rating; }, 0);
+      return Math.round((total / caregivers.length) * 10) / 10;
+    }
+
+    function caregiverOf(id) {
+      if (typeof caregivers === 'undefined') return null;
+      return caregivers.find(function (cg) { return cg.id === id; }) || null;
+    }
+
+    function setDelta(id, text, tone) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = text;
+      el.className = 'stat__delta' + (tone === 'up' ? ' stat__delta--up' : tone === 'down' ? ' stat__delta--down' : '');
+    }
+
+    function deltaText(diff, unit, money) {
+      if (diff === 0) return '與上月相同';
+      const sign = diff > 0 ? '+' : '-';
+      const abs = Math.abs(diff);
+      return '較上月 ' + sign + (money ? '$' + abs.toLocaleString() : abs.toLocaleString() + ' ' + unit);
+    }
+
+    function renderStats() {
+      const now = new Date();
+      const thisKey = ymKey(now);
+      const prevKey = ymKey(new Date(now.getFullYear(), now.getMonth() - 1, 1));
+
+      const all = activeBookings();
+      const thisMonth = all.filter(function (b) { return ymKey(b.date || b.createdAt) === thisKey; });
+      const lastMonth = all.filter(function (b) { return ymKey(b.date || b.createdAt) === prevKey; });
+      const hasData = all.length > 0;
+
+      const visits = hasData ? thisMonth.length : DEMO_STATS.visits;
+      const hours  = hasData ? sumBy(all, function (b) { return b.hours; }) : DEMO_STATS.hours;
+      const spend  = hasData ? sumBy(thisMonth, function (b) { return b.totalPrice; }) : DEMO_STATS.spend;
+      const rating = hasData ? platformRating() : DEMO_STATS.rating;
+
+      document.getElementById('statVisits').textContent = visits.toLocaleString();
+      document.getElementById('statHours').textContent = hours.toLocaleString();
+      document.getElementById('statRating').textContent = rating.toFixed(1);
+      document.getElementById('statSpend').textContent = '$' + spend.toLocaleString();
+
+      if (hasData) {
+        const dVisits = thisMonth.length - lastMonth.length;
+        setDelta('deltaVisits', deltaText(dVisits, '次'), dVisits > 0 ? 'up' : dVisits < 0 ? 'down' : '');
+
+        const dHours = sumBy(thisMonth, function (b) { return b.hours; })
+                     - sumBy(lastMonth, function (b) { return b.hours; });
+        setDelta('deltaHours', deltaText(dHours, '小時'), dHours > 0 ? 'up' : dHours < 0 ? 'down' : '');
+
+        setDelta('deltaRating', '依您預約過的照護夥伴評價');
+
+        const dSpend = sumBy(thisMonth, function (b) { return b.totalPrice; })
+                     - sumBy(lastMonth, function (b) { return b.totalPrice; });
+        setDelta('deltaSpend', deltaText(dSpend, '元', true));
+      } else {
+        setDelta('deltaVisits', '較上月 +3', 'up');
+        setDelta('deltaHours', '較上月 +12 小時', 'up');
+        setDelta('deltaRating', '照護夥伴平均評價');
+        setDelta('deltaSpend', '較上月 +$1,200', 'up');
+      }
+    }
+
+    // 即將到來：未取消、未完成，且日期為今天或未來
+    function upcomingBookings() {
+      return activeBookings()
+        .filter(function (b) {
+          return b.status !== 'completed' && isTodayOrFuture(b.date || b.createdAt);
+        })
+        .sort(function (a, b) {
+          return new Date(a.date || a.createdAt) - new Date(b.date || b.createdAt);
+        });
+    }
+
+    function renderBookingRow(b) {
+      const status = STATUS_MAP[b.status] || STATUS_MAP.pending;
+      const cg = caregiverOf(b.caregiverId);
+      const cgName = b.caregiverName || (cg ? cg.name : '待安排照護夥伴');
+      const area = cg ? cg.location : '服務區域將於聯繫時確認';
+      const dateLabel = b.date ? formatDate(b.date) + '（' + getWeekday(b.date) + '）' : '日期待確認';
+      const timeLabel = b.time || '時段待確認';
+      const hoursLabel = b.hours ? '（' + b.hours + ' 小時）' : '';
+
+      const media = cg
+        ? '<img class="avatar avatar--56" src="' + cg.avatar + '" alt="' + cgName + '，' + cg.location + '照護服務人員">'
+        : '<span class="icon-tile" aria-hidden="true">' + icon('user', 'ic-24') + '</span>';
+
+      return `
+        <article class="list-row" style="flex-wrap:wrap;gap:14px">
+          ${media}
+          <div class="list-row__main">
+            <p style="font-weight:700;font-size:1.0625rem">${cgName}</p>
+            <p style="margin-top:6px;font-size:0.8125rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px">
+              <span style="display:inline-flex;align-items:center;gap:6px">${icon('calendar-days', 'ic-16')}${dateLabel}</span>
+              <span style="display:inline-flex;align-items:center;gap:6px">${icon('clock', 'ic-16')}${timeLabel}${hoursLabel}</span>
+            </p>
+            <p style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+              <span class="tag">${b.service || '服務項目待確認'}</span>
+              <span style="font-size:0.8125rem;color:var(--muted);display:inline-flex;align-items:center;gap:6px">${icon('map-pin', 'ic-16')}${area}</span>
+            </p>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;margin-left:auto">
+            <span class="badge ${status.cls}">${status.label}</span>
+            ${b.totalPrice ? '<span class="price num" style="font-size:1.0625rem">$' + Number(b.totalPrice).toLocaleString() + '</span>' : ''}
+          </div>
+        </article>`;
+    }
+
+    function renderUpcoming() {
+      const list = document.getElementById('upcomingList');
+      const empty = document.getElementById('emptyUpcoming');
+      const items = upcomingBookings().slice(0, 4);
+
+      if (!items.length) {
+        list.innerHTML = '';
+        list.hidden = true;
+        empty.hidden = false;
+        return;
+      }
+
+      list.hidden = false;
+      empty.hidden = true;
+      list.innerHTML = items.map(renderBookingRow).join('');
+      renderIcons(list);
+    }
+
+    // 帶入登入者資訊（沿用 userName / userInitial 節點）
+    function renderMember() {
+      if (!currentUser) return;
+      const name = currentUser.name || '會員';
+      const nameEl = document.getElementById('userName');
+      const navEl = document.getElementById('userNameNav');
+      const initialEl = document.getElementById('userInitial');
+      if (nameEl) nameEl.textContent = name;
+      if (navEl) navEl.textContent = name;
+      if (initialEl) initialEl.textContent = name.charAt(0);
+    }
+
+    // 會員下拉選單（.user-menu；與 app.js 的選單行為一致）
+    function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const root = btn ? btn.closest('.user-menu') : null;
+      if (!btn || !root) return;
+
+      const close = function () {
+        root.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      };
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const open = root.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    }
+
+    /* ===== 行動版選單（與 index.html 一致）===== */
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMember();
+      renderStats();
+      renderUpcoming();
+      initUserMenu();
+      updateCartCount();
+      initReveal();
+    });
   </script>
 </body>
 </html>

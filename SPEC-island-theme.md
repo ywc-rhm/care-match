@@ -1,3 +1,6 @@
+> ⚠️ 此文件描述的是舊版（島嶼／卡通主題，分支 `main` 與 `island-redesign`），
+> 視覺規範已被 `SPEC-professional.md` 取代，僅保留作為設計歷程參考。
+
 # 群島生態系 SPEC (島嶼主題版)
 
 > 當前主力分支 `main` 的設計規格

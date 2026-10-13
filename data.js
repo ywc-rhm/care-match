@@ -133,7 +133,7 @@ const products = [
     categoryName: '行動輔具',
     price: 5800,
     originalPrice: 6800,
-    image: 'https://images.unsplash.com/photo-1576697193315-e8468db73e9e?w=400&h=300&fit=crop',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/7/79/WheelchairSeatingNTSB.jpg', // 公有領域（NTSB），原 Unsplash 連結已失效
     stock: 15,
     sold: 89,
     rating: 4.8,
@@ -285,12 +285,18 @@ function saveToStorage() {
   }));
 }
 
-// 評估星星顯示
+// 評估星星顯示（向量圖示版）
 function getStarRating(rating) {
   const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5 ? 1 : 0;
-  const empty = 5 - full - half;
-  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+  const half = rating % 1 >= 0.5;
+  const star = (name) => (typeof window.icon === 'function' ? window.icon(name, 'ic-14') : '');
+  let html = '';
+  for (let i = 0; i < 5; i++) {
+    if (i < full) html += star('star-solid');
+    else if (i === full && half) html += star('star-half');
+    else html += star('star');
+  }
+  return html;
 }
 
 // 格式化價格
@@ -360,10 +366,10 @@ function createProductCard(prod, showAddToCart = true) {
       <div class="p-4">
         <span class="text-xs text-primary bg-green-50 px-2 py-0.5 rounded">${prod.categoryName}</span>
         <h3 class="font-bold mt-2 mb-1 line-clamp-2">${prod.name}</h3>
-        <div class="flex items-center gap-1 mb-2">
-          <span class="star-rating text-sm">★</span>
-          <span class="text-sm text-gray-700">${prod.rating}</span>
-          <span class="text-sm text-gray-400">已售${prod.sold}</span>
+        <div class="rating" style="margin-bottom:8px">
+          <span class="stars">${getStarRating(prod.rating)}</span>
+          <span>${prod.rating}</span>
+          <span class="rating__count">已售 ${prod.sold}</span>
         </div>
         <div class="flex items-center gap-2 mb-3">
           <span class="text-xl font-bold text-accent">${formatPrice(prod.price)}</span>
@@ -398,16 +404,20 @@ function addToCart(productId) {
 
   saveToStorage();
   updateCartCount();
-  
-  // 顯示提示
-  const btn = event.target.closest('button');
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '✓ 已加入';
-  btn.disabled = true;
-  setTimeout(() => {
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-  }, 1500);
+
+  // 顯示提示（不依賴全域 event，程式呼叫也安全）
+  showNotification(`已將「${product.name}」加入購物車`, 'success');
+  const src = (typeof event !== 'undefined' && event) ? event : window.event;
+  const btn = (src && src.target && src.target.closest) ? src.target.closest('button') : null;
+  if (btn) {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '已加入';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }, 1500);
+  }
 }
 
 // 更新購物車數量顯示

@@ -3,424 +3,932 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>管理後台 - 群島生態系</title>
+  <title>管理後台｜群島生態系</title>
+  <meta name="description" content="群島生態系管理後台：檢視平台營運數據、管理會員與照護夥伴、處理預約案件與輔具商品，並調整平台基本設定。僅限具管理權限的帳號登入使用。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="管理後台｜群島生態系">
+  <meta property="og:description" content="平台營運數據、會員與照護夥伴管理、預約案件處理與商品管理。">
+  <meta name="theme-color" content="#0F5565">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .admin-sidebar {
-      background: linear-gradient(180deg, #115E59 0%, #134E4A 100%);
-      min-height: calc(100vh - 73px);
-    }
-    
-    .nav-item {
-      transition: all 0.2s ease;
-    }
-    .nav-item:hover {
-      background: rgba(255,255,255,0.1);
-    }
-    .nav-item.active {
-      background: rgba(255,255,255,0.2);
-    }
-
-    .stat-card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .data-table th {
-      text-align: left;
-      padding: 12px 16px;
-      border-bottom: 2px solid #E2E8F0;
-      font-weight: 600;
-      color: #64748B;
-      font-size: 14px;
-    }
-    .data-table td {
-      padding: 12px 16px;
-      border-bottom: 1px solid #F1F5F9;
-      color: #334155;
-      font-size: 14px;
-    }
-    .data-table tr:hover td {
-      background: #F8FAFC;
-    }
-
-    .status-badge {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 font-sans">
-  
-  <!-- Header -->
-  <header class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 py-4">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center">
-            <span class="text-xl">🏝️</span>
-          </div>
-          <div>
-            <span class="font-display font-bold text-lg text-night">群島生態系</span>
-            <span class="ml-2 text-xs bg-coral text-white px-2 py-0.5 rounded">管理後台</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <span class="text-sm text-gray-500">管理員帳號</span>
-          <a href="index.html" class="text-sm text-gray-400 hover:text-red-500">🚪 登出</a>
-        </div>
+<body class="font-sans">
+
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html">首頁</a>
+        <a class="nav-link" href="index.html#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html">輔具商店</a>
+        <a class="nav-link" href="admin.html" aria-current="page">管理後台</a>
+      </nav>
+
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
+        </a>
+        <a class="btn btn--primary" href="login.html" id="navLoginBtn"><span class="hide-sm">登入 / 註冊</span><span class="show-sm">登入</span></a>
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
+        </button>
       </div>
+    </div>
+
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="index.html#services"><i data-ic="squares-2x2" data-ic-class="ic-20"></i>服務項目</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="#dashboard" data-section="dashboard" onclick="showSection('dashboard');closeMobileMenu();return false;"><i data-ic="chart-bar" data-ic-class="ic-20"></i>儀表板</a>
+        <a href="#users" data-section="users" onclick="showSection('users');closeMobileMenu();return false;"><i data-ic="user-group" data-ic-class="ic-20"></i>會員管理</a>
+        <a href="#bookings" data-section="bookings" onclick="showSection('bookings');closeMobileMenu();return false;"><i data-ic="calendar-days" data-ic-class="ic-20"></i>預約管理</a>
+        <a href="#products" data-section="products" onclick="showSection('products');closeMobileMenu();return false;"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>商品管理</a>
+        <a href="#caregivers" data-section="caregivers" onclick="showSection('caregivers');closeMobileMenu();return false;"><i data-ic="cane" data-ic-class="ic-20"></i>照護夥伴管理</a>
+        <a href="#settings" data-section="settings" onclick="showSection('settings');closeMobileMenu();return false;"><i data-ic="cog-6-tooth" data-ic-class="ic-20"></i>系統設定</a>
+      </nav>
     </div>
   </header>
 
-  <div class="flex max-w-7xl mx-auto">
-    
-    <!-- Sidebar -->
-    <aside class="admin-sidebar w-56 py-6 flex-shrink-0">
-      <nav class="px-4 space-y-1">
-        <a href="#" onclick="showSection('dashboard')" class="nav-item active flex items-center gap-3 px-4 py-3 rounded-xl text-white" data-section="dashboard">
-          📊 儀表板
+  <!-- ===================== 管理工具列 ===================== -->
+  <div class="border-b border-line bg-white">
+    <div class="wrap py-4 flex flex-wrap items-center justify-between gap-3">
+      <p class="flex items-center gap-2.5 text-sm text-muted" style="margin:0">
+        <i data-ic="user-circle" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+        目前登入：<strong id="adminName" style="color:var(--ink)">系統管理員</strong>
+        <span class="badge badge--info">管理員</span>
+      </p>
+      <div class="flex flex-wrap items-center gap-2.5">
+        <a class="btn btn--secondary btn--sm" href="index.html">
+          <i data-ic="globe-alt" data-ic-class="ic-16"></i>檢視網站
         </a>
-        <a href="#" onclick="showSection('users')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="users">
-          👥 會員管理
-        </a>
-        <a href="#" onclick="showSection('bookings')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="bookings">
-          📅 預約管理
-        </a>
-        <a href="#" onclick="showSection('products')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="products">
-          🛒 商品管理
-        </a>
-        <a href="#" onclick="showSection('caregivers')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="caregivers">
-          🏝️ 照服員管理
-        </a>
-        <a href="#" onclick="showSection('settings')" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/80" data-section="settings">
-          ⚙️ 系統設定
-        </a>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      
-      <!-- Dashboard Section -->
-      <div id="section-dashboard" class="section">
-        <h1 class="font-display font-bold text-2xl text-night mb-6">📊 平台概覽</h1>
-        
-        <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div class="stat-card">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="text-sm text-gray-500">照服員總數</div>
-                <div class="text-3xl font-bold text-night">48</div>
-              </div>
-              <div class="text-4xl">👩‍⚕️</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="text-sm text-gray-500">會員總數</div>
-                <div class="text-3xl font-bold text-night">326</div>
-              </div>
-              <div class="text-4xl">👥</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="text-sm text-gray-500">本月訂單</div>
-                <div class="text-3xl font-bold text-coral">$128,400</div>
-              </div>
-              <div class="text-4xl">💰</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="text-sm text-gray-500">待處理預約</div>
-                <div class="text-3xl font-bold text-ocean">12</div>
-              </div>
-              <div class="text-4xl">📅</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Bookings Table -->
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-          <h2 class="font-bold text-lg text-night mb-4">📋 最新預約</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>個案</th>
-                <th>照服員</th>
-                <th>服務項目</th>
-                <th>日期/時段</th>
-                <th>狀態</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="font-medium">徐詠瀚</td>
-                <td>吳佩蓉</td>
-                <td>身體照顧服務</td>
-                <td>2024/05/20 09:00-12:00</td>
-                <td><span class="status-badge bg-yellow-100 text-yellow-700">待確認</span></td>
-              </tr>
-              <tr>
-                <td class="font-medium">陳美玲</td>
-                <td>王小明</td>
-                <td>陪同就醫</td>
-                <td>2024/05/20 14:00-17:00</td>
-                <td><span class="status-badge bg-green-100 text-green-700">已確認</span></td>
-              </tr>
-              <tr>
-                <td class="font-medium">林先生</td>
-                <td>陳雅惠</td>
-                <td>復健運動</td>
-                <td>2024/05/21 09:00-11:00</td>
-                <td><span class="status-badge bg-green-100 text-green-700">已確認</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <button class="btn btn--secondary btn--sm" type="button" onclick="logout()">
+          <i data-ic="arrow-left-on-rectangle" data-ic-class="ic-16"></i>登出
+        </button>
       </div>
-
-      <!-- Users Section -->
-      <div id="section-users" class="section hidden">
-        <h1 class="font-display font-bold text-2xl text-night mb-6">👥 會員管理</h1>
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>姓名</th>
-                <th>Email</th>
-                <th>電話</th>
-                <th>身份</th>
-                <th>註冊日期</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>001</td>
-                <td class="font-medium">吳佩蓉</td>
-                <td>peirong@example.com</td>
-                <td>0912-XXX-XXX</td>
-                <td><span class="status-badge bg-blue-100 text-blue-700">照服員</span></td>
-                <td>2024/01/15</td>
-                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
-              </tr>
-              <tr>
-                <td>002</td>
-                <td class="font-medium">徐詠瀚</td>
-                <td>xuyonghan@example.com</td>
-                <td>0918-XXX-XXX</td>
-                <td><span class="status-badge bg-gray-100 text-gray-700">一般會員</span></td>
-                <td>2024/03/20</td>
-                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Bookings Section -->
-      <div id="section-bookings" class="section hidden">
-        <h1 class="font-display font-bold text-2xl text-night mb-6">📅 預約管理</h1>
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>預約編號</th>
-                <th>個案姓名</th>
-                <th>照服員</th>
-                <th>服務項目</th>
-                <th>日期/時段</th>
-                <th>金額</th>
-                <th>狀態</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>#B001</td>
-                <td class="font-medium">徐詠瀚</td>
-                <td>吳佩蓉</td>
-                <td>身體照顧服務</td>
-                <td>2024/05/20 09:00</td>
-                <td>$1,050</td>
-                <td><span class="status-badge bg-yellow-100 text-yellow-700">待確認</span></td>
-                <td><button class="text-ocean hover:underline text-sm">處理</button></td>
-              </tr>
-              <tr>
-                <td>#B002</td>
-                <td class="font-medium">陳美玲</td>
-                <td>王小明</td>
-                <td>陪同就醫</td>
-                <td>2024/05/20 14:00</td>
-                <td>$1,400</td>
-                <td><span class="status-badge bg-green-100 text-green-700">已完成</span></td>
-                <td><button class="text-gray-400 text-sm">檢視</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Products Section -->
-      <div id="section-products" class="section hidden">
-        <h1 class="font-display font-bold text-2xl text-night mb-6">🛒 商品管理</h1>
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>圖片</th>
-                <th>商品名稱</th>
-                <th>分類</th>
-                <th>原價</th>
-                <th>優惠價</th>
-                <th>庫存</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="text-2xl">🦽</span></td>
-                <td class="font-medium">輕量鋁合金輪椅</td>
-                <td>行動輔具</td>
-                <td>$3,580</td>
-                <td class="text-coral font-bold">$2,680</td>
-                <td>45</td>
-                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
-              </tr>
-              <tr>
-                <td><span class="text-2xl">🛏️</span></td>
-                <td class="font-medium">三折式病床床墊</td>
-                <td>日常照護</td>
-                <td>$5,120</td>
-                <td class="text-coral font-bold">$4,200</td>
-                <td>28</td>
-                <td><button class="text-ocean hover:underline text-sm">編輯</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Caregivers Section -->
-      <div id="section-caregivers" class="section hidden">
-        <h1 class="font-display font-bold text-2xl text-night mb-6">🏝️ 照服員管理</h1>
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>姓名</th>
-                <th>服務區域</th>
-                <th>專長</th>
-                <th>評分</th>
-                <th>服務次數</th>
-                <th>狀態</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="font-medium">吳佩蓉</td>
-                <td>新北市永和區</td>
-                <td>身體照顧、日常生活</td>
-                <td>⭐ 4.9</td>
-                <td>128</td>
-                <td><span class="status-badge bg-green-100 text-green-700">正常</span></td>
-                <td><button class="text-ocean hover:underline text-sm">審核</button></td>
-              </tr>
-              <tr>
-                <td class="font-medium">王小明</td>
-                <td>新北市板橋區</td>
-                <td>陪同就醫、復健</td>
-                <td>⭐ 4.8</td>
-                <td>96</td>
-                <td><span class="status-badge bg-green-100 text-green-700">正常</span></td>
-                <td><button class="text-ocean hover:underline text-sm">審核</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Settings Section -->
-      <div id="section-settings" class="section hidden">
-        <h1 class="font-display font-bold text-2xl text-night mb-6">⚙️ 系統設定</h1>
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-          <h3 class="font-bold text-night mb-4">基本設定</h3>
-          <div class="space-y-4 max-w-lg">
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">平台名稱</label>
-              <input type="text" value="群島生態系" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-ocean">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">聯絡Email</label>
-              <input type="email" value="admin@care-match.com" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-ocean">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">客服電話</label>
-              <input type="tel" value="02-XXXX-XXXX" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-ocean">
-            </div>
-            <button class="bg-gradient-to-r from-ocean to-island text-white px-6 py-2.5 rounded-xl font-bold">💾 儲存設定</button>
-          </div>
-        </div>
-      </div>
-    </main>
+    </div>
   </div>
+
+  <!-- ===================== 區塊導覽 ===================== -->
+  <div class="bg-white border-b border-line">
+    <div class="wrap">
+      <div class="tabs" role="tablist" aria-label="管理後台區塊">
+        <button class="tab" type="button" role="tab" id="tab-dashboard" data-section="dashboard"
+                aria-selected="true" aria-controls="section-dashboard" onclick="showSection('dashboard')">
+          <i data-ic="chart-bar" data-ic-class="ic-18" style="margin-right:8px"></i>儀表板
+        </button>
+        <button class="tab" type="button" role="tab" id="tab-users" data-section="users"
+                aria-selected="false" aria-controls="section-users" onclick="showSection('users')">
+          <i data-ic="user-group" data-ic-class="ic-18" style="margin-right:8px"></i>會員管理
+        </button>
+        <button class="tab" type="button" role="tab" id="tab-bookings" data-section="bookings"
+                aria-selected="false" aria-controls="section-bookings" onclick="showSection('bookings')">
+          <i data-ic="calendar-days" data-ic-class="ic-18" style="margin-right:8px"></i>預約管理
+        </button>
+        <button class="tab" type="button" role="tab" id="tab-products" data-section="products"
+                aria-selected="false" aria-controls="section-products" onclick="showSection('products')">
+          <i data-ic="shopping-bag" data-ic-class="ic-18" style="margin-right:8px"></i>商品管理
+        </button>
+        <button class="tab" type="button" role="tab" id="tab-caregivers" data-section="caregivers"
+                aria-selected="false" aria-controls="section-caregivers" onclick="showSection('caregivers')">
+          <i data-ic="cane" data-ic-class="ic-18" style="margin-right:8px"></i>照護夥伴管理
+        </button>
+        <button class="tab" type="button" role="tab" id="tab-settings" data-section="settings"
+                aria-selected="false" aria-controls="section-settings" onclick="showSection('settings')">
+          <i data-ic="cog-6-tooth" data-ic-class="ic-18" style="margin-right:8px"></i>系統設定
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- ===================== 儀表板 ===================== -->
+    <section class="admin-panel" style="scroll-margin-top:96px" id="section-dashboard" aria-labelledby="dashboardTitle">
+      <div class="wrap py-10 md:py-14">
+
+        <div class="sec-head">
+          <p class="eyebrow">管理後台 · 儀表板</p>
+          <h1 class="sec-title" id="dashboardTitle">平台營運概覽</h1>
+          <p class="sec-lead">
+            檢視會員規模、預約案件與本月營業額，並優先處理待確認的預約。
+            本頁數據為服務展示用的模擬資料。
+          </p>
+        </div>
+
+        <!-- 數據卡 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10" id="statGrid">
+          <div class="stat">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="stat__label">總會員</p>
+                <p class="stat__value num">326<span class="stat__unit">人</span></p>
+              </div>
+              <span class="icon-tile" aria-hidden="true"><i data-ic="users" data-ic-class="ic-24"></i></span>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="stat__label">本月預約</p>
+                <p class="stat__value num">42<span class="stat__unit">筆</span></p>
+              </div>
+              <span class="icon-tile icon-tile--line" aria-hidden="true"><i data-ic="calendar-days" data-ic-class="ic-24"></i></span>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="stat__label">待處理預約</p>
+                <p class="stat__value num">12<span class="stat__unit">筆</span></p>
+              </div>
+              <span class="icon-tile icon-tile--clay" aria-hidden="true"><i data-ic="clock" data-ic-class="ic-24"></i></span>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="stat__label">本月營業額</p>
+                <p class="stat__value num">$128,400</p>
+              </div>
+              <span class="icon-tile icon-tile--green" aria-hidden="true"><i data-ic="currency-dollar" data-ic-class="ic-24"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 待處理事項 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+          <a class="card card--interactive" href="#bookings" onclick="showSection('bookings');return false;">
+            <span class="icon-tile icon-tile--clay" aria-hidden="true"><i data-ic="clipboard-document-list" data-ic-class="ic-24"></i></span>
+            <h2 class="card__title" style="margin-top:16px">待處理預約 12 筆</h2>
+            <p class="card__text">新送出的預約需確認照護夥伴時段，建議於服務前 24 小時完成聯繫。</p>
+            <p class="card__foot"><span>前往預約管理</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
+          </a>
+          <a class="card card--interactive" href="#products" onclick="showSection('products');return false;">
+            <span class="icon-tile" aria-hidden="true"><i data-ic="cube" data-ic-class="ic-24"></i></span>
+            <h2 class="card__title" style="margin-top:16px">庫存低於 15 件：<span class="num" id="lowStockCount">0</span> 項</h2>
+            <p class="card__text">輔具庫存偏低時，請評估補貨，避免影響訂單出貨時間。</p>
+            <p class="card__foot"><span>前往商品管理</span>
+              <i data-ic="arrow-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+            </p>
+          </a>
+        </div>
+
+        <!-- 最新預約 -->
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:14px;min-width:0">
+              <span class="icon-tile" aria-hidden="true"><i data-ic="calendar-days" data-ic-class="ic-24"></i></span>
+              <div style="min-width:0">
+                <h2 class="card__title" style="margin:0">最新預約</h2>
+                <p class="card__text" style="font-size:0.8125rem">最近送出的預約申請與目前處理狀態</p>
+              </div>
+            </div>
+            <button class="btn btn--secondary btn--sm" type="button" onclick="showSection('bookings')">查看全部預約</button>
+          </div>
+          <div class="table-wrap" style="border:0;border-radius:0">
+            <table class="table">
+              <caption class="sr-only">最新預約清單</caption>
+              <thead>
+                <tr>
+                  <th scope="col">客戶</th>
+                  <th scope="col">照護夥伴</th>
+                  <th scope="col">日期時間</th>
+                  <th scope="col" style="text-align:right">金額</th>
+                  <th scope="col">狀態</th>
+                </tr>
+              </thead>
+              <tbody id="latestBookingsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== 會員管理 ===================== -->
+    <section class="admin-panel" style="scroll-margin-top:96px" id="section-users" aria-labelledby="usersTitle" hidden>
+      <div class="wrap py-10 md:py-14">
+
+        <div class="sec-head">
+          <p class="eyebrow">管理後台 · 會員管理</p>
+          <h2 class="sec-title" id="usersTitle">會員帳號清單</h2>
+          <p class="sec-lead">
+            檢視平台會員的基本資料、身分與註冊時間。電話與電子郵件於後台以遮罩方式呈現，僅供核對身分使用。
+          </p>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:14px;min-width:0">
+              <span class="icon-tile" aria-hidden="true"><i data-ic="user-group" data-ic-class="ic-24"></i></span>
+              <div style="min-width:0">
+                <h3 class="card__title" style="margin:0">全部會員</h3>
+                <p class="card__text" style="font-size:0.8125rem">共 <span class="num" id="memberCount">0</span> 筆帳號資料</p>
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap" style="border:0;border-radius:0">
+            <table class="table">
+              <caption class="sr-only">會員帳號清單</caption>
+              <thead>
+                <tr>
+                  <th scope="col">編號</th>
+                  <th scope="col">姓名</th>
+                  <th scope="col">電子郵件</th>
+                  <th scope="col">手機號碼</th>
+                  <th scope="col">身分</th>
+                  <th scope="col">註冊日期</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="membersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== 預約管理 ===================== -->
+    <section class="admin-panel" style="scroll-margin-top:96px" id="section-bookings" aria-labelledby="bookingsTitle" hidden>
+      <div class="wrap py-10 md:py-14">
+
+        <div class="sec-head">
+          <p class="eyebrow">管理後台 · 預約管理</p>
+          <h2 class="sec-title" id="bookingsTitle">預約案件處理</h2>
+          <p class="sec-lead">
+            確認照護時段、金額與案件狀態。標示「待確認」的案件請先與照護夥伴確認時段後再行更新。
+          </p>
+        </div>
+
+        <div class="alert alert--info" style="margin-bottom:24px">
+          <span class="alert__icon" aria-hidden="true"><i data-ic="information-circle" data-ic-class="ic-20"></i></span>
+          <span>目前有 12 筆待處理預約。服務開始前 24 小時內提出的異動，請電話聯繫客戶確認後再調整。</span>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:14px;min-width:0">
+              <span class="icon-tile icon-tile--clay" aria-hidden="true"><i data-ic="calendar-days" data-ic-class="ic-24"></i></span>
+              <div style="min-width:0">
+                <h3 class="card__title" style="margin:0">全部預約</h3>
+                <p class="card__text" style="font-size:0.8125rem">共 <span class="num" id="bookingCount">0</span> 筆預約紀錄</p>
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap" style="border:0;border-radius:0">
+            <table class="table">
+              <caption class="sr-only">預約案件清單</caption>
+              <thead>
+                <tr>
+                  <th scope="col">預約編號</th>
+                  <th scope="col">客戶</th>
+                  <th scope="col">照護夥伴</th>
+                  <th scope="col">服務項目</th>
+                  <th scope="col">日期時間</th>
+                  <th scope="col" style="text-align:right">金額</th>
+                  <th scope="col">狀態</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="bookingsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== 商品管理 ===================== -->
+    <section class="admin-panel" style="scroll-margin-top:96px" id="section-products" aria-labelledby="productsTitle" hidden>
+      <div class="wrap py-10 md:py-14">
+
+        <div class="sec-head">
+          <p class="eyebrow">管理後台 · 商品管理</p>
+          <h2 class="sec-title" id="productsTitle">輔具商品清單</h2>
+          <p class="sec-lead">
+            檢視商品的定價、優惠價與庫存數量。庫存低於 15 件的品項請評估補貨，以免影響出貨時間。
+          </p>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:14px;min-width:0">
+              <span class="icon-tile" aria-hidden="true"><i data-ic="shopping-bag" data-ic-class="ic-24"></i></span>
+              <div style="min-width:0">
+                <h3 class="card__title" style="margin:0">全部商品</h3>
+                <p class="card__text" style="font-size:0.8125rem">共 <span class="num" id="productCount">0</span> 項商品</p>
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap" style="border:0;border-radius:0">
+            <table class="table">
+              <caption class="sr-only">輔具商品清單</caption>
+              <thead>
+                <tr>
+                  <th scope="col">圖片</th>
+                  <th scope="col">商品名稱</th>
+                  <th scope="col">分類</th>
+                  <th scope="col" style="text-align:right">原價</th>
+                  <th scope="col" style="text-align:right">優惠價</th>
+                  <th scope="col" style="text-align:right">庫存</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="productsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== 照護夥伴管理 ===================== -->
+    <section class="admin-panel" style="scroll-margin-top:96px" id="section-caregivers" aria-labelledby="caregiversTitle" hidden>
+      <div class="wrap py-10 md:py-14">
+
+        <div class="sec-head">
+          <p class="eyebrow">管理後台 · 照護夥伴管理</p>
+          <h2 class="sec-title" id="caregiversTitle">照護夥伴名單</h2>
+          <p class="sec-lead">
+            檢視照護夥伴的服務區域、專長、評價與審核狀態。資格或證照有異動時，請重新確認後再更新狀態。
+          </p>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:14px;min-width:0">
+              <span class="icon-tile icon-tile--green" aria-hidden="true"><i data-ic="cane" data-ic-class="ic-24"></i></span>
+              <div style="min-width:0">
+                <h3 class="card__title" style="margin:0">全部照護夥伴</h3>
+                <p class="card__text" style="font-size:0.8125rem">共 <span class="num" id="caregiverCount">0</span> 位夥伴</p>
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap" style="border:0;border-radius:0">
+            <table class="table">
+              <caption class="sr-only">照護夥伴名單</caption>
+              <thead>
+                <tr>
+                  <th scope="col">姓名</th>
+                  <th scope="col">服務區域</th>
+                  <th scope="col">專長</th>
+                  <th scope="col">評分</th>
+                  <th scope="col" style="text-align:right">服務次數</th>
+                  <th scope="col">狀態</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="caregiversBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== 系統設定 ===================== -->
+    <section class="admin-panel" style="scroll-margin-top:96px" id="section-settings" aria-labelledby="settingsTitle" hidden>
+      <div class="wrap py-10 md:py-14">
+
+        <div class="sec-head">
+          <p class="eyebrow">管理後台 · 系統設定</p>
+          <h2 class="sec-title" id="settingsTitle">平台基本設定</h2>
+          <p class="sec-lead">
+            調整對外顯示的平台名稱與客服資訊。設定僅儲存於本機瀏覽器，不會上傳至伺服器。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <div class="card card--pad-lg">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+              <span class="icon-tile" aria-hidden="true"><i data-ic="cog-6-tooth" data-ic-class="ic-24"></i></span>
+              <h3 class="card__title" style="margin:0">基本設定</h3>
+            </div>
+
+            <form id="settingsForm" onsubmit="saveSettings(event)">
+              <div class="field">
+                <label class="label" for="setPlatformName">平台名稱</label>
+                <input class="input" id="setPlatformName" name="platformName" type="text" autocomplete="organization" value="群島生態系">
+              </div>
+              <div class="field">
+                <label class="label" for="setEmail">客服電子郵件</label>
+                <input class="input" id="setEmail" name="serviceEmail" type="email" inputmode="email" autocomplete="email" value="service@archipelago.tw">
+                <p class="hint">顯示於頁尾與客服說明，建議使用可長期收信的服務信箱。</p>
+              </div>
+              <div class="field">
+                <label class="label" for="setPhone">客服電話</label>
+                <input class="input" id="setPhone" name="servicePhone" type="tel" inputmode="tel" autocomplete="tel" value="02-XXXX-XXXX">
+              </div>
+              <div class="field">
+                <label class="label" for="setHours">客服時間</label>
+                <input class="input" id="setHours" name="serviceHours" type="text" value="週一至週五 09:00–18:00">
+              </div>
+              <div class="field">
+                <label class="check" for="setAutoNotify">
+                  <input type="checkbox" id="setAutoNotify" name="autoNotify">
+                  <span>新預約送出時，自動以電子郵件通知照護夥伴</span>
+                </label>
+              </div>
+              <button class="btn btn--primary" type="submit">
+                <i data-ic="check" data-ic-class="ic-20"></i>儲存設定
+              </button>
+            </form>
+          </div>
+
+          <div class="stack-16">
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+                <span class="icon-tile icon-tile--line" aria-hidden="true"><i data-ic="lock-closed" data-ic-class="ic-24"></i></span>
+                <h3 class="card__title" style="margin:0">帳號與權限</h3>
+              </div>
+              <p class="card__text">
+                目前登入：<strong id="settingsAdminName" style="color:var(--ink)">系統管理員</strong>（角色：管理員）。
+              </p>
+              <p class="card__text" style="margin-top:10px">
+                基於安全考量，管理後台不顯示任何帳號密碼。如需變更登入資訊或帳號權限，請洽系統維護人員處理。
+              </p>
+            </div>
+
+            <div class="alert alert--info">
+              <span class="alert__icon" aria-hidden="true"><i data-ic="information-circle" data-ic-class="ic-20"></i></span>
+              <span>本網站為服務展示用途，後台資料為模擬範例，設定的變更只會保存在您目前使用的瀏覽器。</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name" style="color:#fff">群島生態系</span>
+              <span class="brand__tag" style="color:#a9c0c5">專業照護服務平台</span>
+            </span>
+          </div>
+          <p style="font-size:0.9375rem;line-height:1.75;color:#a9c0c5">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
+        </div>
+
+        <div>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
-    function showSection(name) {
-      // Hide all sections
-      document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-      // Show target section
-      document.getElementById(`section-${name}`).classList.remove('hidden');
-      
-      // Update nav active state
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-        item.classList.add('text-white/80');
-      });
-      document.querySelector(`[data-section="${name}"]`).classList.add('active');
-      document.querySelector(`[data-section="${name}"]`).classList.remove('text-white/80');
+    /* =========================================================================
+       管理後台 · admin.html
+       - 登入守門：僅具管理員身分的登入者可使用（沿用 data.js 的 adminAccount /
+         validateAdmin 驗證邏輯，頁面不顯示、不儲存任何密碼）
+       - 六個區塊切換：showSection(name) + #section-<name> + [data-section]
+       ========================================================================= */
+
+    // ---------------------------------------------------------------- 登入守門
+    function isAdminSession(user) {
+      return !!user && user.role === 'admin';
     }
+
+    // 以 data.js 的 validateAdmin 再確認一次身分（若 session 帶有帳密欄位）
+    function verifyAdminSession() {
+      if (typeof validateAdmin !== 'function') return null;
+      if (typeof currentUser === 'undefined' || !currentUser) return null;
+      if (!currentUser.email || !currentUser.password) return null;
+      return validateAdmin(currentUser.email, currentUser.password);
+    }
+
+    function currentAdmin() {
+      if (typeof currentUser === 'undefined' || !isAdminSession(currentUser)) return null;
+      const rechecked = verifyAdminSession();
+      if (rechecked) return rechecked;
+      return currentUser;
+    }
+
+    const ADMIN = currentAdmin();
+    if (!ADMIN) {
+      window.location.replace('login.html?redirect=' + encodeURIComponent('admin.html'));
+    }
+
+    // ---------------------------------------------------------------- 模擬資料
+    // 展示用資料：欄位沿用既有資料結構，未新增欄位
+    const ADMIN_SECTIONS = ['dashboard', 'users', 'bookings', 'products', 'caregivers', 'settings'];
+
+    const ADMIN_MEMBERS = [
+      { id: '001', name: '陳雅惠', email: 'chen.yahui@example.com', phone: '0912-XXX-678', role: 'caregiver', joined: '2026/01/15' },
+      { id: '002', name: '徐詠瀚', email: 'xuyonghan@example.com', phone: '0918-XXX-219', role: 'user', joined: '2026/03/20' },
+      { id: '003', name: '林志偉', email: 'lin.zhiwei@example.com', phone: '0922-XXX-503', role: 'caregiver', joined: '2026/02/08' },
+      { id: '004', name: '陳美玲', email: 'chen.meiling@example.com', phone: '0935-XXX-147', role: 'user', joined: '2026/04/02' }
+    ];
+
+    const ADMIN_BOOKINGS = [
+      { id: '#B001', customer: '徐詠瀚', partner: '陳雅惠', service: '身體照顧服務', datetime: '2026/10/20 09:00–12:00', amount: 1050, status: 'pending' },
+      { id: '#B002', customer: '陳美玲', partner: '林志偉', service: '就醫陪同', datetime: '2026/10/20 14:00–17:00', amount: 1200, status: 'confirmed' },
+      { id: '#B003', customer: '林先生', partner: '黃淑芬', service: '復健運動', datetime: '2026/10/21 09:00–11:00', amount: 760, status: 'completed' },
+      { id: '#B004', customer: '黃女士', partner: '張美雲', service: '喘息服務', datetime: '2026/10/22 10:00–16:00', amount: 1920, status: 'cancelled' }
+    ];
+
+    // 狀態標記（單一來源，顏色對應 styles.css 的 .badge--*）
+    const BOOKING_STATUS = {
+      pending: { label: '待確認', cls: 'badge--warn', icon: 'clock' },
+      confirmed: { label: '已確認', cls: 'badge--verified', icon: 'check-circle' },
+      completed: { label: '已完成', cls: 'badge--neutral', icon: 'check' },
+      cancelled: { label: '已取消', cls: 'badge--danger', icon: 'x-mark' }
+    };
+
+    // 商品分類代表圖示（圖片無法載入時的替代顯示，對應 shop.html）
+    const PRODUCT_CATEGORY_ICON = {
+      mobility: 'wheelchair', bathroom: 'home-modern', safety: 'shield-check',
+      comfort: 'heart', medical: 'medical-cross'
+    };
+
+    const MEMBER_ROLE = {
+      caregiver: { label: '照護夥伴', cls: 'badge--info' },
+      user: { label: '一般會員', cls: 'badge--neutral' }
+    };
+
+    // 以屬性安全跳脫（alt / aria-label 用）
+    function escAttr(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function statusBadge(key) {
+      const s = BOOKING_STATUS[key] || BOOKING_STATUS.pending;
+      return `<span class="badge ${s.cls}">${icon(s.icon, 'ic-14')}${s.label}</span>`;
+    }
+
+    function money(amount) {
+      return '$' + Number(amount).toLocaleString();
+    }
+
+    // ------------------------------------------------------------ 空狀態元件
+    function renderEmptyState(tbody, colSpan, iconName, title, text) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="${colSpan}" style="padding:0;border:0">
+            <div class="empty" style="border:0">
+              <div class="empty__icon" aria-hidden="true">${icon(iconName, 'ic-24')}</div>
+              <h3 class="empty__title">${title}</h3>
+              <p class="empty__text">${text}</p>
+            </div>
+          </td>
+        </tr>`;
+      renderIcons(tbody);
+    }
+
+    // ------------------------------------------------------------------ 儀表板
+    function renderLatestBookings() {
+      const tbody = document.getElementById('latestBookingsBody');
+      const list = ADMIN_BOOKINGS.slice(0, 3);
+      if (!list.length) {
+        renderEmptyState(tbody, 5, 'calendar-days', '目前沒有新的預約', '尚無案件送出，可於預約管理查看歷史紀錄。');
+        return;
+      }
+      tbody.innerHTML = list.map((b, i) => `
+        <tr>
+          <td style="font-weight:700;white-space:nowrap">${escAttr(b.customer)}${i === 0 ? '<span class="badge badge--info" style="margin-left:8px">最新</span>' : ''}</td>
+          <td style="white-space:nowrap">${escAttr(b.partner)}</td>
+          <td class="num" style="white-space:nowrap">${b.datetime}</td>
+          <td class="table-num" style="font-weight:700">${money(b.amount)}</td>
+          <td>${statusBadge(b.status)}</td>
+        </tr>
+      `).join('');
+      renderIcons(tbody);
+    }
+
+    function renderLowStock() {
+      const host = document.getElementById('lowStockCount');
+      if (!host) return;
+      const list = (typeof products !== 'undefined') ? products : [];
+      host.textContent = list.filter(p => p.stock < 15).length;
+    }
+
+    // ---------------------------------------------------------------- 會員管理
+    function renderMembers() {
+      const tbody = document.getElementById('membersBody');
+      document.getElementById('memberCount').textContent = ADMIN_MEMBERS.length;
+      if (!ADMIN_MEMBERS.length) {
+        renderEmptyState(tbody, 7, 'user-group', '尚無會員資料', '目前沒有會員帳號，新的註冊紀錄會顯示在此處。');
+        return;
+      }
+      tbody.innerHTML = ADMIN_MEMBERS.map(m => {
+        const role = MEMBER_ROLE[m.role] || MEMBER_ROLE.user;
+        return `
+          <tr>
+            <td class="num">${m.id}</td>
+            <td style="font-weight:700;white-space:nowrap">${escAttr(m.name)}</td>
+            <td style="white-space:nowrap">${escAttr(m.email)}</td>
+            <td class="num" style="white-space:nowrap">${escAttr(m.phone)}</td>
+            <td><span class="badge ${role.cls}">${role.label}</span></td>
+            <td class="num" style="white-space:nowrap">${m.joined}</td>
+            <td><button class="btn btn--secondary" type="button" onclick="openMember('${escAttr(m.name)}')" aria-label="編輯會員 ${escAttr(m.name)}">編輯</button></td>
+          </tr>`;
+      }).join('');
+      renderIcons(tbody);
+    }
+
+    function openMember(name) {
+      showNotification('展示版本不提供會員編輯功能，實際環境將開啟「' + name + '」的帳號設定。', 'info');
+    }
+
+    // ---------------------------------------------------------------- 預約管理
+    function renderBookings() {
+      const tbody = document.getElementById('bookingsBody');
+      document.getElementById('bookingCount').textContent = ADMIN_BOOKINGS.length;
+      if (!ADMIN_BOOKINGS.length) {
+        renderEmptyState(tbody, 8, 'calendar-days', '目前沒有預約案件', '新的預約送出後會顯示在此處，可先確認照護夥伴的可預約時段。');
+        return;
+      }
+      tbody.innerHTML = ADMIN_BOOKINGS.map(b => `
+        <tr>
+          <td class="num">${b.id}</td>
+          <td style="font-weight:700;white-space:nowrap">${escAttr(b.customer)}</td>
+          <td style="white-space:nowrap">${escAttr(b.partner)}</td>
+          <td style="white-space:nowrap">${escAttr(b.service)}</td>
+          <td class="num" style="white-space:nowrap">${b.datetime}</td>
+          <td class="table-num" style="font-weight:700">${money(b.amount)}</td>
+          <td>${statusBadge(b.status)}</td>
+          <td>${b.status === 'pending'
+            ? `<button class="btn btn--primary" type="button" onclick="openBooking('${b.id}')" aria-label="處理預約 ${b.id}">處理</button>`
+            : `<button class="btn btn--secondary" type="button" onclick="openBooking('${b.id}')" aria-label="檢視預約 ${b.id}">檢視</button>`}</td>
+        </tr>
+      `).join('');
+      renderIcons(tbody);
+    }
+
+    function openBooking(id) {
+      showNotification('展示版本不提供案件處理功能；實際環境將開啟預約 ' + id + ' 的處理面板。', 'info');
+    }
+
+    // ---------------------------------------------------------------- 商品管理
+    function renderProducts() {
+      const tbody = document.getElementById('productsBody');
+      const list = (typeof products !== 'undefined') ? products : [];
+      document.getElementById('productCount').textContent = list.length;
+      if (!list.length) {
+        renderEmptyState(tbody, 7, 'shopping-bag', '目前沒有上架商品', '商品上架後會顯示在此處，可先確認分類與定價是否正確。');
+        return;
+      }
+      tbody.innerHTML = list.map(p => `
+        <tr>
+          <td>
+            <span style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:8px;overflow:hidden;background:var(--sand);color:var(--ocean-light)">
+              ${icon(PRODUCT_CATEGORY_ICON[p.category] || 'shopping-bag', 'ic-24')}
+              <img src="${p.image}" alt="" loading="lazy"
+                   style="position:absolute;inset:0;width:48px;height:48px;object-fit:cover" onerror="this.remove()">
+            </span>
+          </td>
+          <td style="font-weight:700;white-space:nowrap">${escAttr(p.name)}</td>
+          <td><span class="badge badge--neutral">${escAttr(p.categoryName)}</span></td>
+          <td class="table-num">${p.originalPrice ? money(p.originalPrice) : '—'}</td>
+          <td class="table-num" style="font-weight:800;color:var(--coral)">${money(p.price)}</td>
+          <td class="table-num${p.stock < 15 ? ' ' : ''}" style="${p.stock < 15 ? 'font-weight:800;color:var(--warn)' : ''}">${p.stock}</td>
+          <td><button class="btn btn--secondary" type="button" onclick="openProduct(${p.id})" aria-label="編輯商品 ${escAttr(p.name)}">編輯</button></td>
+        </tr>
+      `).join('');
+      renderIcons(tbody);
+    }
+
+    function openProduct(id) {
+      showNotification('展示版本不提供商品編輯功能；實際環境將開啟商品 #' + id + ' 的編輯表單。', 'info');
+    }
+
+    // ------------------------------------------------------------ 照護夥伴管理
+    function renderCaregivers() {
+      const tbody = document.getElementById('caregiversBody');
+      const list = (typeof caregivers !== 'undefined') ? caregivers : [];
+      document.getElementById('caregiverCount').textContent = list.length;
+      if (!list.length) {
+        renderEmptyState(tbody, 7, 'cane', '目前沒有照護夥伴資料', '新的夥伴通過審核後會顯示在此處。');
+        return;
+      }
+      tbody.innerHTML = list.map(cg => `
+        <tr>
+          <td style="font-weight:700;white-space:nowrap">${escAttr(cg.name)}</td>
+          <td style="white-space:nowrap">${escAttr(cg.location)}</td>
+          <td style="white-space:nowrap">${escAttr((cg.serviceNames || []).join('、'))}</td>
+          <td><span class="rating">${icon('star-solid', 'ic-16')}${cg.rating}</span></td>
+          <td class="table-num">${cg.reviews}</td>
+          <td>${cg.certified
+            ? '<span class="badge badge--verified">已認證</span>'
+            : '<span class="badge badge--warn">待審核</span>'}</td>
+          <td><button class="btn btn--secondary" type="button" onclick="openCaregiver('${escAttr(cg.name)}')" aria-label="審核照護夥伴 ${escAttr(cg.name)}">審核</button></td>
+        </tr>
+      `).join('');
+      renderIcons(tbody);
+    }
+
+    function openCaregiver(name) {
+      showNotification('展示版本不提供資格審核功能；實際環境將開啟「' + name + '」的證照與資格資料。', 'info');
+    }
+
+    // ---------------------------------------------------------------- 系統設定
+    const ADMIN_SETTINGS_KEY = 'careMatchAdminSettings';
+
+    function loadSettings() {
+      let saved = null;
+      try {
+        saved = JSON.parse(localStorage.getItem(ADMIN_SETTINGS_KEY) || 'null');
+      } catch (err) {
+        saved = null;
+      }
+      if (!saved) return;
+      const map = {
+        setPlatformName: saved.platformName,
+        setEmail: saved.serviceEmail,
+        setPhone: saved.servicePhone,
+        setHours: saved.serviceHours
+      };
+      Object.keys(map).forEach(id => {
+        const el = document.getElementById(id);
+        if (el && typeof map[id] === 'string') el.value = map[id];
+      });
+      const notify = document.getElementById('setAutoNotify');
+      if (notify) notify.checked = !!saved.autoNotify;
+    }
+
+    function saveSettings(event) {
+      event.preventDefault();
+      const data = {
+        platformName: document.getElementById('setPlatformName').value.trim(),
+        serviceEmail: document.getElementById('setEmail').value.trim(),
+        servicePhone: document.getElementById('setPhone').value.trim(),
+        serviceHours: document.getElementById('setHours').value.trim(),
+        autoNotify: document.getElementById('setAutoNotify').checked
+      };
+      try {
+        localStorage.setItem(ADMIN_SETTINGS_KEY, JSON.stringify(data));
+      } catch (err) {
+        showNotification('瀏覽器無法儲存設定，請確認是否停用了本機儲存功能。', 'error');
+        return;
+      }
+      showNotification('平台設定已儲存。', 'success');
+    }
+
+    // ------------------------------------------------------------ 區塊切換
+    function showSection(name) {
+      const key = ADMIN_SECTIONS.indexOf(name) !== -1 ? name : 'dashboard';
+
+      document.querySelectorAll('.admin-panel').forEach(panel => {
+        const active = panel.id === 'section-' + key;
+        panel.classList.toggle('hidden', !active);
+        panel.hidden = !active;
+      });
+
+      document.querySelectorAll('.tabs .tab').forEach(tab => {
+        const active = tab.dataset.section === key;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+
+      document.querySelectorAll('.nav-mobile a[data-section]').forEach(link => {
+        if (link.dataset.section === key) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+      });
+
+      const numbers = document.getElementById('statGrid');
+      if (numbers) renderIcons(numbers);
+
+      history.replaceState(null, '', '#' + key);
+    }
+
+    // -------------------------------------------------------------- 行動版選單
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      if (!menu || !btn) return;
+      menu.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', '開啟選單');
+      if (btn.querySelector('svg')) btn.innerHTML = icon('bars-3', 'ic-24');
+    }
+
+    // --------------------------------------------------------------- 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!ADMIN) return;
+
+      const nameHosts = [document.getElementById('adminName'), document.getElementById('settingsAdminName')];
+      nameHosts.forEach(el => { if (el) el.textContent = ADMIN.name || '系統管理員'; });
+
+      // 已登入管理員：導覽列不顯示「登入 / 註冊」，身分與登出改由上方工具列呈現
+      const navLogin = document.getElementById('navLoginBtn');
+      if (navLogin) navLogin.hidden = true;
+
+      renderLatestBookings();
+      renderLowStock();
+      renderMembers();
+      renderBookings();
+      renderProducts();
+      renderCaregivers();
+      loadSettings();
+
+      const hash = (window.location.hash || '').replace('#', '');
+      showSection(ADMIN_SECTIONS.indexOf(hash) !== -1 ? hash : 'dashboard');
+
+      // 區塊導覽鍵盤操作：左右方向鍵 / Home / End
+      const tablist = document.querySelector('.tabs[role="tablist"]');
+      if (tablist) {
+        tablist.addEventListener('keydown', (ev) => {
+          const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
+          if (keys.indexOf(ev.key) === -1) return;
+          ev.preventDefault();
+          const tabs = Array.prototype.slice.call(tablist.querySelectorAll('.tab'));
+          const current = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+          let next = 0;
+          if (ev.key === 'ArrowLeft') next = current <= 0 ? tabs.length - 1 : current - 1;
+          else if (ev.key === 'ArrowRight') next = current >= tabs.length - 1 ? 0 : current + 1;
+          else if (ev.key === 'End') next = tabs.length - 1;
+          const target = tabs[next];
+          showSection(target.dataset.section);
+          target.focus();
+        });
+      }
+
+      updateCartCount();
+      initReveal();
+    });
   </script>
 </body>
 </html>

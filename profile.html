@@ -3,394 +3,834 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>島嶼設定 - 群島生態系</title>
+  <title>個人檔案設定｜群島生態系</title>
+  <meta name="description" content="管理群島生態系的個人檔案：基本資料與聯絡方式、可提供的服務項目與收費標準、可預約時段，以及帳號密碼設定。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="個人檔案設定｜群島生態系">
+  <meta property="og:description" content="管理基本資料、服務項目、可預約時段與密碼設定，設定完成後家屬即可依條件找到您。">
+  <meta name="theme-color" content="#0F5565">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .island-card {
-      background: linear-gradient(145deg, #86EFAC 0%, #22C55E 60%, #16A34A 100%);
-      border-radius: 24px 24px 8px 8px;
-      position: relative;
-      overflow: hidden;
-    }
-    .island-card::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 35%;
-      background: linear-gradient(to top, #FCD34D 0%, #F59E0B 100%);
-      border-radius: 0 0 8px 8px;
-    }
-    
-    .avatar-upload {
-      border: 4px dashed #CBD5E1;
-      border-radius: 50%;
-      transition: all 0.3s ease;
-    }
-    .avatar-upload:hover {
-      border-color: #0891B2;
-      transform: scale(1.05);
-    }
-
-    .form-input {
-      border: 2px solid #E2E8F0;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-    }
-    .form-input:focus {
-      border-color: #0891B2;
-      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
-      outline: none;
-    }
-
-    .save-btn {
-      background: linear-gradient(135deg, #0891B2 0%, #059669 100%);
-      transition: all 0.3s ease;
-    }
-    .save-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px -10px rgba(8, 145, 178, 0.5);
-    }
-
-    .tag-chip {
-      background: #F0FDF4;
-      border: 1px solid #86EFAC;
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .tag-chip:hover, .tag-chip.selected {
-      background: #22C55E;
-      color: white;
-      border-color: #22C55E;
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-sand font-sans">
-  
-  <!-- Header -->
-  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
-    <div class="max-w-4xl mx-auto px-4 py-4">
-      <div class="flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
-            <span class="text-2xl">🏝️</span>
-          </div>
-          <div>
-            <span class="font-display font-bold text-xl text-night">群島生態系</span>
-          </div>
+<body class="font-sans">
+
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html">首頁</a>
+        <a class="nav-link" href="index.html#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html">輔具商店</a>
+      </nav>
+
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
         </a>
-        <div class="flex items-center gap-4">
-          <a href="dashboard.html" class="text-gray-600 hover:text-ocean">← 返回島嶼</a>
-        </div>
+        <a class="btn btn--primary btn--sm" href="login.html"><span class="hide-sm">登入 / 註冊</span><span class="show-sm">登入</span></a>
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
+        </button>
       </div>
+    </div>
+
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="index.html#services"><i data-ic="squares-2x2" data-ic-class="ic-20"></i>服務項目</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="cart.html"><i data-ic="shopping-cart" data-ic-class="ic-20"></i>購物車</a>
+        <a href="login.html"><i data-ic="arrow-right-on-rectangle" data-ic-class="ic-20"></i>登入 / 註冊</a>
+      </nav>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="max-w-4xl mx-auto px-4 py-8">
-    
-    <!-- Profile Header -->
-    <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-6">
-      <!-- Island Banner -->
-      <div class="h-32 bg-gradient-to-r from-ocean via-ocean-light to-island relative">
-        <div class="absolute inset-0 opacity-20">
-          <svg class="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid slice">
-            <ellipse cx="50" cy="80" rx="30" ry="20" fill="#166534"/>
-            <ellipse cx="150" cy="70" rx="40" ry="28" fill="#15803D"/>
-            <ellipse cx="280" cy="75" rx="35" ry="24" fill="#166534"/>
-          </svg>
+  <main id="main">
+
+    <!-- ===================== 頁題區與大頭貼 ===================== -->
+    <section class="section section--white" aria-labelledby="pageTitle">
+      <div class="wrap">
+        <nav aria-label="麵包屑" style="margin-bottom:20px">
+          <a class="more-link" href="dashboard.html">
+            <i data-ic="arrow-left" data-ic-class="ic-16"></i>
+            返回會員專區
+          </a>
+        </nav>
+
+        <div class="sec-head">
+          <p class="eyebrow">會員專區</p>
+          <h1 class="sec-title" id="pageTitle">個人檔案設定</h1>
+          <p class="sec-lead">
+            在此維護您的個人資料、可提供的服務項目與可預約時段。每項設定修改後，
+            請於該分頁底部按下儲存，設定才會寫入並套用到家屬端的搜尋結果。
+          </p>
+        </div>
+
+        <!-- 大頭貼 -->
+        <div class="card">
+          <div class="flex flex-wrap items-center gap-5">
+            <img class="avatar avatar--72 avatar--squircle" id="avatarPreview"
+                 src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=200&h=200&fit=crop"
+                 alt="吳佩蓉的大頭貼照片">
+            <div style="min-width:0">
+              <p style="font-size:1.1875rem;font-weight:800;line-height:1.3">吳佩蓉</p>
+              <p class="hint" style="margin-top:4px">專業照護工作者 · 新北市永和區 · 服務年資 3 年</p>
+              <p class="hint" style="margin-top:2px">
+                執業登記與證照審核狀態：<span class="badge badge--verified" style="vertical-align:middle"><i data-ic="shield-check" data-ic-class="ic-14"></i>已通過審核</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3" style="margin-top:20px">
+            <input class="sr-only" type="file" id="avatarInput" name="avatar"
+                   accept="image/png,image/jpeg" aria-describedby="avatarHint">
+            <label class="btn btn--secondary" for="avatarInput">
+              <i data-ic="camera" data-ic-class="ic-20"></i>
+              更換大頭貼
+            </label>
+            <span class="hint" id="avatarHint" style="margin:0">
+              支援 JPG、PNG 格式，建議使用 400×400 以上正方形照片，檔案大小 2MB 以內。
+            </span>
+          </div>
         </div>
       </div>
-      
-      <!-- Avatar & Name -->
-      <div class="px-8 pb-6">
-        <div class="flex items-end -mt-16 mb-4">
-          <div class="relative">
-            <div id="avatarPreview" class="w-32 h-32 rounded-full bg-gradient-to-br from-ocean to-island flex items-center justify-center text-white text-5xl font-bold border-4 border-white shadow-xl">
-              W
+    </section>
+
+    <!-- ===================== 設定分頁 ===================== -->
+    <section class="section section--paper" aria-labelledby="settingsTitle">
+      <div class="wrap wrap--narrow">
+        <div class="sec-head">
+          <p class="eyebrow">帳號設定</p>
+          <h2 class="sec-title" id="settingsTitle">設定項目</h2>
+          <p class="sec-lead">四個分頁分別對應基本資料、服務設定、可預約時段與密碼設定，可依需求逐項調整。</p>
+        </div>
+
+        <div class="card card--pad-lg">
+
+          <!-- 分頁按鈕 -->
+          <div class="tabs flex-wrap" role="tablist" aria-label="個人檔案設定分頁">
+            <button class="tab" type="button" role="tab" id="tabBtn-basic"
+                    aria-selected="true" aria-controls="tab-basic" onclick="showTab('basic')">基本資料</button>
+            <button class="tab" type="button" role="tab" id="tabBtn-service"
+                    aria-selected="false" aria-controls="tab-service" onclick="showTab('service')">服務設定</button>
+            <button class="tab" type="button" role="tab" id="tabBtn-schedule"
+                    aria-selected="false" aria-controls="tab-schedule" onclick="showTab('schedule')">可預約時段</button>
+            <button class="tab" type="button" role="tab" id="tabBtn-password"
+                    aria-selected="false" aria-controls="tab-password" onclick="showTab('password')">密碼設定</button>
+          </div>
+
+          <!-- ============ 分頁 1：基本資料 ============ -->
+          <div id="tab-basic" role="tabpanel" aria-labelledby="tabBtn-basic" style="padding-top:28px">
+            <h3 class="card__title">基本資料</h3>
+            <p class="card__text" style="margin-bottom:18px">
+              姓名、聯絡方式與服務區域會顯示在您的夥伴檔案與預約通知中，請填寫可聯絡的資訊。
+            </p>
+
+            <form novalidate onsubmit="saveProfile(event)">
+              <p class="hint" style="margin:0 0 18px">標示「<span class="req" aria-hidden="true">*</span>」的欄位為必填。</p>
+
+              <div class="grid grid-cols-1 gap-x-6 md:grid-cols-2">
+                <div class="field">
+                  <label class="label" for="profileName">姓名 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="text" id="profileName" name="name" value="吳佩蓉"
+                         autocomplete="name" aria-required="true" aria-describedby="profileNameError">
+                  <p class="error-text" id="profileNameError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="profileNickname">顯示暱稱</label>
+                  <input class="input" type="text" id="profileNickname" name="nickname" value="佩蓉"
+                         autocomplete="nickname">
+                  <p class="hint">家屬在預約紀錄中看到的稱呼，可留空。</p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="profileEmail">電子郵件 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="email" id="profileEmail" name="email" value="peirong@example.com"
+                         autocomplete="email" inputmode="email" aria-required="true"
+                         aria-describedby="profileEmailError">
+                  <p class="hint">用於接收預約通知與服務紀錄，不會公開顯示。</p>
+                  <p class="error-text" id="profileEmailError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="profilePhone">手機號碼 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="tel" id="profilePhone" name="phone" value="0912345678"
+                         autocomplete="tel" inputmode="tel" pattern="09[0-9]{8}" aria-required="true"
+                         aria-describedby="profilePhoneHint profilePhoneError">
+                  <p class="hint" id="profilePhoneHint">09 開頭共 10 位數字，例如 0912345678。</p>
+                  <p class="error-text" id="profilePhoneError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field md:col-span-2">
+                  <label class="label" for="profileRegion">主要服務區域 <span class="req" aria-hidden="true">*</span></label>
+                  <select class="select" id="profileRegion" name="region" aria-required="true"
+                          aria-describedby="profileRegionHint">
+                    <option value="新北市板橋區">新北市板橋區</option>
+                    <option value="新北市中和區">新北市中和區</option>
+                    <option value="新北市永和區" selected>新北市永和區</option>
+                    <option value="新北市三重區">新北市三重區</option>
+                  </select>
+                  <p class="hint" id="profileRegionHint">目前僅開放新北市部分行政區，其他區域將陸續開放。</p>
+                </div>
+
+                <div class="field md:col-span-2">
+                  <label class="label" for="profileBio">自我介紹</label>
+                  <textarea class="textarea" id="profileBio" name="bio" rows="5"
+                            aria-describedby="profileBioHint">您好，我是吳佩蓉，擁有 3 年以上的照護服務經驗。專長包括身體照顧服務、日常生活照顧與陪同就醫。我重視溝通與紀錄，服務前會先了解個案的生活習慣與用藥狀況，並於每次服務後回報家屬。</textarea>
+                  <p class="hint" id="profileBioHint">建議 50–200 字，說明服務經驗、專長與可配合的時間。</p>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-3 justify-end" style="margin-top:8px">
+                <p class="hint" style="margin:0 auto 0 0">最近一次儲存時間：<span class="num" id="basicSavedAt">尚未儲存</span></p>
+                <button class="btn btn--primary" type="submit">
+                  <i data-ic="check-circle" data-ic-class="ic-20"></i>
+                  儲存基本資料
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- ============ 分頁 2：服務設定 ============ -->
+          <div id="tab-service" role="tabpanel" aria-labelledby="tabBtn-service" style="padding-top:28px" hidden>
+            <h3 class="card__title">服務項目</h3>
+            <p class="card__text" style="margin-bottom:16px">
+              可複選。請選擇您實際能提供的項目，家屬搜尋時會依此篩選；未勾選的項目不會出現在您的檔案。
+            </p>
+
+            <div class="flex flex-wrap gap-3" id="serviceChips" role="group" aria-label="服務項目（可複選）">
+              <button class="chip" type="button" data-service="身體照顧服務" aria-pressed="true">身體照顧服務</button>
+              <button class="chip" type="button" data-service="日常生活照顧" aria-pressed="true">日常生活照顧</button>
+              <button class="chip" type="button" data-service="餐食照顧" aria-pressed="false">餐食照顧</button>
+              <button class="chip" type="button" data-service="陪同就醫" aria-pressed="true">陪同就醫</button>
+              <button class="chip" type="button" data-service="藥物提醒" aria-pressed="false">藥物提醒</button>
+              <button class="chip" type="button" data-service="復健運動" aria-pressed="false">復健運動</button>
+              <button class="chip" type="button" data-service="沐浴照顧" aria-pressed="false">沐浴照顧</button>
+              <button class="chip" type="button" data-service="足部照顧" aria-pressed="false">足部照顧</button>
+              <button class="chip" type="button" data-service="喘息服務" aria-pressed="false">喘息服務</button>
+              <button class="chip" type="button" data-service="個案評估" aria-pressed="false">個案評估</button>
             </div>
-            <button class="absolute bottom-0 right-0 w-10 h-10 bg-coral text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
-              📷
-            </button>
+
+            <p class="hint" id="serviceCount" role="status" style="margin-top:12px">已選擇 3 項服務</p>
+
+            <hr class="divider" style="margin:28px 0">
+
+            <h3 class="card__title">收費標準</h3>
+            <p class="card__text" style="margin-bottom:16px">
+              以下為您公開的參考時薪，家屬於預約前即可看到；實際費用以雙方於預約確認時的約定為準。
+            </p>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div class="stat">
+                <p class="stat__label">一般時段（週一至週五 08:00–18:00）</p>
+                <p class="stat__value num">$350<span class="stat__unit">／小時</span></p>
+              </div>
+              <div class="stat">
+                <p class="stat__label">特殊時段（夜間、週末與國定假日）</p>
+                <p class="stat__value num" style="color:var(--coral)">$450<span class="stat__unit">／小時</span></p>
+              </div>
+            </div>
+
+            <div class="alert alert--info" style="margin-top:20px">
+              <span class="alert__icon"><i data-ic="information-circle" data-ic-class="ic-20"></i></span>
+              <span>如需調整收費標準或新增服務項目，請透過客服信箱 service@archipelago.tw 提出，平台將於 3 個工作日內協助修改。</span>
+            </div>
+
+            <div class="flex justify-end" style="margin-top:24px">
+              <button class="btn btn--primary" type="button" onclick="saveServices()">
+                <i data-ic="check-circle" data-ic-class="ic-20"></i>
+                儲存服務設定
+              </button>
+            </div>
           </div>
-          <div class="ml-4 mb-2">
-            <h1 class="font-display font-bold text-2xl text-night">吳佩蓉</h1>
-            <p class="text-gray-500">專業照護工作者 · 新北市</p>
+
+          <!-- ============ 分頁 3：可預約時段 ============ -->
+          <div id="tab-schedule" role="tabpanel" aria-labelledby="tabBtn-schedule" style="padding-top:28px" hidden>
+            <h3 class="card__title">可預約時段</h3>
+            <p class="card__text" style="margin-bottom:16px">
+              勾選您可以提供服務的時段，家屬預約時只會看到已勾選的選項；未勾選的時段將顯示為不可預約。
+            </p>
+
+            <div class="table-wrap">
+              <table class="table">
+                <caption class="sr-only">週一至週日、上午／下午／晚間的可預約時段勾選表</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">時段</th>
+                    <th scope="col" style="text-align:center">週一</th>
+                    <th scope="col" style="text-align:center">週二</th>
+                    <th scope="col" style="text-align:center">週三</th>
+                    <th scope="col" style="text-align:center">週四</th>
+                    <th scope="col" style="text-align:center">週五</th>
+                    <th scope="col" style="text-align:center;color:var(--coral)">週六</th>
+                    <th scope="col" style="text-align:center;color:var(--coral)">週日</th>
+                  </tr>
+                </thead>
+                <tbody id="slotMatrix">
+                  <tr>
+                    <td style="font-weight:700;white-space:nowrap">上午 08:00–12:00</td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="mon-am" checked aria-label="週一 上午 08:00–12:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="tue-am" checked aria-label="週二 上午 08:00–12:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="wed-am" checked aria-label="週三 上午 08:00–12:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="thu-am" checked aria-label="週四 上午 08:00–12:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="fri-am" checked aria-label="週五 上午 08:00–12:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="sat-am" aria-label="週六 上午 08:00–12:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="sun-am" aria-label="週日 上午 08:00–12:00 可預約"></label></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700;white-space:nowrap">下午 13:00–17:00</td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="mon-pm" checked aria-label="週一 下午 13:00–17:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="tue-pm" checked aria-label="週二 下午 13:00–17:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="wed-pm" checked aria-label="週三 下午 13:00–17:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="thu-pm" checked aria-label="週四 下午 13:00–17:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="fri-pm" checked aria-label="週五 下午 13:00–17:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="sat-pm" checked aria-label="週六 下午 13:00–17:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="sun-pm" checked aria-label="週日 下午 13:00–17:00 可預約"></label></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700;white-space:nowrap">晚間 18:00–21:00</td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="mon-eve" checked aria-label="週一 晚間 18:00–21:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="tue-eve" checked aria-label="週二 晚間 18:00–21:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="wed-eve" checked aria-label="週三 晚間 18:00–21:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="thu-eve" checked aria-label="週四 晚間 18:00–21:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="fri-eve" checked aria-label="週五 晚間 18:00–21:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="sat-eve" checked aria-label="週六 晚間 18:00–21:00 可預約"></label></td>
+                    <td style="text-align:center"><label class="check" style="align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto"><input type="checkbox" data-slot="sun-eve" aria-label="週日 晚間 18:00–21:00 可預約"></label></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="hint" id="slotCount" role="status" style="margin-top:12px">已勾選 18 / 21 個時段</p>
+
+            <div class="alert alert--info" style="margin-top:20px">
+              <span class="alert__icon"><i data-ic="information-circle" data-ic-class="ic-20"></i></span>
+              <span>如臨時無法配合已排定的服務，請於服務開始前 24 小時通知家屬或客服，以便調整安排。</span>
+            </div>
+
+            <div class="flex justify-end" style="margin-top:24px">
+              <button class="btn btn--primary" type="button" onclick="saveSchedule()">
+                <i data-ic="check-circle" data-ic-class="ic-20"></i>
+                儲存時段設定
+              </button>
+            </div>
           </div>
+
+          <!-- ============ 分頁 4：密碼設定 ============ -->
+          <div id="tab-password" role="tabpanel" aria-labelledby="tabBtn-password" style="padding-top:28px" hidden>
+            <h3 class="card__title">密碼設定</h3>
+            <p class="card__text" style="margin-bottom:18px">
+              為維護帳號安全，變更密碼後其他裝置的登入狀態將失效，需以新密碼重新登入。
+            </p>
+
+            <div class="alert alert--warn" style="margin-bottom:24px">
+              <span class="alert__icon"><i data-ic="shield-exclamation" data-ic-class="ic-20"></i></span>
+              <span>請勿與他人共用帳號或密碼，並避免在公用電腦上保持登入狀態。</span>
+            </div>
+
+            <form novalidate onsubmit="changePassword(event)">
+              <div style="max-width:480px">
+                <div class="field">
+                  <label class="label" for="currentPassword">目前密碼 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="password" id="currentPassword" name="current-password"
+                         autocomplete="current-password" aria-required="true"
+                         aria-describedby="currentPasswordError">
+                  <p class="error-text" id="currentPasswordError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="newPassword">新密碼 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="password" id="newPassword" name="new-password" minlength="6"
+                         autocomplete="new-password" aria-required="true"
+                         aria-describedby="newPasswordHint newPasswordError">
+                  <p class="hint" id="newPasswordHint">
+                    至少 6 個字元。建議混合英文大小寫、數字與符號，並避免使用生日、手機號碼或其他網站已使用的密碼。
+                  </p>
+                  <p class="error-text" id="newPasswordError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="label" for="confirmPassword">確認新密碼 <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" type="password" id="confirmPassword" name="confirm-password" minlength="6"
+                         autocomplete="new-password" aria-required="true"
+                         aria-describedby="confirmPasswordError">
+                  <p class="error-text" id="confirmPasswordError" style="display:none">
+                    <i data-ic="exclamation-circle" data-ic-class="ic-16"></i><span></span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex justify-end" style="margin-top:8px">
+                <button class="btn btn--primary" type="submit">
+                  <i data-ic="lock-closed" data-ic-class="ic-20"></i>
+                  更新密碼
+                </button>
+              </div>
+            </form>
+          </div>
+
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Tabs -->
-    <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-      <button onclick="showTab('basic')" class="tab-btn active px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap" data-tab="basic">
-        👤 基本資料
-      </button>
-      <button onclick="showTab('service')" class="tab-btn px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap bg-white" data-tab="service">
-        🛠️ 服務設定
-      </button>
-      <button onclick="showTab('schedule')" class="tab-btn px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap bg-white" data-tab="schedule">
-        📅 可預約時段
-      </button>
-      <button onclick="showTab('password')" class="tab-btn px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap bg-white" data-tab="password">
-        🔐 密碼設定
-      </button>
-    </div>
-
-    <!-- Tab Content: Basic Info -->
-    <div id="tab-basic" class="tab-content">
-      <div class="bg-white rounded-2xl p-6 shadow-lg">
-        <h2 class="font-bold text-lg text-night mb-6">👤 基本資料設定</h2>
-        <form onsubmit="saveProfile(event)">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">姓名</label>
-              <input type="text" value="吳佩蓉" class="form-input w-full px-4 py-3">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">暱稱</label>
-              <input type="text" value="佩蓉" class="form-input w-full px-4 py-3">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">📧 Email</label>
-              <input type="email" value="peirong@example.com" class="form-input w-full px-4 py-3">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">📱 手機</label>
-              <input type="tel" value="0912-345-678" class="form-input w-full px-4 py-3">
-            </div>
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-600 mb-2">📍 服務區域</label>
-              <select class="form-input w-full px-4 py-3">
-                <option>新北市板橋區</option>
-                <option>新北市中和區</option>
-                <option selected>新北市永和區</option>
-                <option>新北市三重區</option>
-              </select>
-            </div>
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-600 mb-2">🏷️ 自我介紹</label>
-              <textarea rows="4" class="form-input w-full px-4 py-3">您好，我是吳佩蓉，擁有3年以上的照護服務經驗。專長包括：身體照顧服務、日常生活照顧、陪同就醫等。我耐心、細心，期待能為您和您的家人提供優質的照護服務。</textarea>
-            </div>
-          </div>
-          <div class="mt-6 flex justify-end">
-            <button type="submit" class="save-btn text-white px-8 py-3 rounded-xl font-bold">
-              💾 儲存變更
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Tab Content: Service -->
-    <div id="tab-service" class="tab-content hidden">
-      <div class="bg-white rounded-2xl p-6 shadow-lg">
-        <h2 class="font-bold text-lg text-night mb-6">🛠️ 服務項目設定</h2>
-        <p class="text-gray-500 mb-4">選擇您提供的服務項目（可複選）</p>
-        
-        <div class="flex flex-wrap gap-3 mb-6">
-          <span class="tag-chip selected">🛏️ 身體照顧服務</span>
-          <span class="tag-chip selected">🏠 日常生活照顧</span>
-          <span class="tag-chip">🍽️ 餐食照顧</span>
-          <span class="tag-chip selected">🚶 陪同就醫</span>
-          <span class="tag-chip">💊 藥物提醒</span>
-          <span class="tag-chip">🧘 復健運動</span>
-          <span class="tag-chip">🛁 沐浴照顧</span>
-          <span class="tag-chip">🚿 足部照顧</span>
-          <span class="tag-chip">🌙 喘息服務</span>
-          <span class="tag-chip">📋 個案評估</span>
-        </div>
-
-        <div class="border-t border-gray-100 pt-6">
-          <h3 class="font-bold text-night mb-4">💰 收費標準</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="p-4 bg-sand rounded-xl">
-              <div class="text-sm text-gray-500">一般時段 (平日)</div>
-              <div class="text-2xl font-bold text-night">$350<span class="text-sm font-normal text-gray-500">/小時</span></div>
-            </div>
-            <div class="p-4 bg-sand rounded-xl">
-              <div class="text-sm text-gray-500">特殊時段 (假日/夜間)</div>
-              <div class="text-2xl font-bold text-coral">$450<span class="text-sm font-normal text-gray-500">/小時</span></div>
-            </div>
+    <!-- ===================== 服務承諾 ===================== -->
+    <div class="trust-bar">
+      <div class="wrap trust-bar__inner">
+        <div class="trust-item">
+          <i data-ic="lock-closed" data-ic-class="ic-24"></i>
+          <div>
+            <p class="trust-item__title">資料僅儲存於您的瀏覽器</p>
+            <p class="trust-item__text">本展示版本的設定與預約紀錄僅存於本機瀏覽器，不會上傳至伺服器。</p>
           </div>
         </div>
-
-        <div class="mt-6 flex justify-end">
-          <button onclick="saveServices()" class="save-btn text-white px-8 py-3 rounded-xl font-bold">
-            💾 儲存服務設定
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab Content: Schedule -->
-    <div id="tab-schedule" class="tab-content hidden">
-      <div class="bg-white rounded-2xl p-6 shadow-lg">
-        <h2 class="font-bold text-lg text-night mb-6">📅 可預約時段設定</h2>
-        <p class="text-gray-500 mb-6">勾選您可以提供服務的時段</p>
-
-        <div class="overflow-x-auto">
-          <table class="w-full">
-            <thead>
-              <tr class="text-left text-sm text-gray-500">
-                <th class="pb-3 pr-4">時段</th>
-                <th class="pb-3 px-2 text-center">一</th>
-                <th class="pb-3 px-2 text-center">二</th>
-                <th class="pb-3 px-2 text-center">三</th>
-                <th class="pb-3 px-2 text-center">四</th>
-                <th class="pb-3 px-2 text-center">五</th>
-                <th class="pb-3 px-2 text-center text-coral">六</th>
-                <th class="pb-3 px-2 text-center text-coral">日</th>
-              </tr>
-            </thead>
-            <tbody class="text-sm">
-              <tr class="border-t border-gray-100">
-                <td class="py-3 pr-4 font-medium">上午 08:00-12:00</td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" class="rounded text-coral"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" class="rounded text-coral"></td>
-              </tr>
-              <tr class="border-t border-gray-100">
-                <td class="py-3 pr-4 font-medium">下午 13:00-17:00</td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-coral"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-coral"></td>
-              </tr>
-              <tr class="border-t border-gray-100">
-                <td class="py-3 pr-4 font-medium">晚間 18:00-21:00</td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-ocean"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" checked class="rounded text-coral"></td>
-                <td class="py-3 px-2 text-center"><input type="checkbox" class="rounded text-coral"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="mt-6 flex justify-end">
-          <button class="save-btn text-white px-8 py-3 rounded-xl font-bold">
-            💾 儲存時段設定
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab Content: Password -->
-    <div id="tab-password" class="tab-content hidden">
-      <div class="bg-white rounded-2xl p-6 shadow-lg">
-        <h2 class="font-bold text-lg text-night mb-6">🔐 密碼設定</h2>
-        <form onsubmit="changePassword(event)">
-          <div class="max-w-md space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">目前密碼</label>
-              <input type="password" required class="form-input w-full px-4 py-3">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">新密碼</label>
-              <input type="password" required minlength="6" class="form-input w-full px-4 py-3">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">確認新密碼</label>
-              <input type="password" required minlength="6" class="form-input w-full px-4 py-3">
-            </div>
+        <div class="trust-item">
+          <i data-ic="clipboard-document-list" data-ic-class="ic-24"></i>
+          <div>
+            <p class="trust-item__title">服務項目與時段透明</p>
+            <p class="trust-item__text">您設定的服務項目、收費標準與可預約時段皆會公開顯示於您的檔案。</p>
           </div>
-          <div class="mt-6 flex justify-end">
-            <button type="submit" class="save-btn text-white px-8 py-3 rounded-xl font-bold">
-              🔐 更新密碼
-            </button>
+        </div>
+        <div class="trust-item">
+          <i data-ic="clock" data-ic-class="ic-24"></i>
+          <div>
+            <p class="trust-item__title">客服時間</p>
+            <p class="trust-item__text">週一至週五 09:00–18:00，可協助帳號設定與預約相關問題。</p>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-night text-white py-8 mt-12">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <div class="flex items-center justify-center gap-2 mb-4">
-        <span class="text-2xl">🏝️</span>
-        <span class="font-display font-bold">群島生態系</span>
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name" style="color:#fff">群島生態系</span>
+              <span class="brand__tag" style="color:#a9c0c5">專業照護服務平台</span>
+            </span>
+          </div>
+          <p style="font-size:0.9375rem;line-height:1.75;color:#a9c0c5">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
+        </div>
+
+        <div>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
+        </div>
       </div>
-      <p class="text-gray-400 text-sm">© 2024 群島生態系照護服務平台</p>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => {
-          b.classList.remove('active');
-          b.classList.add('bg-white');
+    // =========================================================================
+    // 個人檔案設定
+    // =========================================================================
+
+    var PROFILE_TABS = ['basic', 'service', 'schedule', 'password'];
+    var PROFILE_KEY = 'careMatchProfile';
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    var PHONE_RE = /^09\d{8}$/;
+    var MIN_NEW_PASSWORD = 6;
+
+    // ------------------------------------------------ 分頁切換
+    function showTab(name) {
+      PROFILE_TABS.forEach(function (key) {
+        var panel = document.getElementById('tab-' + key);
+        var btn = document.getElementById('tabBtn-' + key);
+        var active = key === name;
+        if (panel) panel.hidden = !active;
+        if (btn) btn.setAttribute('aria-selected', String(active));
+      });
+    }
+
+    function bindProfileTabs() {
+      var tablist = document.querySelector('.tabs[role="tablist"]');
+      if (!tablist) return;
+      tablist.addEventListener('keydown', function (ev) {
+        if (ev.key !== 'ArrowLeft' && ev.key !== 'ArrowRight') return;
+        ev.preventDefault();
+        var current = 0;
+        PROFILE_TABS.forEach(function (key, i) {
+          var btn = document.getElementById('tabBtn-' + key);
+          if (btn && btn.getAttribute('aria-selected') === 'true') current = i;
         });
-        btn.classList.add('active');
-        btn.classList.remove('bg-white');
+        var dir = ev.key === 'ArrowRight' ? 1 : -1;
+        var next = (current + dir + PROFILE_TABS.length) % PROFILE_TABS.length;
+        showTab(PROFILE_TABS[next]);
+        var nextBtn = document.getElementById('tabBtn-' + PROFILE_TABS[next]);
+        if (nextBtn) nextBtn.focus();
       });
-    });
-
-    function showTab(tab) {
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-      document.getElementById(`tab-${tab}`).classList.remove('hidden');
     }
 
+    // ------------------------------------------------ 行內錯誤
+    function setFieldError(inputId, message) {
+      var input = document.getElementById(inputId);
+      var box = document.getElementById(inputId + 'Error');
+      if (box) {
+        var text = box.querySelector('span');
+        if (text) text.textContent = message || '';
+        box.style.display = message ? 'flex' : 'none';
+      }
+      if (input) {
+        if (message) input.setAttribute('aria-invalid', 'true');
+        else input.removeAttribute('aria-invalid');
+      }
+    }
+
+    function clearAllErrors() {
+      var boxes = document.querySelectorAll('.error-text');
+      for (var i = 0; i < boxes.length; i++) {
+        var text = boxes[i].querySelector('span');
+        if (text) text.textContent = '';
+        boxes[i].style.display = 'none';
+      }
+      var invalid = document.querySelectorAll('[aria-invalid="true"]');
+      for (var j = 0; j < invalid.length; j++) invalid[j].removeAttribute('aria-invalid');
+    }
+
+    function focusInvalid(inputId) {
+      var el = document.getElementById(inputId);
+      if (el) el.focus();
+    }
+
+    // ------------------------------------------------ 服務標籤（可複選）
+    function selectedServices() {
+      return Array.prototype.slice
+        .call(document.querySelectorAll('#serviceChips .chip'))
+        .filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; })
+        .map(function (c) { return c.getAttribute('data-service'); });
+    }
+
+    function updateServiceCount() {
+      var host = document.getElementById('serviceCount');
+      if (!host) return;
+      var n = selectedServices().length;
+      host.textContent = n
+        ? '已選擇 ' + n + ' 項服務'
+        : '尚未選擇任何服務，家屬將無法透過服務項目找到您。';
+    }
+
+    function bindServiceChips() {
+      var chips = document.querySelectorAll('#serviceChips .chip');
+      for (var i = 0; i < chips.length; i++) {
+        chips[i].addEventListener('click', function () {
+          var pressed = this.getAttribute('aria-pressed') === 'true';
+          this.setAttribute('aria-pressed', String(!pressed));
+          updateServiceCount();
+        });
+      }
+      updateServiceCount();
+    }
+
+    // ------------------------------------------------ 可預約時段矩陣
+    function slotBoxes() {
+      return document.querySelectorAll('#slotMatrix input[type="checkbox"]');
+    }
+
+    function selectedSlots() {
+      return Array.prototype.slice
+        .call(slotBoxes())
+        .filter(function (b) { return b.checked; })
+        .map(function (b) { return b.getAttribute('data-slot'); });
+    }
+
+    function updateSlotCount() {
+      var host = document.getElementById('slotCount');
+      if (!host) return;
+      var total = slotBoxes().length;
+      host.textContent = '已勾選 ' + selectedSlots().length + ' / ' + total + ' 個時段';
+    }
+
+    function bindSlotMatrix() {
+      var boxes = slotBoxes();
+      for (var i = 0; i < boxes.length; i++) {
+        boxes[i].addEventListener('change', updateSlotCount);
+      }
+      updateSlotCount();
+    }
+
+    // ------------------------------------------------ 大頭貼上傳
+    function bindAvatarUpload() {
+      var input = document.getElementById('avatarInput');
+      var preview = document.getElementById('avatarPreview');
+      if (!input || !preview) return;
+
+      input.addEventListener('change', function () {
+        var file = input.files && input.files[0];
+        if (!file) return;
+
+        if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+          showNotification('僅支援 JPG 或 PNG 格式的圖片，請重新選擇。', 'error');
+          input.value = '';
+          return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+          showNotification('圖片檔案超過 2MB，請先壓縮後再上傳。', 'error');
+          input.value = '';
+          return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          preview.src = reader.result;
+          showNotification('大頭貼已更新。', 'success');
+        };
+        reader.onerror = function () {
+          showNotification('圖片讀取失敗，請重新選擇檔案。', 'error');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ------------------------------------------------ 本機儲存（僅非敏感欄位）
+    function collectSettings() {
+      return {
+        name: (document.getElementById('profileName') || {}).value || '',
+        nickname: (document.getElementById('profileNickname') || {}).value || '',
+        email: (document.getElementById('profileEmail') || {}).value || '',
+        phone: (document.getElementById('profilePhone') || {}).value || '',
+        region: (document.getElementById('profileRegion') || {}).value || '',
+        bio: (document.getElementById('profileBio') || {}).value || '',
+        services: selectedServices(),
+        slots: selectedSlots(),
+        savedAt: new Date().toISOString()
+      };
+    }
+
+    function persistSettings() {
+      try {
+        localStorage.setItem(PROFILE_KEY, JSON.stringify(collectSettings()));
+      } catch (err) { /* 瀏覽器停用儲存時忽略 */ }
+      updateSavedAt(new Date());
+    }
+
+    function restoreSettings() {
+      var raw = null;
+      try { raw = localStorage.getItem(PROFILE_KEY); } catch (err) { raw = null; }
+      if (!raw) {
+        updateSavedAt(null);
+        return;
+      }
+
+      var data = null;
+      try { data = JSON.parse(raw); } catch (err) { data = null; }
+      if (!data) {
+        updateSavedAt(null);
+        return;
+      }
+
+      var map = {
+        profileName: data.name,
+        profileNickname: data.nickname,
+        profileEmail: data.email,
+        profilePhone: data.phone,
+        profileBio: data.bio
+      };
+      Object.keys(map).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el && typeof map[id] === 'string') el.value = map[id];
+      });
+
+      var region = document.getElementById('profileRegion');
+      if (region && data.region) region.value = data.region;
+
+      if (Array.isArray(data.services)) {
+        var chips = document.querySelectorAll('#serviceChips .chip');
+        for (var i = 0; i < chips.length; i++) {
+          var name = chips[i].getAttribute('data-service');
+          chips[i].setAttribute('aria-pressed', String(data.services.indexOf(name) !== -1));
+        }
+      }
+
+      if (Array.isArray(data.slots)) {
+        var boxes = slotBoxes();
+        for (var j = 0; j < boxes.length; j++) {
+          var key = boxes[j].getAttribute('data-slot');
+          boxes[j].checked = data.slots.indexOf(key) !== -1;
+        }
+      }
+
+      updateServiceCount();
+      updateSlotCount();
+      updateSavedAt(data.savedAt ? new Date(data.savedAt) : null);
+    }
+
+    function updateSavedAt(date) {
+      var host = document.getElementById('basicSavedAt');
+      if (!host) return;
+      if (!date || isNaN(date.getTime())) {
+        host.textContent = '尚未儲存';
+        return;
+      }
+      var pad = function (n) { return String(n).padStart(2, '0'); };
+      host.textContent = date.getFullYear() + '/' + pad(date.getMonth() + 1) + '/' + pad(date.getDate()) +
+        ' ' + pad(date.getHours()) + ':' + pad(date.getMinutes());
+    }
+
+    // ------------------------------------------------ 儲存基本資料
     function saveProfile(e) {
-      e.preventDefault();
-      alert('✅ 基本資料已儲存！');
+      if (e) e.preventDefault();
+      clearAllErrors();
+
+      var name = document.getElementById('profileName').value.trim();
+      var email = document.getElementById('profileEmail').value.trim();
+      var phone = document.getElementById('profilePhone').value.replace(/[\s-]/g, '');
+
+      setFieldError('profileName', name ? '' : '請輸入姓名。');
+      setFieldError('profileEmail', EMAIL_RE.test(email) ? '' : (email ? '電子郵件格式不正確，請確認後再試。' : '請輸入電子郵件。'));
+      setFieldError('profilePhone', PHONE_RE.test(phone) ? '' : (phone ? '手機號碼格式不正確，請輸入 09 開頭共 10 位數字。' : '請輸入手機號碼。'));
+
+      if (!name || !EMAIL_RE.test(email) || !PHONE_RE.test(phone)) {
+        showNotification('基本資料尚未填寫完整，請依欄位提示修正。', 'error');
+        focusInvalid(!name ? 'profileName' : (!EMAIL_RE.test(email) ? 'profileEmail' : 'profilePhone'));
+        return;
+      }
+
+      persistSettings();
+      showNotification('基本資料已儲存。', 'success');
     }
 
+    // ------------------------------------------------ 儲存服務設定
     function saveServices() {
-      alert('✅ 服務設定已儲存！');
+      var services = selectedServices();
+      persistSettings();
+      if (!services.length) {
+        showNotification('服務設定已儲存，目前未選擇任何服務項目。', 'success');
+        return;
+      }
+      showNotification('服務設定已儲存，共 ' + services.length + ' 項服務。', 'success');
     }
 
+    // ------------------------------------------------ 儲存時段設定
+    function saveSchedule() {
+      var slots = selectedSlots();
+      persistSettings();
+      showNotification('可預約時段已儲存，共 ' + slots.length + ' 個時段。', 'success');
+    }
+
+    // ------------------------------------------------ 更新密碼
     function changePassword(e) {
-      e.preventDefault();
-      alert('✅ 密碼已更新！');
+      if (e) e.preventDefault();
+      clearAllErrors();
+
+      var current = document.getElementById('currentPassword').value;
+      var next = document.getElementById('newPassword').value;
+      var confirm = document.getElementById('confirmPassword').value;
+
+      setFieldError('currentPassword', current ? '' : '請輸入目前密碼。');
+
+      var lengthOk = next.length >= MIN_NEW_PASSWORD;
+      setFieldError('newPassword', lengthOk ? '' : (next ? '新密碼至少需要 ' + MIN_NEW_PASSWORD + ' 個字元。' : '請設定新密碼。'));
+
+      var confirmMsg = '';
+      if (!confirm) confirmMsg = '請再次輸入新密碼。';
+      else if (next && confirm !== next) confirmMsg = '兩次輸入的新密碼不一致，請重新確認。';
+      setFieldError('confirmPassword', confirmMsg);
+
+      if (!current || !lengthOk || confirmMsg) {
+        showNotification('密碼欄位尚未填寫完整，請依欄位提示修正。', 'error');
+        focusInvalid(!current ? 'currentPassword' : (!lengthOk ? 'newPassword' : 'confirmPassword'));
+        return;
+      }
+
+      // 展示版本：不儲存、也不顯示任何密碼內容
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+      showNotification('密碼已更新，請使用新密碼重新登入。', 'success');
     }
 
-    // Tag chip toggle
-    document.querySelectorAll('.tag-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        chip.classList.toggle('selected');
-      });
+    // ------------------------------------------------ 行動版選單
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
+    }
+
+    // ------------------------------------------------ 初始化
+    document.addEventListener('DOMContentLoaded', function () {
+      bindProfileTabs();
+      bindServiceChips();
+      bindSlotMatrix();
+      bindAvatarUpload();
+      restoreSettings();
+      showTab('basic');
     });
   </script>
 </body>

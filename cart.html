@@ -3,321 +3,501 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>購物船艙 - 群島生態系</title>
+  <title>購物車｜群島生態系</title>
+  <meta name="description" content="確認輔具品項與數量、套用優惠序號後送出訂單。滿 $1,000 免運費（限本島），訂單確認後 2–3 個工作天出貨。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="購物車｜群島生態系">
+  <meta property="og:description" content="確認輔具品項與數量，套用優惠序號後送出訂單。滿 $1,000 免運費（限本島）。">
+  <meta name="theme-color" content="#0F5565">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5565'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.8'%3E%3Ccircle cx='16' cy='16' r='8.5' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ocean: '#0891B2',
-            'ocean-light': '#22D3EE',
-            sand: '#F5F0E8',
-            coral: '#F97316',
-            island: '#059669',
-            'island-light': '#34D399',
-            night: '#0F172A'
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-            display: ['Nunito', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .ocean-bg {
-      background: linear-gradient(180deg, #E0F2FE 0%, #F5F0E8 100%);
-    }
-    
-    .ship-bg {
-      background: linear-gradient(135deg, #0F766E 0%, #115E59 50%, #134E4A 100%);
-    }
-    
-    .qty-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-bold;
-      transition: all 0.2s ease;
-    }
-    .qty-btn:hover {
-      transform: scale(1.1);
-    }
-    .qty-btn.minus {
-      background: #FEE2E2;
-      color: #DC2626;
-    }
-    .qty-btn.plus {
-      background: #DCFCE7;
-      color: #16A34A;
-    }
-
-    .cart-item {
-      background: white;
-      border-radius: 16px;
-      transition: all 0.3s ease;
-    }
-    .cart-item:hover {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-
-    .remove-btn {
-      transition: all 0.2s ease;
-    }
-    .remove-btn:hover {
-      color: #DC2626;
-      transform: scale(1.2);
-    }
-
-    .promo-input {
-      border: 2px dashed #CBD5E1;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-    }
-    .promo-input:focus {
-      border-color: #0891B2;
-      border-style: solid;
-    }
-
-    .checkout-btn {
-      background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
-      transition: all 0.3s ease;
-    }
-    .checkout-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.5);
-    }
-  </style>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="ocean-bg font-sans min-h-screen">
-  
-  <!-- Header -->
-  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-ocean/10">
-    <div class="max-w-4xl mx-auto px-4 py-4">
-      <div class="flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-gradient-to-br from-ocean to-island rounded-full flex items-center justify-center shadow-lg">
-            <span class="text-2xl">🏝️</span>
-          </div>
-          <div>
-            <span class="font-display font-bold text-xl text-night">群島生態系</span>
-          </div>
+<body class="font-sans">
+
+  <a class="skip-link" href="#main">跳至主要內容</a>
+
+  <!-- ===================== 導覽列 ===================== -->
+  <header class="site-nav">
+    <div class="wrap site-nav__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+        <span>
+          <span class="brand__name">群島生態系</span>
+          <span class="brand__tag">專業照護服務平台</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="主要導覽">
+        <a class="nav-link" href="index.html">首頁</a>
+        <a class="nav-link" href="index.html#services">服務項目</a>
+        <a class="nav-link" href="caregivers.html">照護夥伴</a>
+        <a class="nav-link" href="shop.html">輔具商店</a>
+      </nav>
+
+      <div class="nav-utils">
+        <a class="cart-link" href="cart.html" aria-label="購物車" aria-current="page">
+          <i data-ic="shopping-cart" data-ic-class="ic-20"></i>
+          <span class="cart-count hidden" id="cartCount">0</span>
         </a>
-        <a href="shop.html" class="flex items-center gap-2 text-ocean hover:underline">
-          ← 繼續購物
-        </a>
+        <a class="btn btn--primary btn--sm" href="login.html"><span class="hide-sm">登入 / 註冊</span><span class="show-sm">登入</span></a>
+        <button class="nav-toggle" type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟選單">
+          <i data-ic="bars-3" data-ic-class="ic-24"></i>
+        </button>
       </div>
+    </div>
+
+    <div class="wrap">
+      <nav class="nav-mobile" id="mobileMenu" aria-label="行動版導覽">
+        <a href="index.html"><i data-ic="home" data-ic-class="ic-20"></i>首頁</a>
+        <a href="index.html#services"><i data-ic="squares-2x2" data-ic-class="ic-20"></i>服務項目</a>
+        <a href="caregivers.html"><i data-ic="users" data-ic-class="ic-20"></i>照護夥伴</a>
+        <a href="shop.html"><i data-ic="shopping-bag" data-ic-class="ic-20"></i>輔具商店</a>
+        <a href="cart.html" aria-current="page"><i data-ic="shopping-cart" data-ic-class="ic-20"></i>購物車</a>
+        <a href="login.html"><i data-ic="arrow-right-on-rectangle" data-ic-class="ic-20"></i>登入 / 註冊</a>
+      </nav>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="max-w-4xl mx-auto px-4 py-8">
-    
-    <!-- Title -->
-    <div class="flex items-center gap-3 mb-6">
-      <div class="w-12 h-12 ship-bg rounded-full flex items-center justify-center">
-        <span class="text-2xl">🚢</span>
-      </div>
-      <div>
-        <h1 class="font-display font-bold text-2xl text-night">我的購物船艙</h1>
-        <p class="text-gray-500 text-sm">精選照護好物，即將啟航配送</p>
-      </div>
-    </div>
+  <main id="main">
 
-    <!-- Cart Container -->
-    <div id="cartContainer" class="space-y-4">
-      
-      <!-- Empty State -->
-      <div id="emptyCart" class="hidden bg-white rounded-3xl p-12 text-center">
-        <div class="text-8xl mb-4">🛒</div>
-        <h2 class="font-bold text-xl text-night mb-2">船艙空空如也</h2>
-        <p class="text-gray-500 mb-6">快去島嶼補給站挑選需要的輔具吧！</p>
-        <a href="shop.html" class="inline-flex items-center gap-2 bg-gradient-to-r from-ocean to-island text-white px-6 py-3 rounded-xl font-medium">
-          🛒 前往補給站
-        </a>
-      </div>
-
-      <!-- Cart Items -->
-      <div id="cartItems" class="space-y-4"></div>
-
-      <!-- Order Summary -->
-      <div id="orderSummary" class="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-        <h3 class="font-bold text-lg text-night mb-4">📋 航程費用明細</h3>
-        
-        <div class="space-y-3 mb-4">
-          <div class="flex justify-between text-gray-600">
-            <span>商品小計</span>
-            <span id="subtotal">$0</span>
+    <!-- ===================== 頁首 ===================== -->
+    <section class="section section--paper" style="padding-bottom:40px" aria-labelledby="cartTitle">
+      <div class="wrap">
+        <p class="eyebrow">輔具商店 · 結帳</p>
+        <div class="sec-head sec-head__row" style="margin-bottom:0">
+          <div>
+            <h1 class="sec-title" id="cartTitle">購物車</h1>
+            <p class="sec-lead">
+              確認品項、數量與配送資訊後，即可送出訂單。若需要同時安排到府照護或就醫陪同，
+              可於照護夥伴頁面預約，並在訂單備註註明希望的到貨時段。
+            </p>
           </div>
-          <div class="flex justify-between text-gray-600">
-            <span>運費</span>
-            <span id="shipping">$0</span>
-          </div>
-          <div class="flex justify-between text-gray-600">
-            <span>優惠折扣</span>
-            <span id="discount" class="text-green-600">-$0</span>
-          </div>
+          <a class="more-link" href="shop.html" id="continueShopping">
+            <i data-ic="arrow-left" data-ic-class="ic-16"></i>
+            繼續挑選輔具
+          </a>
         </div>
+      </div>
+    </section>
 
-        <div class="border-t border-gray-100 pt-4 mb-6">
-          <div class="flex justify-between font-bold text-xl text-night">
-            <span>總計</span>
-            <span id="total" class="text-coral">$0</span>
+    <!-- ===================== 品項與費用明細 ===================== -->
+    <section class="section section--sand" style="padding-top:40px" aria-labelledby="itemsTitle">
+      <div class="wrap">
+        <div class="grid gap-6 lg:grid-cols-3 lg:items-start">
+
+          <!-- 左：品項 -->
+          <div class="min-w-0 lg:col-span-2">
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:16px">
+              <h2 class="card__title" id="itemsTitle" style="margin:0">品項明細</h2>
+              <p id="cartItemCount" class="num" style="font-size:0.9375rem;color:var(--muted)"></p>
+            </div>
+
+            <div id="cartContainer" class="stack-16">
+
+              <!-- 空車狀態 -->
+              <div id="emptyCart" class="empty" style="display:none">
+                <span class="empty__icon" aria-hidden="true"><i data-ic="shopping-cart" data-ic-class="ic-24"></i></span>
+                <p class="empty__title">購物車尚無商品</p>
+                <p class="empty__text">挑選需要的輔具後，品項與金額會顯示在這裡。我們也提供照護夥伴的預約服務。</p>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+                  <a class="btn btn--primary" href="shop.html">
+                    <i data-ic="shopping-bag" data-ic-class="ic-20"></i>
+                    前往輔具商店
+                  </a>
+                  <a class="btn btn--secondary" href="caregivers.html">查看照護夥伴</a>
+                </div>
+              </div>
+
+              <!-- 品項列表（由 renderCart() 產生） -->
+              <div id="cartItems" class="stack-16"></div>
+            </div>
+
+            <!-- 配送與預約提醒 -->
+            <div class="alert alert--info" style="margin-top:20px" role="note" aria-labelledby="shipInfoTitle">
+              <span class="alert__icon"><i data-ic="truck" data-ic-class="ic-24"></i></span>
+              <div>
+                <p id="shipInfoTitle" style="font-weight:700;margin-bottom:6px">配送與預約提醒</p>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">
+                  <li>滿 $1,000 免運費（限本島）；外島地區運費另計。</li>
+                  <li>訂單確認後 2–3 個工作天出貨，配送前會先以電話聯繫收件人。</li>
+                  <li>需同時安排到府照護或就醫陪同，可於<a href="caregivers.html">照護夥伴</a>頁面預約，並在訂單備註寫明到貨時段。</li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- Promo Code -->
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-gray-600 mb-2">🎫 優惠序號</label>
-          <div class="flex gap-2">
-            <input type="text" id="promoCode" placeholder="輸入優惠碼" class="promo-input flex-1 px-4 py-3 focus:outline-none">
-            <button onclick="applyPromo()" class="px-5 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition">
-              套用
+          <!-- 右：費用明細 -->
+          <aside class="card lg:sticky lg:top-24" id="orderSummary" aria-labelledby="summaryTitle">
+            <h2 class="card__title" id="summaryTitle" style="display:flex;align-items:center;gap:8px">
+              <i data-ic="receipt-percent" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+              費用明細
+            </h2>
+
+            <div class="stack-12" style="margin:18px 0 20px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                <span style="color:var(--muted)">商品小計</span>
+                <span class="num" id="subtotal" style="font-weight:600">$0</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <span style="color:var(--muted)">運費</span>
+                <span id="shipping"><span class="badge badge--verified">免運</span></span>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                <span style="color:var(--muted)">優惠折扣</span>
+                <span class="num" id="discount" style="font-weight:600;color:var(--muted)">-$0</span>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid var(--line)">
+              <span style="font-size:1.0625rem;font-weight:700">總計</span>
+              <span class="stat__value num" id="total" style="color:var(--coral)">$0</span>
+            </div>
+
+            <!-- 優惠序號 -->
+            <div class="field" style="margin:24px 0 20px">
+              <label class="label" for="promoCode">優惠序號</label>
+              <div style="display:flex;gap:8px;align-items:stretch">
+                <input class="input" type="text" id="promoCode" name="promoCode" placeholder="例如 ISLAND10"
+                       autocomplete="off" spellcheck="false" style="flex:1 1 auto;min-width:0"
+                       aria-describedby="promoHint promoError"
+                       onkeydown="if (event.key === 'Enter') { event.preventDefault(); applyPromo(); }">
+                <button class="btn btn--secondary" type="button" onclick="applyPromo()" style="flex:0 0 auto">套用</button>
+              </div>
+              <p class="error-text" id="promoError" role="alert" style="display:none">
+                <i data-ic="exclamation-circle" data-ic-class="ic-14"></i>
+                <span>此優惠序號無效，請確認後重新輸入。</span>
+              </p>
+              <p class="hint" id="promoApplied" style="display:none">
+                已套用優惠序號 <span class="badge badge--info">ISLAND10</span>，商品小計折抵 10%。
+              </p>
+              <p class="hint" id="promoHint">展示用序號：ISLAND10（商品小計 9 折）。</p>
+            </div>
+
+            <!-- 結帳 -->
+            <button class="btn btn--primary btn--block" type="button" onclick="checkout()">
+              送出訂單
+              <i data-ic="arrow-right" data-ic-class="ic-20"></i>
             </button>
-          </div>
-          <p class="text-xs text-gray-400 mt-1">展示用代碼：ISLAND10（可享10%折扣）</p>
+
+            <p style="font-size:0.8125rem;color:var(--muted);text-align:center;margin-top:14px">
+              送出訂單即表示同意<a href="legal.html#terms">服務條款</a>與<a href="legal.html#privacy">隱私權政策</a>。
+            </p>
+          </aside>
         </div>
-
-        <!-- Checkout Button -->
-        <button onclick="checkout()" class="w-full checkout-btn text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2">
-          🚢 啟航結帳
-        </button>
-
-        <p class="text-center text-xs text-gray-400 mt-4">點擊結帳即表示同意我們的服務條款與隱私權政策</p>
       </div>
-
-      <!-- Shipping Info -->
-      <div class="bg-blue-50 rounded-2xl p-5 border border-blue-100">
-        <h4 class="font-bold text-blue-800 mb-3">🚚 配送資訊</h4>
-        <ul class="space-y-2 text-sm text-blue-700">
-          <li>• 滿 $1,000 免運費（限本島）</li>
-          <li>• 訂單確認後 2-3 個工作天出貨</li>
-          <li>• 外島地區運費另計</li>
-        </ul>
-      </div>
-    </div>
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-night text-white py-8 mt-12">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <div class="flex items-center justify-center gap-2 mb-4">
-        <span class="text-2xl">🏝️</span>
-        <span class="font-display font-bold">群島生態系</span>
+  <!-- ===================== 頁尾 ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <span class="brand__mark"><i data-ic="archipelago" data-ic-class="ic-24"></i></span>
+            <span>
+              <span class="brand__name" style="color:#fff">群島生態系</span>
+              <span class="brand__tag" style="color:#a9c0c5">專業照護服務平台</span>
+            </span>
+          </div>
+          <p style="font-size:0.9375rem;line-height:1.75;color:#a9c0c5">
+            以照護關係為核心的服務媒合平台，<br>讓每一位需要協助的人都能找到合適的夥伴。
+          </p>
+        </div>
+
+        <div>
+          <h4>服務項目</h4>
+          <div class="footer-list">
+            <a href="caregivers.html?type=home"><i data-ic="home" data-ic-class="ic-16"></i>居家陪伴</a>
+            <a href="caregivers.html?type=daycare"><i data-ic="sun" data-ic-class="ic-16"></i>日照中心</a>
+            <a href="caregivers.html?type=respite"><i data-ic="lifebuoy" data-ic-class="ic-16"></i>喘息服務</a>
+            <a href="caregivers.html?type=medical"><i data-ic="medical-cross" data-ic-class="ic-16"></i>就醫陪同</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>輔具商店</h4>
+          <div class="footer-list">
+            <a href="shop.html?category=mobility"><i data-ic="wheelchair" data-ic-class="ic-16"></i>行動輔具</a>
+            <a href="shop.html?category=bathroom"><i data-ic="home-modern" data-ic-class="ic-16"></i>衛浴輔具</a>
+            <a href="shop.html?category=safety"><i data-ic="shield-check" data-ic-class="ic-16"></i>居家安全</a>
+            <a href="shop.html"><i data-ic="squares-2x2" data-ic-class="ic-16"></i>全部商品</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>聯絡我們</h4>
+          <div class="footer-list">
+            <a href="mailto:service@archipelago.tw"><i data-ic="envelope" data-ic-class="ic-16"></i>service@archipelago.tw</a>
+            <span><i data-ic="clock" data-ic-class="ic-16"></i>週一至週五 09:00–18:00</span>
+            <a href="caregivers.html"><i data-ic="chat-bubble-left-right" data-ic-class="ic-16"></i>送出服務詢問</a>
+          </div>
+        </div>
       </div>
-      <p class="text-gray-400 text-sm">© 2024 群島生態系照護服務平台 | 守護每座島嶼的幸福</p>
+
+      <div class="footer-legal">
+        <p>© 2026 群島生態系 · 本網站為服務展示用途，資料為模擬範例</p>
+        <div class="footer-legal__links">
+          <a href="legal.html#terms">服務條款</a>
+          <a href="legal.html#privacy">隱私權政策</a>
+          <a href="legal.html#accessibility">無障礙聲明</a>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="icons.js"></script>
   <script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    /* ===== 購物車（專業照護版）=====
+       資料來源：orders.products（data.js，內容為 products 各項加上 quantity）
+       數量與刪除沿用 app.js 的 updateCartQuantity / removeFromCart          */
     let appliedPromo = null;
+
+    /* 舊島嶼版 shop.html 曾以 localStorage 'cart' 儲存 {name, price, qty}；
+       若偵測到舊資料且目前購物車為空，先轉入 orders.products，避免品項遺失。 */
+    function migrateLegacyCart() {
+      try {
+        const legacy = JSON.parse(localStorage.getItem('cart') || '[]');
+        if (!Array.isArray(legacy) || !legacy.length) return;
+        if (orders.products.length) { localStorage.removeItem('cart'); return; }
+        legacy.forEach(function (old) {
+          const match = products.find(function (p) { return p.name === old.name; });
+          if (!match) return;
+          const exist = orders.products.find(function (p) { return p.id === match.id; });
+          const qty = Math.max(1, parseInt(old.qty, 10) || 1);
+          if (exist) exist.quantity += qty;
+          else orders.products.push(Object.assign({}, match, { quantity: qty }));
+        });
+        saveToStorage();
+        localStorage.removeItem('cart');
+      } catch (e) {
+        /* 舊資料毀損時忽略，不影響正常流程 */
+      }
+    }
+
+    function cartCount() {
+      return orders.products.reduce(function (sum, item) { return sum + item.quantity; }, 0);
+    }
 
     function renderCart() {
       const itemsContainer = document.getElementById('cartItems');
       const emptyCart = document.getElementById('emptyCart');
       const orderSummary = document.getElementById('orderSummary');
+      const countLabel = document.getElementById('cartItemCount');
+      const hasItems = orders.products.length > 0;
 
-      if (cart.length === 0) {
-        emptyCart.classList.remove('hidden');
-        orderSummary.classList.add('hidden');
+      countLabel.textContent = hasItems ? '共 ' + cartCount() + ' 件商品' : '';
+      emptyCart.style.display = hasItems ? 'none' : 'block';
+      orderSummary.style.display = hasItems ? 'block' : 'none';
+
+      if (!hasItems) {
         itemsContainer.innerHTML = '';
+        updateCartCount();
         return;
       }
 
-      emptyCart.classList.add('hidden');
-      orderSummary.classList.remove('hidden');
+      itemsContainer.innerHTML = orders.products.map(function (item) {
+        return `
+        <article class="list-row" style="flex-wrap:wrap;gap:14px">
+          <span style="width:64px;height:64px;flex:0 0 auto;overflow:hidden;border-radius:var(--radius);background:var(--sand);display:flex;align-items:center;justify-content:center">
+            <img data-thumb class="media-1x1" src="${item.image}" style="display:block;width:64px;height:64px;object-fit:cover"
+                 alt="${item.name}（${item.categoryName}）商品縮圖">
+          </span>
 
-      const emojis = ['🦽', '🛏️', '⚠️', '💊', '🧘', '🦯', '🛁', '🚨'];
-      
-      itemsContainer.innerHTML = cart.map((item, idx) => `
-        <div class="cart-item p-5 flex items-center gap-4">
-          <div class="w-20 h-20 bg-gradient-to-br from-green-50 to-green-100 rounded-xl flex items-center justify-center text-4xl flex-shrink-0">
-            ${emojis[idx % emojis.length]}
+          <div class="list-row__main">
+            <h3 style="font-size:1.0625rem;font-weight:700;line-height:1.4">
+              <a href="product.html?id=${item.id}" style="color:inherit;text-decoration:none">${item.name}</a>
+            </h3>
+            <p style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:6px;font-size:0.8125rem;color:var(--muted)">
+              <span class="tag">${item.categoryName}</span>
+              <span>單價 <span class="price num" style="font-size:1rem">$${item.price.toLocaleString()}</span></span>
+            </p>
           </div>
-          <div class="flex-1">
-            <h3 class="font-bold text-night">${item.name}</h3>
-            <p class="text-coral font-bold">$${item.price.toLocaleString()}</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="changeQty(${idx}, -1)" class="qty-btn minus">−</button>
-            <span class="w-8 text-center font-bold">${item.qty}</span>
-            <button onclick="changeQty(${idx}, 1)" class="qty-btn plus">+</button>
-          </div>
-          <div class="text-right">
-            <div class="font-bold text-night">$${(item.price * item.qty).toLocaleString()}</div>
-            <button onclick="removeItem(${idx})" class="remove-btn text-gray-400 text-sm mt-1">🗑️ 刪除</button>
-          </div>
-        </div>
-      `).join('');
 
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;width:100%;padding-top:14px;border-top:1px solid var(--paper)">
+            <div class="qty" role="group" aria-label="${item.name} 數量調整">
+              <button class="qty__btn" type="button" data-qty-id="${item.id}" data-qty-delta="-1"
+                      onclick="changeQty(${item.id}, -1)" aria-label="減少 ${item.name} 的數量">
+                ${icon('minus', 'ic-16')}
+              </button>
+              <span class="qty__value num">${item.quantity}</span>
+              <button class="qty__btn" type="button" data-qty-id="${item.id}" data-qty-delta="1"
+                      onclick="changeQty(${item.id}, 1)" aria-label="增加 ${item.name} 的數量">
+                ${icon('plus', 'ic-16')}
+              </button>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px">
+              <p style="text-align:right">
+                <span style="display:block;font-size:0.8125rem;color:var(--muted)">小計</span>
+                <span class="num" style="font-size:1.0625rem;font-weight:700">$${(item.price * item.quantity).toLocaleString()}</span>
+              </p>
+              <button class="icon-btn" type="button" data-remove-id="${item.id}"
+                      onclick="removeItem(${item.id})" aria-label="從購物車移除 ${item.name}">
+                ${icon('trash', 'ic-20')}
+              </button>
+            </div>
+          </div>
+        </article>`;
+      }).join('');
+
+      renderIcons(itemsContainer);
+      bindThumbFallback(itemsContainer);
       updateTotals();
+      updateCartCount();
     }
 
-    function changeQty(idx, delta) {
-      cart[idx].qty += delta;
-      if (cart[idx].qty <= 0) {
-        cart.splice(idx, 1);
+    /* 商品圖載入失敗時，改用圖示方塊，避免破圖影響版面 */
+    function bindThumbFallback(scope) {
+      const fallback = function (img) {
+        const holder = img.parentElement;
+        holder.setAttribute('aria-hidden', 'true');
+        holder.innerHTML = '<span class="icon-tile">' + icon('shopping-bag', 'ic-24') + '</span>';
+      };
+      scope.querySelectorAll('img[data-thumb]').forEach(function (img) {
+        img.addEventListener('error', function () { fallback(img); });
+        if (img.complete && img.naturalWidth === 0) fallback(img);
+      });
+    }
+
+    /* 數量增減：沿用 app.js 的 updateCartQuantity，並在重繪後把焦點放回同一顆按鈕 */
+    function changeQty(id, delta) {
+      const item = orders.products.find(function (p) { return p.id === id; });
+      const name = item ? item.name : '此商品';
+      updateCartQuantity(id, delta);
+      renderCart();
+
+      const sameBtn = document.querySelector('[data-qty-id="' + id + '"][data-qty-delta="' + delta + '"]');
+      if (sameBtn) {
+        sameBtn.focus();
+      } else {
+        showNotification('已從購物車移除「' + name + '」', 'info');
+        const nextBtn = document.querySelector('[data-remove-id]');
+        const back = document.getElementById('continueShopping');
+        if (nextBtn) nextBtn.focus();
+        else if (back) back.focus();
       }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCart();
     }
 
-    function removeItem(idx) {
-      cart.splice(idx, 1);
-      localStorage.setItem('cart', JSON.stringify(cart));
+    /* 刪除品項：沿用 app.js 的 removeFromCart */
+    function removeItem(id) {
+      const item = orders.products.find(function (p) { return p.id === id; });
+      const name = item ? item.name : '此商品';
+      removeFromCart(id);
       renderCart();
+      showNotification('已從購物車移除「' + name + '」', 'info');
+      const nextBtn = document.querySelector('[data-remove-id]');
+      const back = document.getElementById('continueShopping');
+      if (nextBtn) nextBtn.focus();
+      else if (back) back.focus();
     }
 
+    /* 金額計算：沿用既有邏輯（滿 $1,000 免運、ISLAND10 折 10%） */
     function updateTotals() {
-      const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const subtotal = orders.products.reduce(function (sum, item) {
+        return sum + item.price * item.quantity;
+      }, 0);
       const shipping = subtotal >= 1000 ? 0 : 100;
       let discount = 0;
-      
+
       if (appliedPromo === 'ISLAND10') {
         discount = Math.floor(subtotal * 0.1);
       }
-      
+
       const total = subtotal + shipping - discount;
 
-      document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString()}`;
-      document.getElementById('shipping').textContent = shipping === 0 ? '免費' : `$${shipping}`;
-      document.getElementById('discount').textContent = `-$${discount.toLocaleString()}`;
-      document.getElementById('total').textContent = `$${total.toLocaleString()}`;
+      document.getElementById('subtotal').textContent = '$' + subtotal.toLocaleString();
+      document.getElementById('shipping').innerHTML = shipping === 0
+        ? '<span class="badge badge--verified">免運</span>'
+        : '<span class="num">$' + shipping + '</span>';
+
+      const discountEl = document.getElementById('discount');
+      discountEl.textContent = '-$' + discount.toLocaleString();
+      discountEl.style.color = discount > 0 ? 'var(--island)' : 'var(--muted)';
+
+      document.getElementById('total').textContent = '$' + total.toLocaleString();
+      document.getElementById('promoApplied').style.display = appliedPromo ? 'block' : 'none';
+    }
+
+    function setPromoError(visible) {
+      const field = document.getElementById('promoError');
+      const input = document.getElementById('promoCode');
+      field.style.display = visible ? 'flex' : 'none';
+      if (visible) {
+        input.setAttribute('aria-invalid', 'true');
+      } else {
+        input.removeAttribute('aria-invalid');
+      }
     }
 
     function applyPromo() {
-      const code = document.getElementById('promoCode').value.trim().toUpperCase();
+      const input = document.getElementById('promoCode');
+      const code = input.value.trim().toUpperCase();
+
       if (code === 'ISLAND10') {
         appliedPromo = code;
+        setPromoError(false);
         updateTotals();
-        alert('🎉 優惠碼已套用：10% 折扣！');
+        showNotification('優惠序號 ISLAND10 已套用，商品小計折抵 10%', 'success');
       } else {
-        alert('❌ 無效的優惠碼');
+        appliedPromo = null;
+        setPromoError(true);
+        updateTotals();
+        showNotification('優惠序號無效，請確認後重新輸入', 'error');
       }
     }
 
     function checkout() {
-      if (cart.length === 0) {
-        alert('購物船艙是空的！');
+      if (orders.products.length === 0) {
+        showNotification('購物車目前沒有商品，請先挑選輔具', 'warning');
         return;
       }
-      alert('🚢 訂單已提交！我們會盡快為您配送！');
-      cart = [];
-      localStorage.setItem('cart', JSON.stringify(cart));
-      window.location.href = 'shop.html';
+
+      const count = cartCount();
+      const subtotal = orders.products.reduce(function (sum, item) {
+        return sum + item.price * item.quantity;
+      }, 0);
+      const shipping = subtotal >= 1000 ? 0 : 100;
+      const discount = appliedPromo === 'ISLAND10' ? Math.floor(subtotal * 0.1) : 0;
+      const total = subtotal + shipping - discount;
+
+      showNotification('訂單已送出：' + count + ' 件商品，總計 $' + total.toLocaleString() + '。我們將盡快為您配送。', 'success');
+
+      orders.products = [];
+      appliedPromo = null;
+      saveToStorage();
+      renderCart();
+
+      setTimeout(function () { window.location.href = 'shop.html'; }, 1600);
     }
 
-    // Init
-    renderCart();
+    /* ===== 行動版選單（與 index.html 一致）===== */
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      btn.innerHTML = icon(open ? 'x-mark' : 'bars-3', 'ic-24');
+    }
+
+    migrateLegacyCart();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      renderCart();
+      updateCartCount();
+      initReveal();
+    });
   </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-// ===== 智慧照護Match - 共享函式 =====
+// ===== 群島生態系 · 共享函式（專業照護版） =====
 
 // 取得 URL 參數
 function getUrlParams() {
@@ -45,7 +45,7 @@ function isTodayOrFuture(dateStr) {
 // 檢查登入狀態
 function checkLogin() {
   if (!currentUser) {
-    if (confirm('請先登入會員，是否前往登入頁？')) {
+    if (confirm('此功能需要登入會員，是否前往登入頁？')) {
       window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
     }
     return false;
@@ -62,60 +62,107 @@ function logout() {
   }
 }
 
-// 顯示通知訊息
+// ---------------------------------------------------------------- 通知（Toast）
 function showNotification(message, type = 'success') {
-  const colors = {
-    success: 'bg-green-500',
-    error: 'bg-red-500',
-    warning: 'bg-orange-500',
-    info: 'bg-blue-500'
+  const icMap = {
+    success: 'check-circle',
+    error: 'exclamation-circle',
+    warning: 'exclamation-triangle',
+    info: 'information-circle'
   };
 
-  const notification = document.createElement('div');
-  notification.className = `fixed top-20 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all transform translate-x-full`;
-  notification.textContent = message;
-  document.body.appendChild(notification);
+  let host = document.querySelector('.toast-host');
+  if (!host) {
+    host = document.createElement('div');
+    host.className = 'toast-host';
+    host.setAttribute('role', 'status');
+    host.setAttribute('aria-live', 'polite');
+    document.body.appendChild(host);
+  }
 
-  setTimeout(() => {
-    notification.classList.remove('translate-x-full');
-  }, 10);
+  const toast = document.createElement('div');
+  toast.className = `toast toast--${type}`;
+  const mark = (typeof window.icon === 'function') ? window.icon(icMap[type] || 'information-circle', 'ic-20') : '';
+  toast.innerHTML = `${mark}<span>${message}</span>`;
+  host.appendChild(toast);
 
+  requestAnimationFrame(() => toast.classList.add('is-in'));
   setTimeout(() => {
-    notification.classList.add('translate-x-full');
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
+    toast.classList.remove('is-in');
+    setTimeout(() => toast.remove(), 250);
+  }, 3600);
+}
+
+// 捲動進場（僅在元素加上 .reveal 時生效）
+function initReveal() {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
+  els.forEach(el => io.observe(el));
+}
+
+// ---------------------------------------------------------------- 會員選單
+function bindUserMenu() {
+  const btn = document.getElementById('userMenuBtn');
+  const root = btn ? btn.closest('.user-menu') : null;
+  if (!btn || !root) return;
+
+  const close = () => {
+    root.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+  };
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = root.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!root.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+  });
 }
 
 // 載入會員頭像（NAV）
 function loadUserNav() {
-  const nav = document.querySelector('nav');
-  if (!nav) return;
+  const nav = document.querySelector('nav') || document.querySelector('.site-nav');
+  if (!nav || !currentUser) return;
 
-  if (currentUser) {
-    const userSection = `
-      <div class="flex items-center gap-3">
-        <div class="relative group">
-          <button class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100">
-            <img src="${currentUser.avatar || 'https://via.placeholder.com/32'}" class="w-8 h-8 rounded-full object-cover">
-            <span class="hidden md:inline text-sm font-medium">${currentUser.name}</span>
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
-          </button>
-          <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border hidden group-hover:block">
-            <a href="dashboard.html" class="block px-4 py-2 text-sm hover:bg-gray-50">我的專區</a>
-            <a href="profile.html" class="block px-4 py-2 text-sm hover:bg-gray-50">個人檔案</a>
-            <hr class="my-1">
-            <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50">登出</button>
-          </div>
-        </div>
+  const mark = (name, cls) => (typeof window.icon === 'function' ? window.icon(name, cls || 'ic-16') : '');
+  const menu = `
+    <div class="user-menu">
+      <button class="user-menu__btn" type="button" id="userMenuBtn" aria-expanded="false" aria-haspopup="true">
+        <img class="avatar avatar--40" src="${currentUser.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop'}" alt="">
+        <span class="user-menu__name">${currentUser.name}</span>
+        ${mark('chevron-down', 'ic-16')}
+      </button>
+      <div class="user-menu__panel" role="menu">
+        <a role="menuitem" href="dashboard.html">${mark('chart-bar')}我的專區</a>
+        <a role="menuitem" href="profile.html">${mark('user')}個人檔案</a>
+        ${currentUser.role === 'admin' ? `<a role="menuitem" href="admin.html">${mark('cog-6-tooth')}管理後台</a>` : ''}
+        <hr class="divider">
+        <button type="button" role="menuitem" onclick="logout()">${mark('arrow-left-on-rectangle')}登出</button>
       </div>
-    `;
-    // 替換登入按鈕
-    const loginBtn = nav.querySelector('a[href="login.html"]');
-    if (loginBtn) {
-      loginBtn.outerHTML = userSection;
-    }
+    </div>`;
+
+  const loginBtn = nav.querySelector('a[href="login.html"]');
+  if (loginBtn) {
+    loginBtn.outerHTML = menu;
+    bindUserMenu();
   }
 }
 
@@ -257,6 +304,7 @@ function navigateTo(page) {
 document.addEventListener('DOMContentLoaded', () => {
   loadUserNav();
   updateCartCount();
+  initReveal();
 });
 
 // 匯出給全域使用
@@ -267,6 +315,7 @@ window.getWeekday = getWeekday;
 window.checkLogin = checkLogin;
 window.logout = logout;
 window.showNotification = showNotification;
+window.initReveal = initReveal;
 window.addToCart = addToCart;
 window.removeFromCart = removeFromCart;
 window.updateCartQuantity = updateCartQuantity;
