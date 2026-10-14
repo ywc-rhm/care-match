@@ -1491,3 +1491,353 @@ a.list-row:hover { border-color: var(--ocean); }
   .brand__tag { display: none; }
   .brand__name { font-size: 1.0625rem; }
 }
+
+
+/* =========================================================================
+   海圖：群島分布（每座島＝一位照護夥伴，同一類服務的島＝一座群島）
+   語彙：淡色海域＋細等高線＋經緯格，瑞士製圖式，非卡通插畫
+   ========================================================================= */
+.chart {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.chart__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.chart__hint {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 68ch;
+  margin-top: 8px;
+}
+.chart__hint strong { color: var(--ink); font-weight: 700; }
+.chart__canvas {
+  position: relative;
+  height: 460px;
+  background: var(--paper);
+  overflow: hidden;
+}
+@media (min-width: 900px) {
+  .chart__canvas { height: 480px; }
+}
+.chart__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(15, 85, 101, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 85, 101, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.chart__contours {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(15, 85, 101, 0.13);
+  pointer-events: none;
+}
+.chart__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  align-items: center;
+  padding: 14px 24px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.chart__foot span { display: inline-flex; align-items: center; gap: 7px; }
+.chart__scale {
+  display: inline-block;
+  width: 44px;
+  height: 8px;
+  border-left: 1px solid var(--line-strong);
+  border-right: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+/* 群島（一座群島＝一類服務） */
+.archipelago {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.archipelago__ring {
+  position: absolute;
+  inset: 34px 6px 6px 6px;
+  border: 1px dashed rgba(15, 85, 101, 0.22);
+  border-radius: 48% 52% 46% 54% / 54% 46% 52% 48%;
+  pointer-events: none;
+}
+.archipelago__label {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-1);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.archipelago__label:hover {
+  border-color: var(--isle-color, var(--ocean));
+  box-shadow: var(--shadow-2);
+}
+.archipelago__count {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.archipelago__field {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+/* 島（一位照護夥伴） */
+.isle {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 1;
+}
+.isle[hidden] { display: none; }
+.isle__ring,
+.isle__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+}
+.isle__ring {
+  width: calc(var(--isle-size) + 14px);
+  height: calc(var(--isle-size) + 14px);
+  margin: calc((var(--isle-size) + 14px) / -2) 0 0 calc((var(--isle-size) + 14px) / -2);
+  border: 1px solid rgba(15, 85, 101, 0.16);
+  border-radius: 50%;
+}
+.isle__dot {
+  width: var(--isle-size);
+  height: var(--isle-size);
+  margin: calc(var(--isle-size) / -2) 0 0 calc(var(--isle-size) / -2);
+  background: var(--isle-color, var(--ocean));
+  border-radius: var(--isle-shape, 50%);
+  box-shadow: 0 1px 0 rgba(10, 42, 50, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.isle:hover .isle__dot,
+.isle:focus-visible .isle__dot {
+  transform: scale(1.14);
+  box-shadow: 0 2px 8px -2px rgba(10, 42, 50, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+.isle:hover .isle__ring,
+.isle:focus-visible .isle__ring { border-color: rgba(15, 85, 101, 0.38); }
+.isle__tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%) translateY(4px);
+  min-width: 176px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-2);
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  z-index: 6;
+}
+.isle--tip-below .isle__tip {
+  bottom: auto;
+  top: calc(100% + 4px);
+  transform: translateX(-50%) translateY(-4px);
+}
+.isle:hover .isle__tip,
+.isle:focus-visible .isle__tip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.isle__tip-name { font-size: 0.9375rem; font-weight: 700; color: var(--ink); }
+.isle__tip-meta { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+.isle__tip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.isle__tip-action { color: var(--ocean); font-weight: 700; }
+
+/* 被搜尋／篩選排除的群島與島 */
+.archipelago[hidden] { display: none; }
+.archipelago--dim { opacity: 0.32; }
+
+/* 手機：海圖改為群島清單（每座島一列，維持 48px 觸控高度） */
+.chart__list { display: flex; flex-direction: column; gap: 8px; padding: 16px 16px 20px; }
+.chart__group { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: #fff; }
+.chart__group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--paper);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.isle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 16px;
+  border: 0;
+  border-top: 1px solid var(--paper);
+  background: #fff;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.isle-row:hover { background: #fcfdfd; }
+.isle-row[hidden] { display: none; }
+.isle-row__dot { flex: 0 0 auto; }
+.isle-row__main { min-width: 0; flex: 1 1 auto; }
+.isle-row__name { font-size: 1rem; font-weight: 700; }
+.isle-row__meta { font-size: 0.8125rem; color: var(--muted); }
+.isle-row__price { font-size: 0.9375rem; font-weight: 700; color: var(--coral); font-variant-numeric: tabular-nums; }
+
+/* 海圖輔助：切換顯示、清單島形、高亮 */
+.chart__canvas[hidden],
+.chart__list[hidden] { display: none; }
+.isle-mark {
+  display: inline-block;
+  flex: 0 0 auto;
+  box-shadow: 0 1px 0 rgba(10, 42, 50, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+.isle-row__name,
+.isle-row__meta { display: block; }
+.cg-row--highlight {
+  border-color: var(--ocean);
+  box-shadow: 0 0 0 3px rgba(15, 85, 101, 0.14);
+}
+@media (min-width: 768px) {
+  .chart__list { display: none; }
+}
+
+/* 海圖調校（後置覆寫） */
+.chart__canvas { height: 460px; }
+@media (min-width: 768px) { .chart__canvas { height: 520px; } }
+@media (min-width: 900px) { .chart__canvas { height: 560px; } }
+
+/* 島周圍的淺灘環（讀起來像礁岩周圍的淺水） */
+.isle__ring {
+  background: rgba(15, 85, 101, 0.07);
+  border-color: rgba(15, 85, 101, 0.14);
+}
+.isle:hover .isle__ring,
+.isle:focus-visible .isle__ring { background: rgba(15, 85, 101, 0.12); }
+
+/* 群島虛線範圍收緊，貼合島群 */
+.archipelago__ring { inset: 40px 10px 10px 10px; border-color: rgba(15, 85, 101, 0.18); }
+
+/* 錨點落點：避免被 sticky 導覽列蓋住 */
+section[id],
+h1[id], h2[id], h3[id],
+[id]:target { scroll-margin-top: calc(var(--nav-h) + 16px); }
+
+/* ------------------------------------------------- Hero 群島預覽（首頁） */
+.hero__chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px 8px;
+}
+.hero__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.hero__group:hover { border-color: var(--ocean); box-shadow: var(--shadow-1); }
+.hero__group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+.hero__group-count {
+  margin-left: auto;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.hero__isles {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  min-height: 24px;
+}
+.hero__isle {
+  display: inline-block;
+  flex: 0 0 auto;
+  box-shadow: 0 1px 0 rgba(10, 42, 50, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+/* 群島清單列：評分附在名字右側，避免手機換行 */
+.isle-row__rate {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 8px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.isle-row__rate svg { color: #b98123; }

@@ -195,6 +195,8 @@
     "<circle cx=\"6.9\" cy=\"18.1\" r=\"3.4\"/><path d=\"M10.9 4.9v7.4a1.9 1.9 0 0 0 1.9 1.9h4.3\"/><path d=\"M10.9 4.9h3.4\"/><path d=\"m14.9 14.2 2.6 5.4\"/>",
   'medical-cross':
     "<path fill=\"currentColor\" stroke=\"none\" d=\"M9.6 3.6h4.8v6h6v4.8h-6v6H9.6v-6h-6V9.6h6z\"/>",
+  'island':
+    "<path d=\"M4 16.6h16\"/><path d=\"M7.55 16.6a4.45 4.45 0 0 1 8.9 0\"/><path d=\"M9.9 16.6a2.1 2.1 0 0 1 4.2 0\"/>",
   'archipelago':
     "<circle cx=\"12\" cy=\"12\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"12\" cy=\"12\" r=\"6.6\" opacity=\".45\"/><circle cx=\"12\" cy=\"12\" r=\"10\" opacity=\".2\"/>",
   'cane':

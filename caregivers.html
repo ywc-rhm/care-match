@@ -73,10 +73,10 @@
       <div class="wrap">
         <div class="sec-head">
           <p class="eyebrow">服務區域</p>
-          <h1 class="sec-title" id="pageTitle">服務區域分布</h1>
+          <h1 class="sec-title" id="pageTitle">服務區域與群島分布</h1>
           <p class="sec-lead">
-            依照服務類型或關鍵字篩選，查看各區域的照護夥伴人數與可預約名單。
-            目前共 23 位通過資格與證照審核的照護夥伴，分布於四類服務。
+            在群島生態系裡，<strong>每一位照護夥伴都是一座島</strong>：各有自己的專長、服務區域與可預約時段；
+            同一類服務的島聚成一座<strong>群島</strong>。依服務類型或關鍵字篩選，即可看到各群島的島主名單。
           </p>
         </div>
 
@@ -100,83 +100,54 @@
         </div>
 
         <p class="hint" id="filterStatus" aria-live="polite" style="margin-bottom:20px">
-          顯示 4 個區域，共 23 位照護夥伴
+          顯示 4 座群島，共 23 位島主
         </p>
 
-        <!-- 區域分布面板 -->
-        <div class="zone-map" role="region" aria-labelledby="zoneMapTitle">
-          <div class="zone-map__head">
-            <span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-              <h2 class="card__title" id="zoneMapTitle" style="margin:0">區域一覽</h2>
-              <span class="badge badge--info">共 23 位照護夥伴</span>
-            </span>
-            <div class="zone-map__legend">
-              <span><i class="legend-dot" style="background:#0F5565" aria-hidden="true"></i>居家陪伴 8</span>
-              <span><i class="legend-dot" style="background:#A9552A" aria-hidden="true"></i>日照中心 5</span>
-              <span><i class="legend-dot" style="background:#4A8A97" aria-hidden="true"></i>喘息服務 4</span>
-              <span><i class="legend-dot" style="background:#1A6E58" aria-hidden="true"></i>就醫陪同 6</span>
+        <!-- 群島分布海圖：每座島＝一位照護夥伴，同一類服務＝一座群島 -->
+        <div class="chart" role="region" aria-labelledby="chartTitle">
+          <div class="chart__head">
+            <div>
+              <h2 class="card__title" id="chartTitle" style="margin:0">群島分布圖</h2>
+              <p class="chart__hint">
+                <strong>每一座島就是一位照護夥伴</strong>：島的大小代表服務年資，顏色代表服務類型，島形由島主的名字產生、每座都不同。
+                同一類服務的島聚成一座<strong>群島</strong>；點任一座島或群島名稱，即可查看該群島的島主名單。
+              </p>
             </div>
+            <span class="badge badge--info" id="chartTotal">共 23 位島主</span>
           </div>
 
-          <div class="zone-map__canvas" id="zoneMap">
-            <div class="map-grid absolute inset-0" aria-hidden="true"></div>
+          <div class="chart__canvas" id="zoneMap">
+            <div class="chart__grid" aria-hidden="true"></div>
+            <svg class="chart__contours" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">
+              <g fill="none" stroke="currentColor" stroke-width="1">
+                <path d="M-20 132c150 48 320 64 494 30s306-100 468-66 246 100 326 146"/>
+                <path d="M-20 176c158 46 326 60 500 28s302-96 460-64 244 96 324 140"/>
+                <path d="M-20 418c168-42 314-66 490-42s292 88 456 78 268-56 358-88"/>
+                <path d="M-20 462c176-38 320-60 492-38s288 82 450 74 266-52 356-82"/>
+              </g>
+            </svg>
 
-            <!-- 居家陪伴（左上） -->
-            <button class="zone" type="button" data-zone="homecare" style="top:12%;left:1%"
-                    onclick="openZone('homecare')"
-                    aria-label="居家陪伴，8 位照護夥伴，查看名單">
-              <span class="zone__top">
-                <span class="zone__swatch" style="background:#0F5565" aria-hidden="true"></span>
-                <span class="zone__name">居家陪伴</span>
-              </span>
-              <span class="zone__count">8 位照護夥伴</span>
-              <span class="zone__bar" aria-hidden="true"><i style="width:35%;background:#0F5565"></i></span>
-            </button>
+            <div id="archipelagoLayer"></div>
 
-            <!-- 日照中心（右上） -->
-            <button class="zone" type="button" data-zone="daycare" style="top:12%;right:1%"
-                    onclick="openZone('daycare')"
-                    aria-label="日照中心，5 位照護夥伴，查看名單">
-              <span class="zone__top">
-                <span class="zone__swatch" style="background:#A9552A" aria-hidden="true"></span>
-                <span class="zone__name">日照中心</span>
-              </span>
-              <span class="zone__count">5 位照護夥伴</span>
-              <span class="zone__bar" aria-hidden="true"><i style="width:22%;background:#A9552A"></i></span>
-            </button>
-
-            <!-- 喘息服務（左下） -->
-            <button class="zone" type="button" data-zone="respite" style="bottom:14%;left:1%"
-                    onclick="openZone('respite')"
-                    aria-label="喘息服務，4 位照護夥伴，查看名單">
-              <span class="zone__top">
-                <span class="zone__swatch" style="background:#4A8A97" aria-hidden="true"></span>
-                <span class="zone__name">喘息服務</span>
-              </span>
-              <span class="zone__count">4 位照護夥伴</span>
-              <span class="zone__bar" aria-hidden="true"><i style="width:17%;background:#4A8A97"></i></span>
-            </button>
-
-            <!-- 就醫陪同（右下） -->
-            <button class="zone" type="button" data-zone="medical" style="bottom:14%;right:1%"
-                    onclick="openZone('medical')"
-                    aria-label="就醫陪同，6 位照護夥伴，查看名單">
-              <span class="zone__top">
-                <span class="zone__swatch" style="background:#1A6E58" aria-hidden="true"></span>
-                <span class="zone__name">就醫陪同</span>
-              </span>
-              <span class="zone__count">6 位照護夥伴</span>
-              <span class="zone__bar" aria-hidden="true"><i style="width:26%;background:#1A6E58"></i></span>
-            </button>
-
-            <!-- 無符合結果 -->
             <div class="empty" id="mapEmpty" hidden
-                 style="position:absolute;left:20px;right:20px;top:50%;transform:translateY(-50%)">
+                 style="position:absolute;left:24px;right:24px;top:50%;transform:translateY(-50%)">
               <span class="empty__icon" aria-hidden="true"><i data-ic="magnifying-glass" data-ic-class="ic-24"></i></span>
-              <p class="empty__title">沒有符合條件的服務區域</p>
+              <p class="empty__title">沒有符合條件的群島</p>
               <p class="empty__text">請調整搜尋關鍵字，或改選其他服務類型。</p>
               <button class="btn btn--secondary" type="button" onclick="resetFilters()">清除篩選條件</button>
             </div>
+          </div>
+
+          <!-- 手機：同一份資料以群島清單呈現（每列 >=56px 觸控高度） -->
+          <div class="chart__list" id="chartList" hidden></div>
+
+          <div class="chart__foot">
+            <span><i class="legend-dot" style="background:#0F5565" aria-hidden="true"></i>居家陪伴群島</span>
+            <span><i class="legend-dot" style="background:#A9552A" aria-hidden="true"></i>日照中心群島</span>
+            <span><i class="legend-dot" style="background:#4A8A97" aria-hidden="true"></i>喘息服務群島</span>
+            <span><i class="legend-dot" style="background:#1A6E58" aria-hidden="true"></i>就醫陪同群島</span>
+            <span><i data-ic="island" data-ic-class="ic-16"></i>島越大＝服務年資越長</span>
+            <span style="margin-left:auto">位置為示意排列，非實際地理座標</span>
           </div>
         </div>
       </div>
@@ -268,6 +239,7 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script src="icons.js"></script>
+  <script src="islands.js"></script>
   <script>
     // ===== 服務區域資料（沿用原檔欄位：id / name / area / rating / reviews / price / services） =====
     const zoneData = {
@@ -361,15 +333,25 @@
     function applyFilter() {
       let zoneCount = 0;
       let cgCount = 0;
+      const filtering = !!query || activeType !== 'all';
 
-      document.querySelectorAll('#zoneMap .zone').forEach(el => {
-        const zone = el.dataset.zone;
+      Object.keys(zoneData).forEach(zone => {
         const show = zoneMatches(zone);
-        el.hidden = !show;
-        if (show) {
-          zoneCount += 1;
-          cgCount += rowsForZone(zone).length;
-        }
+        const rows = show ? rowsForZone(zone) : [];
+        const total = zoneData[zone].caregivers.length;
+
+        document.querySelectorAll('.archipelago[data-zone="' + zone + '"], .chart__group[data-zone="' + zone + '"]')
+          .forEach(el => { el.hidden = !show; });
+
+        const keep = rows.map(cgKey);
+        document.querySelectorAll('.isle[data-zone="' + zone + '"], .isle-row[data-zone="' + zone + '"]')
+          .forEach(el => { el.hidden = !show || keep.indexOf(el.dataset.key) === -1; });
+
+        document.querySelectorAll('[data-zone="' + zone + '"] [data-count]').forEach(el => {
+          el.textContent = (filtering && show) ? (rows.length + ' / ' + total + ' 位島主') : (total + ' 位島主');
+        });
+
+        if (show) { zoneCount += 1; cgCount += rows.length; }
       });
 
       document.querySelectorAll('#typeChips .chip').forEach(chip => {
@@ -382,9 +364,135 @@
       const status = document.getElementById('filterStatus');
       if (status) {
         status.textContent = zoneCount
-          ? '顯示 ' + zoneCount + ' 個區域，共 ' + cgCount + ' 位照護夥伴'
-          : '沒有符合條件的服務區域';
+          ? '顯示 ' + zoneCount + ' 座群島，共 ' + cgCount + ' 位島主'
+          : '沒有符合條件的群島';
       }
+    }
+
+    // ---- 群島與島（海圖）----
+    const zoneMeta = {
+      homecare: { name: '居家陪伴群島', color: '#0F5565', pos: 'top:3%;left:1%;width:46%;height:47%' },
+      daycare:  { name: '日照中心群島', color: '#A9552A', pos: 'top:3%;right:1%;width:46%;height:47%' },
+      respite:  { name: '喘息服務群島', color: '#4A8A97', pos: 'bottom:3%;left:1%;width:46%;height:47%' },
+      medical:  { name: '就醫陪同群島', color: '#1A6E58', pos: 'bottom:3%;right:1%;width:46%;height:47%' }
+    };
+
+    function cgKey(cg) { return cg.name + '|' + cg.area; }
+
+    function baseOf(cg) {
+      return (typeof caregivers !== 'undefined' && caregivers.find(c => c.id === cg.id)) || {};
+    }
+
+    function isleHtml(zone, cg, pt) {
+      const meta = zoneMeta[zone];
+      const base = baseOf(cg);
+      const years = base.experience || 3;
+      const px = Islands.size(years);
+      const tipBelow = pt.y < 0.5;
+      return '<button class="isle' + (tipBelow ? ' isle--tip-below' : '') + '" type="button"'
+        + ' data-zone="' + zone + '" data-key="' + cgKey(cg) + '"'
+        + ' style="left:calc(' + (pt.x * 100).toFixed(1) + '% - 22px);top:calc(' + (pt.y * 100).toFixed(1) + '% - 22px);'
+        + '--isle-size:' + px + 'px;--isle-color:' + meta.color + ';--isle-shape:' + Islands.shape(cgKey(cg)) + '"'
+        + ' onclick="openZone(\'' + zone + '\',\'' + cgKey(cg) + '\')"'
+        + ' aria-label="' + cg.name + '，' + cg.area + '，服務年資 ' + years + ' 年，評分 ' + cg.rating
+        + '，時薪 ' + cg.price + ' 元；查看' + meta.name + '名單">'
+        + '<span class="isle__ring" aria-hidden="true"></span>'
+        + '<span class="isle__dot" aria-hidden="true"></span>'
+        + '<span class="isle__tip" aria-hidden="true">'
+        + '<span class="isle__tip-name">' + cg.name + '</span>'
+        + '<span class="isle__tip-meta">' + cg.area + ' · 服務年資 ' + years + ' 年</span>'
+        + '<span class="isle__tip-row">' + icon('star-solid', 'ic-14') + cg.rating
+        + '<span class="isle__tip-action">查看島主名單</span></span>'
+        + '</span>'
+        + '</button>';
+    }
+
+    function isleRowHtml(zone, cg) {
+      const meta = zoneMeta[zone];
+      const base = baseOf(cg);
+      const years = base.experience || 3;
+      return '<button class="isle-row" type="button" data-zone="' + zone + '" data-key="' + cgKey(cg) + '"'
+        + ' onclick="openZone(\'' + zone + '\',\'' + cgKey(cg) + '\')">'
+        + '<span class="isle-mark" style="width:22px;height:22px;background:' + meta.color
+        + ';border-radius:' + Islands.shape(cgKey(cg)) + '" aria-hidden="true"></span>'
+        + '<span class="isle-row__main">'
+        + '<span class="isle-row__name">' + cg.name
+        + '<span class="isle-row__rate">' + icon('star-solid', 'ic-14') + cg.rating + '</span></span>'
+        + '<span class="isle-row__meta">' + cg.area + ' · 年資 ' + years + ' 年</span>'
+        + '</span>'
+        + '<span class="isle-row__price">$' + cg.price + '</span>'
+        + icon('chevron-right', 'ic-20')
+        + '</button>';
+    }
+
+    function renderChart() {
+      const layer = document.getElementById('archipelagoLayer');
+      const list = document.getElementById('chartList');
+      const canvas = document.getElementById('zoneMap');
+      if (!layer || !list || !canvas || typeof Islands === 'undefined') return;
+
+      // 手機時海圖是隱藏的（量不到尺寸），切回桌機時由 syncChartMode 重新排版
+      const canvasW = canvas.clientWidth || 520;
+      const canvasH = canvas.clientHeight || 200;
+
+      let total = 0;
+      const zones = Object.keys(zoneData);
+
+      layer.innerHTML = zones.map(zone => {
+        const meta = zoneMeta[zone];
+        const cgs = zoneData[zone].caregivers;
+        total += cgs.length;
+        const fieldW = Math.max(200, canvasW * 0.46 - 10);
+        const fieldH = Math.max(120, canvasH * 0.47 - 62);
+        const pts = Islands.layout(cgs.length, zone, { w: fieldW, h: fieldH, minDist: 48 });
+        // 年資越長越靠群島中心（主島），越年輕越靠外圈
+        const ordered = cgs.slice().sort((a, b) => (baseOf(b).experience || 0) - (baseOf(a).experience || 0));
+        return '<div class="archipelago" data-zone="' + zone + '" style="' + meta.pos + '">'
+          + '<button class="archipelago__label" type="button" onclick="openZone(\'' + zone + '\')"'
+          + ' aria-label="' + meta.name + '，' + cgs.length + ' 位島主，查看名單">'
+          + '<span class="legend-dot" style="background:' + meta.color + '" aria-hidden="true"></span>'
+          + meta.name
+          + '<span class="archipelago__count" data-count>' + cgs.length + ' 位島主</span>'
+          + '</button>'
+          + '<span class="archipelago__ring" aria-hidden="true"></span>'
+          + '<div class="archipelago__field">'
+          + ordered.map((cg, i) => isleHtml(zone, cg, pts[i])).join('')
+          + '</div>'
+          + '</div>';
+      }).join('');
+
+      list.innerHTML = zones.map(zone => {
+        const meta = zoneMeta[zone];
+        const cgs = zoneData[zone].caregivers;
+        return '<div class="chart__group" data-zone="' + zone + '">'
+          + '<button class="chart__group-head" type="button" onclick="openZone(\'' + zone + '\')">'
+          + '<span style="display:inline-flex;align-items:center;gap:8px">'
+          + '<span class="legend-dot" style="background:' + meta.color + '" aria-hidden="true"></span>'
+          + meta.name + '</span>'
+          + '<span class="archipelago__count" data-count>' + cgs.length + ' 位島主</span>'
+          + '</button>'
+          + cgs.map(cg => isleRowHtml(zone, cg)).join('')
+          + '</div>';
+      }).join('');
+
+      renderIcons(layer);
+      renderIcons(list);
+
+      const badge = document.getElementById('chartTotal');
+      if (badge) badge.textContent = '共 ' + total + ' 位島主';
+    }
+
+    // 桌機顯示海圖、手機顯示群島清單（同一份資料）
+    let chartWide = null;
+    function syncChartMode() {
+      const wide = window.matchMedia('(min-width: 768px)').matches;
+      const canvas = document.getElementById('zoneMap');
+      const list = document.getElementById('chartList');
+      if (canvas) canvas.hidden = !wide;
+      if (list) list.hidden = wide;
+      // 由清單切回海圖時，用實測尺寸重新排版
+      if (wide && chartWide !== true) renderChart();
+      chartWide = wide;
     }
 
     // ---- Modal ----
@@ -393,7 +501,7 @@
       const avatar = base.avatar || '';
       const meta = base.experience ? cg.area + ' · 服務年資 ' + base.experience + ' 年' : cg.area;
       return ''
-        + '<div class="cg-row flex-wrap">'
+        + '<div class="cg-row flex-wrap" data-key="' + cgKey(cg) + '">'
         +   '<img class="avatar avatar--56 avatar--squircle" src="' + avatar + '" alt="' + cg.name + '，' + cg.area + '照護服務人員">'
         +   '<div style="flex:1 1 180px;min-width:0">'
         +     '<p class="cg-row__name">' + cg.name + '</p>'
@@ -415,14 +523,14 @@
         + '</div>';
     }
 
-    function openZone(zone) {
+    function openZone(zone, highlight) {
       const data = zoneData[zone];
       if (!data) return;
 
       const rows = rowsForZone(zone);
-      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalTitle').textContent = zoneMeta[zone] ? zoneMeta[zone].name : data.title;
       document.getElementById('modalSubtitle').textContent =
-        '共 ' + data.caregivers.length + ' 位照護夥伴 · ' + data.note;
+        '共 ' + data.caregivers.length + ' 位島主 · ' + data.note;
 
       const list = document.getElementById('islandsList');
       if (rows.length) {
@@ -436,6 +544,15 @@
           + '</div>';
       }
       renderIcons(list);
+
+      // 從海圖點進來的島，標示並捲到該位島主
+      if (highlight) {
+        const row = list.querySelector('.cg-row[data-key="' + highlight + '"]');
+        if (row) {
+          row.classList.add('cg-row--highlight');
+          row.scrollIntoView({ block: 'center' });
+        }
+      }
 
       const modal = document.getElementById('zoneModal');
       lastFocus = document.activeElement;
@@ -485,6 +602,14 @@
         activeType = type;
       }
 
+      renderChart();
+      syncChartMode();
+      window.addEventListener('resize', syncChartMode);
+      if (window.matchMedia) {
+        const mq = window.matchMedia('(min-width: 768px)');
+        if (mq.addEventListener) mq.addEventListener('change', syncChartMode);
+        else if (mq.addListener) mq.addListener(syncChartMode);
+      }
       applyFilter();
       updateCartCount();
       initReveal();

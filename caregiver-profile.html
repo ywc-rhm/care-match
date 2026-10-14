@@ -85,8 +85,11 @@
               <img class="avatar avatar--72 avatar--squircle" id="profileAvatar" src="" alt="照護夥伴頭像">
 
               <div>
+                <p class="eyebrow">島主檔案</p>
+
                 <div class="flex flex-wrap items-center gap-3">
                   <h1 style="font-size:1.9375rem;font-weight:800;line-height:1.3" id="profileName">載入中…</h1>
+                  <span class="isle-mark" id="profileIsle" aria-hidden="true" title="島主之島"></span>
                   <span class="badge badge--info" id="profileTitle">照護夥伴</span>
                 </div>
 
@@ -106,6 +109,7 @@
                     <i data-ic="map-pin" data-ic-class="ic-16"></i>
                     <span id="profileLocation">服務區域：－</span>
                   </span>
+                  <span id="profileIsles" style="display:contents"></span>
                 </div>
               </div>
             </div>
@@ -147,7 +151,8 @@
               <span class="icon-tile"><i data-ic="identification" data-ic-class="ic-24"></i></span>
               <h2 class="card__title" id="aboutTitle" style="margin:0">自我介紹與服務理念</h2>
             </div>
-            <p class="text-muted" style="line-height:1.8" id="profileIntro1"></p>
+            <p class="text-muted" style="line-height:1.8">在群島生態系裡，每位照護夥伴都是一座島；此頁是這位島主的完整資料。</p>
+            <p class="text-muted" style="line-height:1.8;margin-top:12px" id="profileIntro1"></p>
             <p class="text-muted" style="line-height:1.8;margin-top:12px" id="profileIntro2"></p>
           </div>
         </div>
@@ -309,6 +314,7 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script src="icons.js"></script>
+  <script src="islands.js"></script>
   <script>
     // ===== 照護夥伴專頁（專業照護版） =====
     // 服務代碼對應 icons.js 的圖示名稱
@@ -375,6 +381,33 @@
         ? icon('shield-check', 'ic-14') + '已認證照護夥伴'
         : icon('information-circle', 'ic-14') + '一般照護夥伴';
       document.getElementById('profileTitle').textContent = cg.certified ? '資深照護夥伴' : '照護夥伴';
+
+      // 島主之島：島形由「姓名｜服務區域」決定，同一人永遠是同一座島
+      const isleMark = document.getElementById('profileIsle');
+      if (isleMark && typeof Islands !== 'undefined') {
+        const px = Islands.size(cg.experience, 28, 32);
+        isleMark.style.width = px + 'px';
+        isleMark.style.height = px + 'px';
+        isleMark.style.background = '#0F5565';
+        isleMark.style.borderRadius = Islands.shape(cg.name + '|' + cg.location);
+      }
+
+      // 所屬群島：由 serviceNames 對照群島名稱
+      const isleNameByService = {
+        '居家服務': '居家陪伴群島',
+        '日間照顧': '日照中心群島',
+        '喘息服務': '喘息服務群島',
+        '醫療陪同': '就醫陪同群島'
+      };
+      const islesBox = document.getElementById('profileIsles');
+      if (islesBox) {
+        islesBox.innerHTML = (cg.serviceNames || [])
+          .map(s => isleNameByService[s])
+          .filter(Boolean)
+          .map(n => `<span class="tag">${icon('island', 'ic-14')}${n}</span>`)
+          .join('');
+        renderIcons(islesBox);
+      }
 
       // 數據卡
       document.getElementById('profileExperience').textContent = cg.experience + '+';

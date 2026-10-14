@@ -75,8 +75,8 @@
           <p class="eyebrow">群島生態系 · 照護服務媒合</p>
           <h1 class="hero__title">每一位照護夥伴，<br>都是一座可以信任的島嶼</h1>
           <p class="hero__lead">
-            依您的照護需求，媒合通過資格審核的照護服務人員。服務項目、可預約時段與收費標準皆公開透明，
-            您可以先看評價與專長，再決定是否聯繫。
+            依您的照護需求，媒合通過資格審核的照護服務人員。同一類服務的夥伴聚成一座群島，
+            服務項目、可預約時段與收費標準皆公開透明，您可以先看評價與專長，再決定是否聯繫。
           </p>
           <div class="hero__actions">
             <a class="btn btn--primary btn--lg" href="#services">
@@ -97,18 +97,13 @@
         <div class="hero__panel" aria-labelledby="zoneMapTitle">
           <div class="hero__panel-head">
             <span class="hero__panel-title" id="zoneMapTitle">
-              <i data-ic="map" data-ic-class="ic-20"></i>
-              服務區域分布
+              <i data-ic="archipelago" data-ic-class="ic-20"></i>
+              群島分布
             </span>
-            <span class="badge badge--info">23 位照護夥伴</span>
+            <span class="badge badge--info">23 位島主</span>
           </div>
 
-          <div class="hero__map map-grid" aria-hidden="true">
-            <span class="map-pin" style="top:14%;left:8%"><i class="legend-dot" style="background:#0F5565"></i>居家陪伴 8</span>
-            <span class="map-pin" style="top:52%;left:34%"><i class="legend-dot" style="background:#A9552A"></i>日照中心 5</span>
-            <span class="map-pin" style="top:16%;left:62%"><i class="legend-dot" style="background:#4A8A97"></i>喘息服務 4</span>
-            <span class="map-pin" style="top:56%;left:74%"><i class="legend-dot" style="background:#1A6E58"></i>就醫陪同 6</span>
-          </div>
+          <div class="hero__chart" id="heroChart"></div>
 
           <div style="padding:4px 20px 20px">
             <div class="stack-12" id="zoneRows"></div>
@@ -197,12 +192,13 @@
         <div class="sec-head">
           <p class="eyebrow">服務項目</p>
           <h2 class="sec-title" id="servicesTitle">我需要哪一種服務？</h2>
-          <p class="sec-lead">依照護情境分成四類，選擇最接近的項目即可看到對應的照護夥伴。</p>
+          <p class="sec-lead">依照護情境分成四座群島，選擇最接近的項目即可看到該群島的島主名單與可預約時段。</p>
         </div>
 
         <div class="grid-cards grid-cards--4">
           <a class="card card--interactive" href="caregivers.html?type=home">
             <span class="icon-tile"><i data-ic="home" data-ic-class="ic-24"></i></span>
+            <p class="hero__group-count" style="margin-left:0;margin-top:14px">居家陪伴群島 · 8 位島主</p>
             <h3 class="card__title" style="margin-top:16px">居家陪伴</h3>
             <p class="card__text">到府協助日常生活：起居照顧、身體清潔、服藥提醒、餐食準備。</p>
             <p class="card__foot"><span>適合長期臥床、獨居長輩</span>
@@ -212,6 +208,7 @@
 
           <a class="card card--interactive" href="caregivers.html?type=daycare">
             <span class="icon-tile icon-tile--clay"><i data-ic="sun" data-ic-class="ic-24"></i></span>
+            <p class="hero__group-count" style="margin-left:0;margin-top:14px">日照中心群島 · 5 位島主</p>
             <h3 class="card__title" style="margin-top:16px">日照中心</h3>
             <p class="card__text">白天到日照據點參與活動與復健運動，晚間返回自宅。</p>
             <p class="card__foot"><span>適合輕度失能、需要陪伴者</span>
@@ -221,6 +218,7 @@
 
           <a class="card card--interactive" href="caregivers.html?type=respite">
             <span class="icon-tile icon-tile--line"><i data-ic="lifebuoy" data-ic-class="ic-24"></i></span>
+            <p class="hero__group-count" style="margin-left:0;margin-top:14px">喘息服務群島 · 4 位島主</p>
             <h3 class="card__title" style="margin-top:16px">喘息服務</h3>
             <p class="card__text">主要照顧者需要休息時，由其他夥伴短期接手照護工作。</p>
             <p class="card__foot"><span>適合家庭照顧者喘息需求</span>
@@ -230,6 +228,7 @@
 
           <a class="card card--interactive" href="caregivers.html?type=medical">
             <span class="icon-tile icon-tile--green"><i data-ic="medical-cross" data-ic-class="ic-24"></i></span>
+            <p class="hero__group-count" style="margin-left:0;margin-top:14px">就醫陪同群島 · 6 位島主</p>
             <h3 class="card__title" style="margin-top:16px">就醫陪同</h3>
             <p class="card__text">陪同就醫、傳達醫囑、協助記錄病情與回診追蹤。</p>
             <p class="card__foot"><span>適合獨居長輩、無法請假的家屬</span>
@@ -409,36 +408,63 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script src="icons.js"></script>
+  <script src="islands.js"></script>
   <script>
     // ===== 服務區域分布（群島概念 → 資料面板） =====
+    // 群島預覽：每座島＝一位照護夥伴（首頁以數量呈現，細節見照護夥伴頁）
     const zoneSummary = [
-      { key: 'homecare', name: '居家陪伴', count: 8, total: 23, label: '8 位照護夥伴' },
-      { key: 'daycare', name: '日照中心', count: 5, total: 23, label: '5 位照護夥伴' },
-      { key: 'respite', name: '喘息服務', count: 4, total: 23, label: '4 位照護夥伴' },
-      { key: 'medical', name: '就醫陪同', count: 6, total: 23, label: '6 位照護夥伴' }
+      { key: 'homecare', type: 'home', name: '居家陪伴群島', count: 8, color: '#0F5565' },
+      { key: 'daycare', type: 'daycare', name: '日照中心群島', count: 5, color: '#A9552A' },
+      { key: 'respite', type: 'respite', name: '喘息服務群島', count: 4, color: '#4A8A97' },
+      { key: 'medical', type: 'medical', name: '就醫陪同群島', count: 6, color: '#1A6E58' }
     ];
 
+    function heroIsles(zoneKey, count, color) {
+      let html = '';
+      for (let i = 0; i < count; i++) {
+        const seed = zoneKey + '#' + i;
+        const px = Islands.size(3 + Islands.hash(seed) * 16, 13, 19);
+        html += '<span class="hero__isle" style="width:' + px + 'px;height:' + px + 'px;background:' + color
+          + ';border-radius:' + Islands.shape(seed) + '" aria-hidden="true"></span>';
+      }
+      return html;
+    }
+
     function renderZoneRows() {
-      const host = document.getElementById('zoneRows');
+      const host = document.getElementById('heroChart');
+      if (!host) return;
+      const total = zoneSummary.reduce((sum, z) => sum + z.count, 0);
       host.innerHTML = zoneSummary.map(z => `
-        <a href="caregivers.html?type=${z.key === 'homecare' ? 'home' : z.key}"
-           class="list-row" style="padding:12px 14px;text-decoration:none;color:inherit">
-          <span class="list-row__main">
-            <span style="display:flex;justify-content:space-between;gap:12px;align-items:baseline">
-              <span style="font-weight:700">${z.name}</span>
-              <span class="num" style="font-size:0.8125rem;color:var(--muted)">${z.label}</span>
-            </span>
-            <span class="zone__bar"><i style="width:${Math.round(z.count / z.total * 100)}%"></i></span>
+        <a class="hero__group" href="caregivers.html?type=${z.type}">
+          <span class="hero__group-head">
+            <span class="legend-dot" style="background:${z.color}" aria-hidden="true"></span>
+            ${z.name}
+            <span class="hero__group-count">${z.count} 位島主</span>
           </span>
-          <i data-ic="chevron-right" data-ic-class="ic-20" style="color:var(--ocean)"></i>
+          <span class="hero__isles">${heroIsles(z.key, z.count, z.color)}</span>
         </a>
-      `).join('');
-      renderIcons(host);
+      `).join('') + `
+        <p class="hint" style="margin:2px 0 0">
+          每座島代表一位照護夥伴，同一類服務的島聚成一座群島；共 ${total} 位島主。
+        </p>
+      `;
     }
 
     // ===== 精選照護夥伴 =====
+    const serviceToIsland = {
+      居家服務: '居家陪伴群島',
+      日間照顧: '日照中心群島',
+      喘息服務: '喘息服務群島',
+      醫療陪同: '就醫陪同群島'
+    };
+
     function serviceTags(cg) {
-      return (cg.serviceNames || []).map(s => `<span class="tag">${s}</span>`).join('');
+      return (cg.serviceNames || []).map(s => {
+        const island = serviceToIsland[s];
+        return island
+          ? `<span class="tag">${icon('island', 'ic-14')}${island}</span>`
+          : `<span class="tag">${s}</span>`;
+      }).join('');
     }
 
     function createCaregiverCardPro(cg) {
